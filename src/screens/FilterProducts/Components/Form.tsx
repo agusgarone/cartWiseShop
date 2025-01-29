@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {View, StyleSheet, FlatList} from 'react-native';
 import {FieldArray, Formik} from 'formik';
 import {categories} from '../../../data-mock';
@@ -39,7 +39,10 @@ const FilterForm = ({
                   renderItem={({item, index}) => (
                     <RenderProduct item={item} index={index} />
                   )}
-                  style={{paddingVertical: 5}}
+                  style={{
+                    paddingVertical: 5,
+                    height: '70%',
+                  }}
                 />
               )}
             />
@@ -59,8 +62,11 @@ const FilterForm = ({
 
 const styles = StyleSheet.create({
   form: {
-    paddingTop: 16,
     width: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    paddingTop: 16,
     gap: 32,
   },
   filterRow: {

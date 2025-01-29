@@ -19,6 +19,7 @@ export function DrawerNavigator() {
         drawerStyle: {
           backgroundColor: '#f5f5f5',
           width: 300,
+          height: '100%',
         },
       }}>
       <Drawer.Screen options={{headerShown: false}} name="MainTabs">
