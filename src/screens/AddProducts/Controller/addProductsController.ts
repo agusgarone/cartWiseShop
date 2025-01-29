@@ -32,7 +32,12 @@ export const addProductsController = () => {
 
   const handleButton = () => {
     GlobalStateService.setProductsSelected(productsSelected);
-    navigation?.navigate('MainTabs', {screen: 'CreateList'});
+    navigation?.navigate('MainDrawer', {
+      screen: 'MainTabs',
+      params: {
+        screen: 'CreateList',
+      },
+    });
   };
 
   const fetchProducts = async () => {

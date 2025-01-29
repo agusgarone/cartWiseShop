@@ -69,7 +69,7 @@ export const createProductController = (idProduct?: number | null) => {
       // }
       Keyboard.dismiss();
       actions.resetForm();
-      navigation?.navigate('MainTabs', {screen: 'Products'});
+      navigation?.goBack();
     } else {
       Alert.alert(
         'Hubo un error al crear el producto, intentelo de nuevo por favor!',

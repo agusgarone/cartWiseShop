@@ -1,24 +1,21 @@
 import {useContext, useEffect, useState} from 'react';
 import {IProduct} from '../../../models/product';
 import {GlobalStateService} from '../../../services/globalStates';
-import {NavigationContext, RouteProp} from '@react-navigation/native';
+import {NavigationContext} from '@react-navigation/native';
 import {FormikState} from 'formik';
 import {FORM_STATUS} from '../../../common/utils/formStatus';
 import moment from 'moment';
 import {IList} from '../../../models/list';
 import {CreateList, EditList, getListByID} from '../../../services/List';
 import {Alert, Keyboard} from 'react-native';
-import {RootTabParamList} from '../../../models/RootTabParamList';
 import {StorageService} from '../../../storage/asyncStorage';
-
-type CreateListScreenRouteProp = RouteProp<RootTabParamList, 'CreateList'>;
 
 export const createListController = () => {
   const navigation = useContext(NavigationContext);
   const [products, setProducts] = useState<IProduct[]>(
     GlobalStateService.getProductsSelected(),
   );
-  const [list, setList] = useState<IList | null>(null);
+  const [list, setList] = useState<IList<IProduct> | null>(null);
   const [initialValues, setInitialValues] = useState({
     name: '',
   });
@@ -51,12 +48,14 @@ export const createListController = () => {
     },
   ) => {
     actions.setStatus(FORM_STATUS.idle);
-    const currentList: IList = await StorageService.getItem('currentList');
+    const currentList: IList<IProduct> = await StorageService.getItem(
+      'currentList',
+    );
     const isEditing: boolean = await StorageService.getItem('isEditing');
 
     if (values.name) {
       if (currentList && isEditing) {
-        const editList: IList = {
+        const editList: IList<IProduct> = {
           fechaAlta: currentList.fechaAlta,
           name: values.name,
           products: products ?? [],
@@ -64,7 +63,7 @@ export const createListController = () => {
         };
         await EditList(editList);
       } else {
-        const newList: IList = {
+        const newList: IList<IProduct> = {
           fechaAlta: moment().format('DD-MM-YYYY'),
           name: values.name,
           products: products ?? [],
