@@ -12,11 +12,17 @@ import {IProduct} from '../../models/product';
 import RenderProduct from './Components/RenderProducts';
 import Button from '../../components/Button';
 import {productsController} from './Controller/productsController';
-import {DrawerScreenProps} from '@react-navigation/drawer';
+import {
+  DrawerNavigationProp,
+  DrawerScreenProps,
+} from '@react-navigation/drawer';
 
-type ProductsProps = DrawerScreenProps<any, 'Main'>;
+type ProductsProps = {
+  NavMainTabs?: DrawerNavigationProp<any, 'MainTabs', undefined>;
+  NavProduct?: DrawerScreenProps<any, 'ProductsDrawer'>;
+};
 
-const Products = ({navigation}: ProductsProps) => {
+const Products = ({NavMainTabs, NavProduct}: ProductsProps) => {
   const {allProducts, goToCreateProduct, handleDeleteProduct} =
     productsController();
 
@@ -38,8 +44,11 @@ const Products = ({navigation}: ProductsProps) => {
             <View style={{flexDirection: 'row'}}>
               <TouchableOpacity
                 style={Style.action}
-                // onPress={() => navigation.openDrawer()}
-              >
+                onPress={() =>
+                  NavProduct?.navigation
+                    ? NavProduct.navigation.openDrawer()
+                    : NavMainTabs?.openDrawer()
+                }>
                 <Text style={Style.buttonText}>Filtros</Text>
               </TouchableOpacity>
             </View>

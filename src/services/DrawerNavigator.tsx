@@ -1,13 +1,19 @@
 import {createDrawerNavigator} from '@react-navigation/drawer';
-import Products from '../screens/Products';
 import CustomDrawerContent from '../screens/FilterProducts';
+import BottomTabs from './TabsNavigator';
+import Products from '../screens/Products';
 
-const Drawer = createDrawerNavigator();
+export type DrawerParamList = {
+  MainTabs: undefined;
+  ProductsDrawer: undefined;
+};
+
+const Drawer = createDrawerNavigator<DrawerParamList>();
 
 export function DrawerNavigator() {
   return (
     <Drawer.Navigator
-      initialRouteName="Main"
+      initialRouteName="MainTabs"
       drawerContent={props => <CustomDrawerContent {...props} />}
       screenOptions={{
         drawerStyle: {
@@ -15,11 +21,12 @@ export function DrawerNavigator() {
           width: 300,
         },
       }}>
-      <Drawer.Screen
-        name="Main"
-        component={Products}
-        options={{headerShown: false}}
-      />
+      <Drawer.Screen options={{headerShown: false}} name="MainTabs">
+        {props => <BottomTabs {...props} />}
+      </Drawer.Screen>
+      <Drawer.Screen options={{headerShown: false}} name="ProductsDrawer">
+        {props => <Products NavProduct={props.navigation} />}
+      </Drawer.Screen>
     </Drawer.Navigator>
   );
 }

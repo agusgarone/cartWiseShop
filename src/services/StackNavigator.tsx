@@ -1,17 +1,24 @@
 import {createStackNavigator} from '@react-navigation/stack';
-import BottomTabs from './TabsNavigator';
 import ListDetail from '../screens/ListDetail';
 import AddProducts from '../screens/AddProducts';
 import CreateProduct from '../screens/CreateProduct';
+import {DrawerNavigator} from './DrawerNavigator';
 
-const Stack = createStackNavigator();
+export type StackParamList = {
+  MainDrawer: undefined;
+  ListDetail: {itemId: string};
+  AddProducts: undefined;
+  CreateProduct: undefined;
+};
+
+const Stack = createStackNavigator<StackParamList>();
 
 function StackNavigator() {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator initialRouteName="MainDrawer">
       <Stack.Screen
-        name="MainTabs"
-        component={BottomTabs}
+        name="MainDrawer"
+        component={DrawerNavigator}
         options={{headerShown: false}}
       />
       <Stack.Screen
