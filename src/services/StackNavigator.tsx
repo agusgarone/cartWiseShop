@@ -3,8 +3,10 @@ import ListDetail from '../screens/ListDetail';
 import AddProducts from '../screens/AddProducts';
 import CreateProduct from '../screens/CreateProduct';
 import {DrawerNavigator} from './DrawerNavigator';
+import Login from '../screens/Login';
 
 export type StackParamList = {
+  Login: undefined;
   MainDrawer: undefined;
   ListDetail: {itemId: string};
   AddProducts: undefined;
@@ -15,7 +17,12 @@ const Stack = createStackNavigator<StackParamList>();
 
 function StackNavigator() {
   return (
-    <Stack.Navigator initialRouteName="MainDrawer">
+    <Stack.Navigator initialRouteName="Login">
+      <Stack.Screen
+        name="Login"
+        component={Login}
+        options={{headerShown: false}}
+      />
       <Stack.Screen
         name="MainDrawer"
         component={DrawerNavigator}

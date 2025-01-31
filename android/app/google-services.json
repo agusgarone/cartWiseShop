@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "359047646379",
+    "project_id": "cartwiseshop",
+    "storage_bucket": "cartwiseshop.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:359047646379:android:5d0ebf8916a8b7d41afbee",
+        "android_client_info": {
+          "package_name": "com.cartwiseshop"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "359047646379-1mnfrkjps576c0fivberkfe7acvl3vbl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.cartwiseshop",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "359047646379-hrjoj8ve4f56rhgcr8mkmd4bgrj7le4k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDZFce1NbManLNkLNsn03ChkuCnLvaxTz0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "359047646379-hrjoj8ve4f56rhgcr8mkmd4bgrj7le4k.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
