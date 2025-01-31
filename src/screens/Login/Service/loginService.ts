@@ -1,13 +1,18 @@
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
+import {insertUser} from '../Api/facade';
 import auth from '@react-native-firebase/auth';
-import {supabase} from './supabase';
 
 // Configurar Google Sign-In
 GoogleSignin.configure({
   webClientId: process.env.GOOGLE_WEB_CLIENT,
 });
 
-export async function signInWithGoogle() {
+export const createUser = async (userData: any) => {
+  const responseInsertUser = await insertUser(userData);
+  return responseInsertUser;
+};
+
+export const signInWithGoogle = async () => {
   try {
     await GoogleSignin.hasPlayServices();
     const {data} = await GoogleSignin.signIn();
@@ -20,18 +25,4 @@ export async function signInWithGoogle() {
     console.error('Error en Google Sign-In:', error);
     throw error;
   }
-}
-
-export async function saveUser(user: any) {
-  const response = await supabase.from('users').upsert([
-    {
-      uid: user.uid,
-      email: user.email,
-      displayName: user.displayName,
-      photoURL: user.photoURL,
-      providerId: 'google.com',
-      createdAt: new Date().toISOString(),
-    },
-  ]);
-  return response;
-}
+};
