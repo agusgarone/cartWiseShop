@@ -1,32 +1,37 @@
 import React, {useEffect} from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import List from '../../../components/List';
-import {IProduct} from '../../../models/product';
 import theme from '../../../common/theme';
 import Icon, {IconType} from 'react-native-dynamic-vector-icons';
 import {FieldArray, Formik} from 'formik';
-import {IList} from '../../../models/list';
-import {IProductForm} from '../../../models/productForm';
+import {IListDTO} from '../../../models/types/list';
 import RenderProduct from './RenderProducts';
+import {IProductDTO, IProductForm} from '../../../models/types/product';
 
 const Content = ({
   id,
   getListByID,
   handleAllSelected,
-  handleDeleteList,
+  handleButtonDelete,
   listSelected,
 }: {
   id: string;
   getListByID: (id: string) => Promise<void>;
-  handleDeleteList: (list: IList<IProductForm>) => void;
+  handleButtonDelete: (list: IListDTO<IProductForm>) => void;
   handleAllSelected: () => void;
-  listSelected: IList<IProductForm> | null;
+  listSelected: IListDTO<IProductForm> | null;
 }) => {
   useEffect(() => {
     getListByID(id);
   }, [id]);
 
-  const _renderProducts = ({item, index}: {item: IProduct; index: number}) => {
+  const _renderProducts = ({
+    item,
+    index,
+  }: {
+    item: IProductDTO;
+    index: number;
+  }) => {
     return <RenderProduct item={item} index={index} />;
   };
 
@@ -37,13 +42,13 @@ const Content = ({
           <Text style={styles.title}>{listSelected?.name}</Text>
           <TouchableOpacity
             style={styles.button}
-            onPress={() => listSelected && handleDeleteList(listSelected)}>
+            onPress={() => listSelected && handleButtonDelete(listSelected)}>
             <Icon
               name="trash"
               type={IconType.FontAwesome}
               size={25}
               color={theme.colors.white}
-              onPress={() => listSelected && handleDeleteList(listSelected)}
+              onPress={() => listSelected && handleButtonDelete(listSelected)}
             />
           </TouchableOpacity>
         </View>
@@ -57,7 +62,7 @@ const Content = ({
             {({values}) => {
               useEffect(() => {
                 const allSelected = values.products.every(
-                  product => product.isChecked,
+                  (product: IProductForm) => product.isChecked,
                 );
                 if (allSelected && values.products.length > 0) {
                   handleAllSelected();

@@ -3,15 +3,15 @@ import {SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import Header from '../../components/Header';
 import List from '../../components/List';
 import RenderList from './Components/RenderList';
-import {IList} from '../../models/list';
+import {IListDTO} from '../../models/types/list';
 import theme from '../../common/theme';
 import {homeController} from './Controller/homeController';
-import {IProduct} from '../../models/product';
+import {IProductDTO} from '../../models/types/product';
 
 const Home = () => {
   const {list, navigateToListDetail, navigateToEditList} = homeController();
 
-  const _renderList = ({item}: {item: IList<IProduct>}) => {
+  const _renderList = ({item}: {item: IListDTO<IProductDTO>}) => {
     return (
       <RenderList
         item={item}

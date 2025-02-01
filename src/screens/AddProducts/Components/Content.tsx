@@ -3,9 +3,9 @@ import {StyleSheet, View} from 'react-native';
 import BottomSheetForm from './Form';
 import Button from '../../../components/Button';
 import List from '../../../components/List';
-import {IProduct} from '../../../models/product';
 import RenderProduct from './RenderProducts';
 import {GlobalStateService} from '../../../services/globalStates';
+import {IProductDTO} from '../../../models/types/product';
 
 const Content = ({
   handleButton,
@@ -13,12 +13,12 @@ const Content = ({
   productsSelected,
   handleFormikSubmit,
 }: {
-  productsSelected: IProduct[];
+  productsSelected: IProductDTO[];
   handleButton: () => void;
-  onPress: ({item}: {item: IProduct}) => void;
+  onPress: ({item}: {item: IProductDTO}) => void;
   handleFormikSubmit: (values: {textSearched: string}) => Promise<void>;
 }) => {
-  const _renderProducts = ({item}: {item: IProduct}) => {
+  const _renderProducts = ({item}: {item: IProductDTO}) => {
     const findProd = productsSelected.find(prod => prod.id === item.id);
     const isSelected = findProd !== undefined;
     return (

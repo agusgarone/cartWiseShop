@@ -4,8 +4,8 @@ import {Formik, FormikState} from 'formik';
 import {FormikInputValue} from '../../../components/FormikInput';
 import Button from '../../../components/Button';
 import {Content} from './Content';
-import {IProduct} from '../../../models/product';
 import RenderProduct from './RenderProducts';
+import {IProductDTO} from '../../../models/types/product';
 
 const CreateListForm = ({
   goToAddProducts,
@@ -26,10 +26,10 @@ const CreateListForm = ({
     },
   ) => Promise<any>;
   goToAddProducts: (values: {name: string}) => void;
-  products: IProduct[];
+  products: IProductDTO[];
   removeProductSelected: (id: number) => void;
 }) => {
-  const _renderProducts = ({item}: {item: IProduct}) => {
+  const _renderProducts = ({item}: {item: IProductDTO}) => {
     return <RenderProduct item={item} onPress={removeProductSelected} />;
   };
 

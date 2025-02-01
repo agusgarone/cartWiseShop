@@ -15,7 +15,6 @@ export type TabsParamList = {
 
 const Tab = createBottomTabNavigator<TabsParamList>();
 
-// Navegación del Drawer
 type DrawerNavigation = DrawerScreenProps<any, 'MainTabs'>;
 
 const BottomTabs = ({navigation}: DrawerNavigation) => {

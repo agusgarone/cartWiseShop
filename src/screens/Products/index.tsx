@@ -8,7 +8,6 @@ import {
   View,
 } from 'react-native';
 import theme from '../../common/theme';
-import {IProduct} from '../../models/product';
 import RenderProduct from './Components/RenderProducts';
 import Button from '../../components/Button';
 import {productsController} from './Controller/productsController';
@@ -16,6 +15,7 @@ import {
   DrawerNavigationProp,
   DrawerScreenProps,
 } from '@react-navigation/drawer';
+import {IProductDTO} from '../../models/types/product';
 
 type ProductsProps = {
   NavMainTabs?: DrawerNavigationProp<any, 'MainTabs', undefined>;
@@ -26,7 +26,7 @@ const Products = ({NavMainTabs, NavProduct}: ProductsProps) => {
   const {allProducts, goToCreateProduct, handleDeleteProduct} =
     productsController();
 
-  const _renderProducts = ({item}: {item: IProduct}) => {
+  const _renderProducts = ({item}: {item: IProductDTO}) => {
     return (
       <RenderProduct
         item={item}

@@ -6,7 +6,7 @@ import RenderProduct from './RenderProduct';
 import theme from '../../../common/theme';
 import {FormikInputValue} from '../../../components/FormikInput';
 import Button from '../../../components/Button';
-import {ICategoria} from '../../../models/categoria';
+import {ICategory} from '../../../models/types/category';
 
 const initialValues = {
   textSearched: '',
@@ -18,7 +18,7 @@ const FilterForm = ({
 }: {
   handleFormikSubmit: (values: {
     textSearched: string;
-    categories: ICategoria[];
+    categories: ICategory[];
   }) => void;
 }) => {
   return (

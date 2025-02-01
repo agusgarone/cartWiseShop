@@ -1,14 +1,14 @@
 import React from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import {IProduct} from '../../../models/product';
 import theme from '../../../common/theme';
 import Icon, {IconType} from 'react-native-dynamic-vector-icons';
+import {IProductDTO} from '../../../models/types/product';
 
 const RenderProduct = ({
   item,
   onPress,
 }: {
-  item: IProduct;
+  item: IProductDTO;
   onPress: (id: number) => void;
 }) => {
   return (

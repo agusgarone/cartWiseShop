@@ -1,11 +1,11 @@
 import React from 'react';
 import {StyleSheet, Text, TouchableOpacity} from 'react-native';
-import {IProduct} from '../../../models/product';
 import theme from '../../../common/theme';
 import {useField} from 'formik';
 import CheckBox from '@react-native-community/checkbox';
+import {IProductDTO} from '../../../models/types/product';
 
-const RenderProduct = ({item, index}: {index: number; item: IProduct}) => {
+const RenderProduct = ({item, index}: {index: number; item: IProductDTO}) => {
   const [field, meta, helpers] = useField(`products[${index}].isChecked`);
   return (
     <TouchableOpacity

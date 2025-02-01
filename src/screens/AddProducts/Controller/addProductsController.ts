@@ -1,22 +1,22 @@
 import {useContext, useEffect, useState} from 'react';
-import {IProduct} from '../../../models/product';
 import {GlobalStateService} from '../../../services/globalStates';
 import {NavigationContext} from '@react-navigation/native';
 import {Keyboard} from 'react-native';
-import {getAllProducts} from '../../../services/Product';
+import {fetchProducts} from '../../../services/Product';
+import {IProductDTO} from '../../../models/types/product';
 
 export const addProductsController = () => {
   const navigation = useContext(NavigationContext);
-  const [allProducts, setAllProducts] = useState<IProduct[]>();
-  const products: IProduct[] = GlobalStateService.getProductsSelected();
+  const [allProducts, setAllProducts] = useState<IProductDTO[]>();
+  const products: IProductDTO[] = GlobalStateService.getProductsSelected();
   const [productsSelected, setProductsSelected] =
-    useState<IProduct[]>(products);
+    useState<IProductDTO[]>(products);
 
   useEffect(() => {
-    fetchProducts();
+    loadProducts();
   }, []);
 
-  const onPress = ({item}: {item: IProduct}) => {
+  const onPress = ({item}: {item: IProductDTO}) => {
     if (productsSelected.length) {
       const alreadyExist = productsSelected.find(prod => prod.id === item.id);
       if (alreadyExist) {
@@ -40,10 +40,15 @@ export const addProductsController = () => {
     });
   };
 
-  const fetchProducts = async () => {
-    const responseGetAllProducts = await getAllProducts();
-    setAllProducts(responseGetAllProducts);
-    GlobalStateService.setValuesSearched(responseGetAllProducts);
+  const loadProducts = async () => {
+    const filters = undefined;
+    const responseGetAllProducts = await fetchProducts(filters);
+    if (responseGetAllProducts.error) {
+      console.log(responseGetAllProducts.error);
+    } else {
+      setAllProducts(responseGetAllProducts.data);
+      GlobalStateService.setValuesSearched(responseGetAllProducts.data);
+    }
   };
 
   const handleFormikSubmit = async (values: {textSearched: string}) => {

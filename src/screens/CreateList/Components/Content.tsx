@@ -1,17 +1,17 @@
-import {IProduct} from '../../../models/product';
 import React from 'react';
 import {FlatList, StyleSheet, Text, View} from 'react-native';
 import Button from '../../../components/Button';
 import theme from '../../../common/theme';
+import {IProductDTO} from '../../../models/types/product';
 
 export const Content = ({
   _renderProducts,
   goToAddProducts,
   products,
 }: {
-  _renderProducts: ({item}: {item: IProduct}) => React.JSX.Element;
+  _renderProducts: ({item}: {item: IProductDTO}) => React.JSX.Element;
   goToAddProducts: () => void | undefined;
-  products: IProduct[];
+  products: IProductDTO[];
 }) => (
   <>
     <View style={Style.first}>

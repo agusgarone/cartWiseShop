@@ -1,15 +1,15 @@
 import React from 'react';
 import {StyleSheet, Text, TouchableOpacity} from 'react-native';
-import {IList} from '../../../models/list';
+import {IListDTO} from '../../../models/types/list';
 import theme from '../../../common/theme';
-import {IProduct} from '../../../models/product';
+import {IProductDTO} from '../../../models/types/product';
 
 const RenderList = ({
   item,
   navigateToListDetail,
   navigateToEditList,
 }: {
-  item: IList<IProduct>;
+  item: IListDTO<IProductDTO>;
   navigateToListDetail: (id: string) => void;
   navigateToEditList: (id: string) => void;
 }) => {
@@ -24,7 +24,7 @@ const RenderList = ({
           item.products.length === 1 ? 'producto' : 'productos'
         }`}
       </Text>
-      <Text style={style.date}>{`Creada el ${item.fechaAlta}`}</Text>
+      <Text style={style.date}>{`Creada el ${item.created_at}`}</Text>
     </TouchableOpacity>
   );
 };

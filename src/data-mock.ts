@@ -1,6 +1,6 @@
-import {ICategoria} from './models/categoria';
+import {ICategory} from './models/types/category';
 
-export const categories: ICategoria[] = [
+export const categories: ICategory[] = [
   {name: 'Electro y tecnología', id: 2633},
   {name: 'Bazar y textil', id: 2136},
   {name: 'Almacén', id: 2539},

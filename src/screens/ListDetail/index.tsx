@@ -12,7 +12,7 @@ const ListDetail = ({route}: any) => {
     goBack,
     listSelected,
     getListByID,
-    handleDeleteList,
+    handleButtonDelete,
     handleAllSelected,
   } = listDetailController();
 
@@ -38,7 +38,7 @@ const ListDetail = ({route}: any) => {
         id={params?.id}
         getListByID={getListByID}
         handleAllSelected={handleAllSelected}
-        handleDeleteList={handleDeleteList}
+        handleButtonDelete={handleButtonDelete}
         listSelected={listSelected}
       />
     </SafeAreaView>

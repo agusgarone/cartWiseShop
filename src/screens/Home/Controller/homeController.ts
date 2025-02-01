@@ -1,11 +1,12 @@
 import {useContext, useState} from 'react';
 import {NavigationContext} from '@react-navigation/native';
-import {IList} from '../../../models/list';
+import {IListDTO} from '../../../models/types/list';
+import {fetchLists} from '../../../services/List';
 import {StorageService} from '../../../storage/asyncStorage';
-import {IProduct} from '../../../models/product';
+import {IProductDTO} from '../../../models/types/product';
 
 export const homeController = () => {
-  const [list, setList] = useState<IList<IProduct>[]>([]);
+  const [list, setList] = useState<IListDTO<IProductDTO>[]>([]);
   const navigation = useContext(NavigationContext);
 
   const navigateToListDetail = (id: string) => {
@@ -18,10 +19,18 @@ export const homeController = () => {
   };
 
   navigation?.addListener('focus', () => {
-    StorageService.getItem('lists').then(res => {
-      setList(res);
-    });
+    loadList();
   });
+
+  const loadList = async () => {
+    const userUid = '';
+    const responseFetchList = await fetchLists(userUid);
+    if (responseFetchList.error) {
+      console.log(responseFetchList.error);
+    } else {
+      setList(responseFetchList.data);
+    }
+  };
 
   return {
     list,

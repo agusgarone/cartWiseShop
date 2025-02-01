@@ -1,13 +1,13 @@
 import React from 'react';
 import {FlatList} from 'react-native';
-import {IList} from '../models/list';
-import {IProduct} from '../models/product';
+import {IListDTO} from '../models/types/list';
+import {IProductDTO} from '../models/types/product';
 
 const List = ({
   data,
   render,
 }: {
-  data: IProduct[] | IList<IProduct>[];
+  data: IProductDTO[] | IListDTO<IProductDTO>[];
   render: ({item, index}: {item: any; index: number}) => React.JSX.Element;
 }) => {
   return (

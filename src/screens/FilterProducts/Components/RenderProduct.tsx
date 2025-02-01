@@ -2,9 +2,9 @@ import React from 'react';
 import {StyleSheet, Switch, Text, View} from 'react-native';
 import theme from '../../../common/theme';
 import {useField} from 'formik';
-import {ICategoria} from '../../../models/categoria';
+import {ICategory} from '../../../models/types/category';
 
-const RenderProduct = ({item, index}: {index: number; item: ICategoria}) => {
+const RenderProduct = ({item, index}: {index: number; item: ICategory}) => {
   const [field, , helpers] = useField(`categories[${index}].isChecked`);
   return (
     <View style={style.view}>

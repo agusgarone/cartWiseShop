@@ -1,15 +1,15 @@
 import React, {useField} from 'formik';
-import {View, StyleSheet, TextInput} from 'react-native';
+import {View, StyleSheet} from 'react-native';
 import theme from '../common/theme';
 import {useState} from 'react';
 import {Picker} from '@react-native-picker/picker';
-import {ICategoria} from '../models/categoria';
+import {ICategory} from '../models/types/category';
 
 interface IFormikInputValue {
   name: string;
   placeholder: string;
   onChange: (value: string) => void;
-  options: ICategoria[];
+  options: ICategory[];
 }
 
 export const FormikSelectValue = ({

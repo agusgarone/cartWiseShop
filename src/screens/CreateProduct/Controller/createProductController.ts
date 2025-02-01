@@ -1,19 +1,14 @@
-import {useContext, useEffect, useState} from 'react';
-import {IProduct} from '../../../models/product';
+import {useContext, useState} from 'react';
 import {NavigationContext} from '@react-navigation/native';
 import {FormikState} from 'formik';
 import {FORM_STATUS} from '../../../common/utils/formStatus';
-import {
-  CreateProduct,
-  EditProduct,
-  getProductByID,
-} from '../../../services/Product';
 import {Alert, Keyboard} from 'react-native';
 import {categories} from '../../../data-mock';
+import {createProduct} from '../../../services/Product';
+import {IProductDTO} from '../../../models/types/product';
 
-export const createProductController = (idProduct?: number | null) => {
+export const createProductController = () => {
   const navigation = useContext(NavigationContext);
-  const [product, setProduct] = useState<IProduct | null>(null);
   const [initialValues, setInitialValues] = useState<{
     name: string;
     category: number | undefined;
@@ -21,21 +16,6 @@ export const createProductController = (idProduct?: number | null) => {
     name: '',
     category: undefined,
   });
-
-  useEffect(() => {
-    navigation?.addListener('focus', () => {
-      if (idProduct) {
-        getProduct(idProduct);
-      }
-    });
-  }, []);
-
-  useEffect(() => {
-    setInitialValues({
-      name: product?.name || '',
-      category: product?.categoria.id || undefined,
-    });
-  }, [product]);
 
   const handleFormikSubmit = async (
     values: {name: string; category: number | undefined},
@@ -48,25 +28,15 @@ export const createProductController = (idProduct?: number | null) => {
     actions.setStatus(FORM_STATUS.idle);
     if (values.name) {
       // * Se hizo la edicion pero despues decidí sacar es funcionalidad para que solo exista la baja y alta de productos
-      // if (idProduct && product) {
-      //   const editProduct: IProduct = {
-      //     id: product?.id,
-      //     name: values.name,
-      //     categoria: categories.find(
-      //       category => category.id === values.category,
-      //     ) || {id: 1, name: 'Fruta'},
-      //   };
-      //   EditProduct(editProduct);
-      // } else {
-      const newProduct: IProduct = {
+      const newProduct: IProductDTO = {
         id: Math.floor(Math.random() * 900000) + 100000,
         name: values.name,
-        categoria: categories.find(
+        category: categories.find(
           category => category.id === values.category,
         ) || {id: 1, name: 'Fruta'},
       };
-      await CreateProduct(newProduct);
-      // }
+      const userUid = '';
+      await createProduct(newProduct, userUid);
       Keyboard.dismiss();
       actions.resetForm();
       navigation?.goBack();
@@ -75,11 +45,6 @@ export const createProductController = (idProduct?: number | null) => {
         'Hubo un error al crear el producto, intentelo de nuevo por favor!',
       );
     }
-  };
-
-  const getProduct = async (id: number) => {
-    const response = await getProductByID(id);
-    setProduct(response);
   };
 
   const goBack = () => navigation?.goBack();

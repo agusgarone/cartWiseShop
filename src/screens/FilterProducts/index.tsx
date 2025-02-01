@@ -3,14 +3,14 @@ import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import theme from '../../common/theme';
 import FilterForm from './Components/Form';
-import {ICategoria} from '../../models/categoria';
+import {ICategory} from '../../models/types/category';
 
 export default function CustomDrawerContent(
   props: DrawerContentComponentProps,
 ) {
   const applyFilters = (values: {
     textSearched: string;
-    categories: ICategoria[];
+    categories: ICategory[];
   }) => {
     console.log('Filtros aplicados:', values);
     props.navigation.closeDrawer();

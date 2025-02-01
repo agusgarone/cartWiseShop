@@ -1,9 +1,9 @@
 import {create} from 'zustand';
-import {IProduct} from '../models/product';
+import {IProductDTO} from '../models/types/product';
 
 interface IInitialValuesState {
-  productsSelected: IProduct[];
-  valuesSearched: IProduct[];
+  productsSelected: IProductDTO[];
+  valuesSearched: IProductDTO[];
 }
 
 const initialValues: IInitialValuesState = {
@@ -22,14 +22,14 @@ export const GlobalStateService = {
     return globalSessionState((state: any) => state.valuesSearched);
   },
 
-  setProductsSelected(productsSelected: IProduct[]) {
+  setProductsSelected(productsSelected: IProductDTO[]) {
     globalSessionState.setState((prev: any) => ({
       ...prev,
       productsSelected,
     }));
   },
 
-  setValuesSearched(valuesSearched: IProduct[]) {
+  setValuesSearched(valuesSearched: IProductDTO[]) {
     globalSessionState.setState((prev: any) => ({
       ...prev,
       valuesSearched,

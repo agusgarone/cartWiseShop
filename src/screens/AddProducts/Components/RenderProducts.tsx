@@ -1,7 +1,7 @@
 import React from 'react';
 import {StyleSheet, Text, TouchableOpacity} from 'react-native';
-import {IProduct} from '../../../models/product';
 import theme from '../../../common/theme';
+import {IProductDTO} from '../../../models/types/product';
 
 const RenderProduct = ({
   item,
@@ -9,8 +9,8 @@ const RenderProduct = ({
   isSelected,
 }: {
   isSelected: boolean;
-  item: IProduct;
-  onPress: ({item}: {item: IProduct}) => void;
+  item: IProductDTO;
+  onPress: ({item}: {item: IProductDTO}) => void;
 }) => {
   return (
     <TouchableOpacity

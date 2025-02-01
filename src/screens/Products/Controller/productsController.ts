@@ -1,14 +1,14 @@
 import {useContext, useEffect, useState} from 'react';
-import {IProduct} from '../../../models/product';
 import {GlobalStateService} from '../../../services/globalStates';
 import {NavigationContext} from '@react-navigation/native';
 import {Alert} from 'react-native';
-import {removeProduct, fetchProducts} from '../Service/productsService';
+import {fetchProducts, removeProduct} from '../../../services/Product';
+import {IProductDTO} from '../../../models/types/product';
 
 export const productsController = () => {
   const navigation = useContext(NavigationContext);
-  const products: IProduct[] = GlobalStateService.getProductsSelected();
-  const [allProducts, setAllProducts] = useState<IProduct[]>(products);
+  const products: IProductDTO[] = GlobalStateService.getProductsSelected();
+  const [allProducts, setAllProducts] = useState<IProductDTO[]>(products);
 
   const fetchData = async (filters?: any) => {
     const responseGetAllProducts = await fetchProducts(filters);
@@ -19,7 +19,7 @@ export const productsController = () => {
     }
   };
 
-  const DialogDeleteProduct = (product: IProduct) =>
+  const DialogDeleteProduct = (product: IProductDTO) =>
     Alert.alert(
       `¡Atención!`,
       `Va a eliminar el producto con nombre: ${product.name}`,
@@ -36,7 +36,7 @@ export const productsController = () => {
       ],
     );
 
-  const handleDelete = async (product: IProduct) => {
+  const handleDelete = async (product: IProductDTO) => {
     const userUid: string = '';
     const responseRemoveProduct = await removeProduct(product.id, userUid);
     if (responseRemoveProduct.error) {
@@ -49,7 +49,7 @@ export const productsController = () => {
 
   const goToCreateProduct = () => navigation?.navigate('CreateProduct');
 
-  const handleDeleteProduct = (product: IProduct) =>
+  const handleDeleteProduct = (product: IProductDTO) =>
     DialogDeleteProduct(product);
 
   useEffect(() => {
