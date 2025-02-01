@@ -2,17 +2,21 @@ import {useContext, useEffect, useState} from 'react';
 import {IProduct} from '../../../models/product';
 import {GlobalStateService} from '../../../services/globalStates';
 import {NavigationContext} from '@react-navigation/native';
-import {getAllProducts, RemoveProduct} from '../../../services/Product';
 import {Alert} from 'react-native';
+import {removeProduct, fetchProducts} from '../Service/productsService';
 
 export const productsController = () => {
   const navigation = useContext(NavigationContext);
   const products: IProduct[] = GlobalStateService.getProductsSelected();
   const [allProducts, setAllProducts] = useState<IProduct[]>(products);
 
-  const fetchProducts = async () => {
-    const responseGetAllProducts = await getAllProducts();
-    setAllProducts(responseGetAllProducts);
+  const fetchData = async (filters?: any) => {
+    const responseGetAllProducts = await fetchProducts(filters);
+    if (responseGetAllProducts.error) {
+      console.log(responseGetAllProducts.error);
+    } else {
+      setAllProducts(responseGetAllProducts.data);
+    }
   };
 
   const DialogDeleteProduct = (product: IProduct) =>
@@ -33,9 +37,13 @@ export const productsController = () => {
     );
 
   const handleDelete = async (product: IProduct) => {
-    const responseRemoveProduct = await RemoveProduct(product);
-    if (responseRemoveProduct.length) {
-      setAllProducts(responseRemoveProduct);
+    const userUid: string = '';
+    const responseRemoveProduct = await removeProduct(product.id, userUid);
+    if (responseRemoveProduct.error) {
+      console.log('error', responseRemoveProduct.error);
+    } else {
+      // * fetch registros actualizados
+      fetchData();
     }
   };
 
@@ -46,7 +54,7 @@ export const productsController = () => {
 
   useEffect(() => {
     navigation?.addListener('focus', () => {
-      fetchProducts();
+      fetchData();
     });
   }, []);
 
