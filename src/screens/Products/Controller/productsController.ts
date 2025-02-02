@@ -4,6 +4,7 @@ import {NavigationContext} from '@react-navigation/native';
 import {Alert} from 'react-native';
 import {fetchProducts, removeProduct} from '../../../services/Product';
 import {IProductDTO} from '../../../models/types/product';
+import {mapperProductSupabaseToDTO} from '../../../models/mappers/mapperProductSupabaseToDTO';
 
 export const productsController = () => {
   const navigation = useContext(NavigationContext);
@@ -15,7 +16,7 @@ export const productsController = () => {
     if (responseGetAllProducts.error) {
       console.log(responseGetAllProducts.error);
     } else {
-      setAllProducts(responseGetAllProducts.data);
+      setAllProducts(mapperProductSupabaseToDTO(responseGetAllProducts.data));
     }
   };
 

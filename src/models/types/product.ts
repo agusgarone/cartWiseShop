@@ -1,4 +1,4 @@
-import {ICategory} from './types/category';
+import {ICategory} from './category';
 
 export interface IProductSupabase {
   id: number;

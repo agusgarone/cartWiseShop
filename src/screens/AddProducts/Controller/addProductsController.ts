@@ -4,6 +4,7 @@ import {NavigationContext} from '@react-navigation/native';
 import {Keyboard} from 'react-native';
 import {fetchProducts} from '../../../services/Product';
 import {IProductDTO} from '../../../models/types/product';
+import {mapperProductSupabaseToDTO} from '../../../models/mappers/mapperProductSupabaseToDTO';
 
 export const addProductsController = () => {
   const navigation = useContext(NavigationContext);
@@ -46,8 +47,10 @@ export const addProductsController = () => {
     if (responseGetAllProducts.error) {
       console.log(responseGetAllProducts.error);
     } else {
-      setAllProducts(responseGetAllProducts.data);
-      GlobalStateService.setValuesSearched(responseGetAllProducts.data);
+      setAllProducts(mapperProductSupabaseToDTO(responseGetAllProducts.data));
+      GlobalStateService.setValuesSearched(
+        mapperProductSupabaseToDTO(responseGetAllProducts.data),
+      );
     }
   };
 

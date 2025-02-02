@@ -30,36 +30,36 @@ export type Database = {
       };
       categories: {
         Row: {
-          id: string;
+          id: number;
           name: string;
         };
         Insert: {
-          id?: string;
+          id?: number;
           name: string;
         };
         Update: {
-          id?: string;
+          id?: number;
           name?: string;
         };
         Relationships: [];
       };
       products: {
         Row: {
-          id: string;
+          id: number;
           name: string;
-          id_category: string;
+          id_category: number;
           uid_user: string;
         };
         Insert: {
-          id?: string;
+          id?: number;
           name: string;
-          id_category: string;
+          id_category: number;
           uid_user: string;
         };
         Update: {
-          id?: string;
+          id?: number;
           name?: string;
-          id_category?: string;
+          id_category?: number;
           uid_user?: string;
         };
         Relationships: [
@@ -81,21 +81,21 @@ export type Database = {
       };
       lists: {
         Row: {
-          id: string;
+          id: number;
           created_at: string;
           name: string;
           id_products: number[];
           uid_user: string;
         };
         Insert: {
-          id?: string;
+          id?: number;
           created_at?: string;
           name: string;
           id_products: number[];
           uid_user: string;
         };
         Update: {
-          id?: string;
+          id?: number;
           created_at?: string;
           name?: string;
           id_products?: number[];
@@ -119,12 +119,12 @@ export type Database = {
       get_products: {
         Args: {
           p_name?: string | null;
-          p_id_category?: string | null;
+          p_id_category?: number | null;
         };
         Returns: Array<{
-          id: string;
+          id: number;
           name: string;
-          id_category: string;
+          id_category: number;
           uid_user: string;
         }>;
       };

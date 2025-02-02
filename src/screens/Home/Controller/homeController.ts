@@ -4,6 +4,7 @@ import {IListDTO} from '../../../models/types/list';
 import {fetchLists} from '../../../services/List';
 import {StorageService} from '../../../storage/asyncStorage';
 import {IProductDTO} from '../../../models/types/product';
+import {mapperListSupabaseToDTO} from '../../../models/mappers/mapperListSupabaseToDTO';
 
 export const homeController = () => {
   const [list, setList] = useState<IListDTO<IProductDTO>[]>([]);
@@ -28,7 +29,7 @@ export const homeController = () => {
     if (responseFetchList.error) {
       console.log(responseFetchList.error);
     } else {
-      setList(responseFetchList.data);
+      setList(mapperListSupabaseToDTO(responseFetchList.data));
     }
   };
 

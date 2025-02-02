@@ -28,8 +28,8 @@ export const getListById = async (listId: number, userUid: string) => {
   let response = await supabase
     .from('lists')
     .select('*')
-    .eq('uid_user', userUid)
-    .eq('id', listId);
+    .eq('id', listId)
+    .eq('uid_user', userUid);
 
   return response;
 };
