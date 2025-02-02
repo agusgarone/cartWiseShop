@@ -3,7 +3,6 @@ export interface IListSupabase {
   created_at: string;
   name: string;
   id_products: number[];
-  uid_user: string;
 }
 
 export interface IListDTO<T> {

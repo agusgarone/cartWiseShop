@@ -1,6 +1,7 @@
+import {IListSupabase} from '../models/types/list';
 import {supabase} from '../services/supabase';
 
-export const insertList = async (list: any, userUid: string) => {
+export const insertList = async (list: IListSupabase, userUid: string) => {
   const response = await supabase.from('lists').upsert([
     {
       id: list.id,

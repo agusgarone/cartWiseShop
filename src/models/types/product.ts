@@ -4,7 +4,6 @@ export interface IProductSupabase {
   id: number;
   name: string;
   id_category: number;
-  uid_user: string;
 }
 
 export interface IProductDTO {

@@ -1,6 +1,10 @@
+import {useContext} from 'react';
+import {StorageService} from '../../../storage/asyncStorage';
 import {createUser, signInWithGoogle} from '../Service/loginService';
+import {NavigationContext} from '@react-navigation/native';
 
 export const loginController = () => {
+  const navigation = useContext(NavigationContext);
   const handleLoginGoogle = async () => {
     try {
       const user = await signInWithGoogle();
@@ -14,6 +18,9 @@ export const loginController = () => {
       ) {
         // * mensaje de exito
         // * redireccion al home y guardado de uid en el localStorage
+        console.log('Se guarda el uid_user', user?.user.uid);
+        await StorageService.setItem('uidUser', user?.user.uid);
+        navigation?.navigate('MainDrawer');
       } else {
         // * mensaje de error
       }

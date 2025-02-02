@@ -3,11 +3,11 @@ import {
   getProducts,
   insertProduct,
 } from '../api/products-facade';
-import {IProductDTO} from '../models/types/product';
+import {IProductSupabase} from '../models/types/product';
 // import {StorageService} from '../storage/asyncStorage';
 
 export const createProduct = async (
-  productData: IProductDTO,
+  productData: IProductSupabase,
   userUid: string,
 ) => {
   const responseInsertProduct = await insertProduct(productData, userUid);
@@ -19,8 +19,8 @@ export const removeProduct = async (productId: number, userUid: string) => {
   return responseDeleteProduct;
 };
 
-export const fetchProducts = async (filters: any) => {
-  const responseGetProducts = await getProducts(filters);
+export const fetchProducts = async (filters: any, uidUser: string) => {
+  const responseGetProducts = await getProducts(filters, uidUser);
   return responseGetProducts;
 };
 

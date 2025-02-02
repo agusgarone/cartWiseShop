@@ -1,6 +1,10 @@
+import {IProductSupabase} from '../models/types/product';
 import {supabase} from '../services/supabase';
 
-export const insertProduct = async (product: any, userUid: string) => {
+export const insertProduct = async (
+  product: IProductSupabase,
+  userUid: string,
+) => {
   const response = await supabase.from('products').upsert([
     {
       id: product.id,
@@ -23,13 +27,17 @@ export const deleteProduct = async (productId: number, userUid: string) => {
   return response;
 };
 
-export const getProducts = async (filters: {
-  idCategory: number;
-  name: string;
-}) => {
+export const getProducts = async (
+  filters: {
+    idCategory: number;
+    name: string;
+  },
+  uidUser: string,
+) => {
   let response = await supabase.rpc('get_products', {
-    p_id_category: filters.idCategory,
-    p_name: filters.name,
+    p_id_category: filters?.idCategory,
+    p_name: filters?.name,
+    p_uid_user: uidUser,
   });
 
   return response;

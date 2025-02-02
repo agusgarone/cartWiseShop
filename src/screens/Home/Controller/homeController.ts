@@ -24,8 +24,8 @@ export const homeController = () => {
   });
 
   const loadList = async () => {
-    const userUid = '';
-    const responseFetchList = await fetchLists(userUid);
+    const uidUser: string = await StorageService.getItem('uidUser');
+    const responseFetchList = await fetchLists(uidUser);
     if (responseFetchList.error) {
       console.log(responseFetchList.error);
     } else {

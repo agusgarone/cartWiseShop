@@ -4,13 +4,9 @@ import {
   getLists,
   insertList,
 } from '../api/lists-facade';
-import {IListDTO} from '../models/types/list';
-import {IProductDTO} from '../models/types/product';
+import {IListSupabase} from '../models/types/list';
 
-export const createList = async (
-  listData: IListDTO<IProductDTO>,
-  userUid: string,
-) => {
+export const createList = async (listData: IListSupabase, userUid: string) => {
   const responseInsertList = await insertList(listData, userUid);
   return responseInsertList;
 };

@@ -9,6 +9,7 @@ import {Alert, Keyboard} from 'react-native';
 import {StorageService} from '../../../storage/asyncStorage';
 import {createList, fetchListById} from '../../../services/List';
 import {IProductDTO} from '../../../models/types/product';
+import {mapperListDTOToSupabase} from '../../../models/mappers/mapperListDTOtoSupabese';
 
 export const createListController = () => {
   const navigation = useContext(NavigationContext);
@@ -24,7 +25,7 @@ export const createListController = () => {
   useEffect(() => {
     navigation?.addListener('focus', () => {
       getList();
-      getNameListFromStorage();
+      getDataFromStorage();
     });
   }, []);
 
@@ -69,7 +70,7 @@ export const createListController = () => {
           products: products ?? [],
           id: Math.floor(Math.random() * 900000) + 100000,
         };
-        await createList(newList, userUid);
+        await createList(mapperListDTOToSupabase(newList), userUid);
       }
       await resetVariablesAndStates();
       Keyboard.dismiss();
@@ -108,7 +109,9 @@ export const createListController = () => {
     }
   };
 
-  const getNameListFromStorage = async () => {
+  const getDataFromStorage = async () => {
+    const uidUser: string = await StorageService.getItem('uidUser');
+    setUserUid(uidUser);
     const nameList = await StorageService.getItem('nameList');
     if (nameList) {
       setInitialValues({

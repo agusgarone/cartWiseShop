@@ -5,7 +5,8 @@ import {FORM_STATUS} from '../../../common/utils/formStatus';
 import {Alert, Keyboard} from 'react-native';
 import {categories} from '../../../data-mock';
 import {createProduct} from '../../../services/Product';
-import {IProductDTO} from '../../../models/types/product';
+import {IProductSupabase} from '../../../models/types/product';
+import {StorageService} from '../../../storage/asyncStorage';
 
 export const createProductController = () => {
   const navigation = useContext(NavigationContext);
@@ -28,15 +29,14 @@ export const createProductController = () => {
     actions.setStatus(FORM_STATUS.idle);
     if (values.name) {
       // * Se hizo la edicion pero despues decidí sacar es funcionalidad para que solo exista la baja y alta de productos
-      const newProduct: IProductDTO = {
+      const newProduct: IProductSupabase = {
         id: Math.floor(Math.random() * 900000) + 100000,
         name: values.name,
-        category: categories.find(
-          category => category.id === values.category,
-        ) || {id: 1, name: 'Fruta'},
+        id_category:
+          categories.find(category => category.id === values.category)?.id || 1,
       };
-      const userUid = '';
-      await createProduct(newProduct, userUid);
+      const uidUser: string = await StorageService.getItem('uidUser');
+      await createProduct(newProduct, uidUser);
       Keyboard.dismiss();
       actions.resetForm();
       navigation?.goBack();

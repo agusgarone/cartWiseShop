@@ -5,6 +5,7 @@ import {Keyboard} from 'react-native';
 import {fetchProducts} from '../../../services/Product';
 import {IProductDTO} from '../../../models/types/product';
 import {mapperProductSupabaseToDTO} from '../../../models/mappers/mapperProductSupabaseToDTO';
+import {StorageService} from '../../../storage/asyncStorage';
 
 export const addProductsController = () => {
   const navigation = useContext(NavigationContext);
@@ -42,8 +43,9 @@ export const addProductsController = () => {
   };
 
   const loadProducts = async () => {
+    const uidUser: string = await StorageService.getItem('uidUser');
     const filters = undefined;
-    const responseGetAllProducts = await fetchProducts(filters);
+    const responseGetAllProducts = await fetchProducts(filters, uidUser);
     if (responseGetAllProducts.error) {
       console.log(responseGetAllProducts.error);
     } else {

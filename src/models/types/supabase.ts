@@ -120,6 +120,7 @@ export type Database = {
         Args: {
           p_name?: string | null;
           p_id_category?: number | null;
+          p_uid_user: string | null;
         };
         Returns: Array<{
           id: number;

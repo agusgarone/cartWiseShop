@@ -5,6 +5,7 @@ import {Alert} from 'react-native';
 import {fetchProducts, removeProduct} from '../../../services/Product';
 import {IProductDTO} from '../../../models/types/product';
 import {mapperProductSupabaseToDTO} from '../../../models/mappers/mapperProductSupabaseToDTO';
+import {StorageService} from '../../../storage/asyncStorage';
 
 export const productsController = () => {
   const navigation = useContext(NavigationContext);
@@ -12,7 +13,8 @@ export const productsController = () => {
   const [allProducts, setAllProducts] = useState<IProductDTO[]>(products);
 
   const fetchData = async (filters?: any) => {
-    const responseGetAllProducts = await fetchProducts(filters);
+    const uidUser: string = await StorageService.getItem('uidUser');
+    const responseGetAllProducts = await fetchProducts(filters, uidUser);
     if (responseGetAllProducts.error) {
       console.log(responseGetAllProducts.error);
     } else {
