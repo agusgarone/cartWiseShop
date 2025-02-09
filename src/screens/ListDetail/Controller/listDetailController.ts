@@ -2,9 +2,10 @@ import {useContext, useState} from 'react';
 import {NavigationContext} from '@react-navigation/native';
 import {StorageService} from '../../../storage/asyncStorage';
 import {Alert} from 'react-native';
-import {removeList} from '../../../services/List';
-import {IProductDTO, IProductForm} from '../../../models/types/product';
+import {fetchListById, removeList} from '../../../services/List';
+import {IProductForm} from '../../../models/types/product';
 import {IListDTO} from '../../../models/types/list';
+import {mapperListSupabaseToForm} from '../../../models/mappers/mapperListSupabaseToForm';
 
 export const listDetailController = () => {
   const [listSelected, setListSelected] =
@@ -12,27 +13,22 @@ export const listDetailController = () => {
   const navigation = useContext(NavigationContext);
 
   const getListByID = async (id: string) => {
-    await StorageService.getItem('lists').then(
-      (res: IListDTO<IProductDTO>[]) => {
-        const listFound = res.find(list => list.id.toString() === id);
-        if (listFound) {
-          const listWithProductForm: IListDTO<IProductForm> = {
-            ...listFound,
-            products: listFound.products.map(product => {
-              const productForm: IProductForm = {
-                ...product,
-                isChecked: false,
-              };
-              return productForm;
-            }),
-          };
-          setListSelected(listWithProductForm);
-        } else {
-          Alert.alert('¡Esta lista no existe!');
-          goHome();
-        }
-      },
+    const uidUser: string = await StorageService.getItem('uidUser');
+    const responseFetchListById = await fetchListById(
+      parseInt(id, 10),
+      uidUser,
     );
+    if (responseFetchListById.error) {
+      console.log(responseFetchListById.error);
+      Alert.alert('¡Esta lista no existe!');
+      goHome();
+    } else {
+      if (responseFetchListById.data) {
+        setListSelected(
+          mapperListSupabaseToForm(responseFetchListById.data[0]),
+        );
+      }
+    }
   };
 
   const handleDeleteList = async (listId: number, userUid: string) => {
@@ -73,7 +69,7 @@ export const listDetailController = () => {
   const handleButtonDelete = (list: IListDTO<IProductForm>) =>
     DialogDeleteList(list);
 
-  const goHome = () => navigation?.navigate('Home');
+  const goHome = () => navigation?.navigate('MainDrawer');
 
   const goBack = () => navigation?.goBack();
 
