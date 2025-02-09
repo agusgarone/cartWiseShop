@@ -49,6 +49,7 @@ export const addProductsController = () => {
     if (responseGetAllProducts.error) {
       console.log(responseGetAllProducts.error);
     } else {
+      console.log('responseGetAllProducts', responseGetAllProducts.data);
       setAllProducts(mapperProductSupabaseToDTO(responseGetAllProducts.data));
       GlobalStateService.setValuesSearched(
         mapperProductSupabaseToDTO(responseGetAllProducts.data),

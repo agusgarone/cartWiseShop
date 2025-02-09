@@ -3,6 +3,7 @@ import {
   getListById,
   getLists,
   insertList,
+  updateList,
 } from '../api/lists-facade';
 import {IListSupabase} from '../models/types/list';
 
@@ -23,6 +24,14 @@ export const fetchListById = async (listId: number, userUid: string) => {
 
 export const fetchLists = async (userUid: string) => {
   const responseFetchLists = await getLists(userUid);
+  return responseFetchLists;
+};
+
+export const editList = async (
+  listId: number,
+  values: {newName: string; newProducts: number[]},
+) => {
+  const responseFetchLists = await updateList(listId, values);
   return responseFetchLists;
 };
 

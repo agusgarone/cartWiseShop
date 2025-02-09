@@ -4,27 +4,29 @@ import {IProductDTO} from '../types/product';
 
 // * Hay que revisar el tema de products en el objeto
 
-export const mapperListSupabaseToDTO = (
+export const mapperListsSupabaseToDTO = (
   entry: {
-    list_id: number;
-    list_name: string;
+    list_id: string;
     created_at: string;
+    list_name: string;
+    product_data:
+      | {
+          id: string;
+          name: string;
+          id_category: string;
+          category: string;
+        }[]
+      | null;
     uid_user: string;
-    product_data: Array<{
-      id: string;
-      name: string;
-      id_category: string;
-      category: string;
-    }> | null;
-  } | null,
-): IListDTO<IProductDTO> | null => {
-  if (entry) {
+  }[],
+): IListDTO<IProductDTO>[] => {
+  return entry.map(value => {
     const listDTO: IListDTO<IProductDTO> = {
-      id: entry.list_id,
-      name: entry.list_name,
-      created_at: moment(entry.created_at).format('DD/MM/YYYY'),
+      id: parseInt(value.list_id, 10),
+      name: value.list_name,
+      created_at: moment(value.created_at).format('DD/MM/YYYY'),
       products:
-        entry.product_data?.map(item => {
+        value.product_data?.map(item => {
           const product: IProductDTO = {
             category: {
               id: parseInt(item.id_category, 10),
@@ -37,6 +39,5 @@ export const mapperListSupabaseToDTO = (
         }) || [],
     };
     return listDTO;
-  }
-  return null;
+  });
 };

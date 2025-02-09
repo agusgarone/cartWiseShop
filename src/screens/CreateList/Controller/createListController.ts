@@ -7,13 +7,13 @@ import moment from 'moment';
 import {IListDTO} from '../../../models/types/list';
 import {Alert, Keyboard} from 'react-native';
 import {StorageService} from '../../../storage/asyncStorage';
-import {createList, fetchListById} from '../../../services/List';
+import {createList, editList, fetchListById} from '../../../services/List';
 import {IProductDTO} from '../../../models/types/product';
-import {mapperListDTOToSupabase} from '../../../models/mappers/mapperListDTOtoSupabese';
+import {mapperListDTOToSupabase} from '../../../models/mappers/mapperListDTOToSupabase';
+import {mapperListSupabaseToDTO} from '../../../models/mappers/mapperListSupabaseToDTO';
 
 export const createListController = () => {
   const navigation = useContext(NavigationContext);
-  const [userUid, setUserUid] = useState<string>('');
   const [products, setProducts] = useState<IProductDTO[]>(
     GlobalStateService.getProductsSelected(),
   );
@@ -23,11 +23,11 @@ export const createListController = () => {
   });
 
   useEffect(() => {
-    navigation?.addListener('focus', () => {
-      getList();
-      getDataFromStorage();
+    navigation?.addListener('focus', async () => {
+      await getDataFromStorage();
+      await getList();
     });
-  }, []);
+  }, [navigation]);
 
   useEffect(() => {
     if (list) {
@@ -50,19 +50,17 @@ export const createListController = () => {
     },
   ) => {
     actions.setStatus(FORM_STATUS.idle);
-    const currentList: IListDTO<IProductDTO> = await StorageService.getItem(
-      'currentList',
-    );
+    const currentList: number = await StorageService.getItem('currentList');
     const isEditing: boolean = await StorageService.getItem('isEditing');
+    const uidUser: string = await StorageService.getItem('uidUser');
+
     if (values.name) {
       if (currentList && isEditing) {
-        const editList: IListDTO<IProductDTO> = {
-          created_at: currentList.created_at,
-          name: values.name,
-          products: products ?? [],
-          id: currentList.id,
+        const newValues: {newName: string; newProducts: number[]} = {
+          newName: values.name,
+          newProducts: products.length ? products.map(x => x.id) : [],
         };
-        // await EditList(editList);
+        await editList(currentList, newValues);
       } else {
         const newList: IListDTO<IProductDTO> = {
           created_at: moment().format('DD-MM-YYYY'),
@@ -70,7 +68,7 @@ export const createListController = () => {
           products: products ?? [],
           id: Math.floor(Math.random() * 900000) + 100000,
         };
-        await createList(mapperListDTOToSupabase(newList), userUid);
+        await createList(mapperListDTOToSupabase(newList), uidUser);
       }
       await resetVariablesAndStates();
       Keyboard.dismiss();
@@ -93,25 +91,28 @@ export const createListController = () => {
   const getList = async () => {
     const idList: string = await StorageService.getItem('idList');
     if (idList) {
+      const uidUser: string = await StorageService.getItem('uidUser');
       await StorageService.setItem('isEditing', true);
       await StorageService.removeItem('idList');
       const responseGetList = await fetchListById(
         parseInt(idList, 10),
-        userUid,
+        uidUser,
       );
       if (responseGetList.error) {
         console.log(responseGetList.error);
       } else {
-        await StorageService.setItem('currentList', responseGetList);
-        // * problema con los types de las variables
-        // setList(responseGetList.data);
+        if (responseGetList.data) {
+          await StorageService.setItem(
+            'currentList',
+            responseGetList.data[0].list_id,
+          );
+          setList(mapperListSupabaseToDTO(responseGetList.data[0]));
+        }
       }
     }
   };
 
   const getDataFromStorage = async () => {
-    const uidUser: string = await StorageService.getItem('uidUser');
-    setUserUid(uidUser);
     const nameList = await StorageService.getItem('nameList');
     if (nameList) {
       setInitialValues({

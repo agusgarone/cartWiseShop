@@ -118,16 +118,54 @@ export type Database = {
     Functions: {
       get_products: {
         Args: {
+          p_uid_user: string;
           p_name?: string | null;
           p_id_category?: number | null;
-          p_uid_user: string | null;
         };
         Returns: Array<{
-          id: number;
+          id: string;
           name: string;
-          id_category: number;
+          id_category: string;
+          category_name: string;
           uid_user: string;
         }>;
+      };
+      get_lists_with_products_and_categories: {
+        Args: {
+          p_uid_user: string;
+        };
+        Returns: Array<{
+          list_id: string;
+          list_name: string;
+          created_at: string;
+          uid_user: string;
+          product_data: Array<{
+            id: string;
+            name: string;
+            id_category: string;
+            category: string;
+          }> | null;
+        }>;
+      };
+      get_list_by_id: {
+        Args: {
+          p_list_id: number;
+          p_uid_user: string;
+        };
+        Returns:
+          | {
+              list_id: number;
+              list_name: string;
+              created_at: string;
+              uid_user: string;
+              product_data: Array<{
+                id: string;
+                name: string;
+                id_category: string;
+                category: string;
+              }> | null;
+            }[]
+          | null;
       };
     };
     Enums: {

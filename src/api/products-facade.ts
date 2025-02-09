@@ -35,9 +35,9 @@ export const getProducts = async (
   uidUser: string,
 ) => {
   let response = await supabase.rpc('get_products', {
-    p_id_category: filters?.idCategory,
-    p_name: filters?.name,
     p_uid_user: uidUser,
+    p_name: filters?.name,
+    p_id_category: filters?.idCategory,
   });
 
   return response;
