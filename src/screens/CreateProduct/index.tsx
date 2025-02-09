@@ -6,6 +6,7 @@ import Header from '../../components/Header';
 import Icon, {IconType} from 'react-native-dynamic-vector-icons';
 import CreateProductForm from './Components/Form';
 import {createProductController} from './Controller/createProductController';
+import {ArrowLeft} from 'lucide-react-native';
 
 const CreateProduct = ({route}: any) => {
   const {goBack} = createProductController();
@@ -16,20 +17,14 @@ const CreateProduct = ({route}: any) => {
         center={<></>}
         left={
           <TouchableOpacity onPress={goBack}>
-            <Icon
-              name="arrow-left"
-              type={IconType.FontAwesome}
-              size={25}
-              color={theme.colors.grey}
-              onPress={goBack}
-            />
+            <ArrowLeft color={theme.colors.grey} size={25} onPress={goBack} />
           </TouchableOpacity>
         }
         right={<></>}
         key={'Header'}
       />
       <View style={Style.content}>
-        <CreateProductForm idProduct={route?.params?.id || null} />
+        <CreateProductForm />
       </View>
     </SafeAreaView>
   );

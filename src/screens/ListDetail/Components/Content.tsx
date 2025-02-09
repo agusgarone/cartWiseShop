@@ -2,11 +2,11 @@ import React, {useEffect} from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import List from '../../../components/List';
 import theme from '../../../common/theme';
-import Icon, {IconType} from 'react-native-dynamic-vector-icons';
 import {FieldArray, Formik} from 'formik';
 import {IListDTO} from '../../../models/types/list';
 import RenderProduct from './RenderProducts';
 import {IProductDTO, IProductForm} from '../../../models/types/product';
+import {Trash} from 'lucide-react-native';
 
 const Content = ({
   id,
@@ -43,13 +43,7 @@ const Content = ({
           <TouchableOpacity
             style={styles.button}
             onPress={() => listSelected && handleButtonDelete(listSelected)}>
-            <Icon
-              name="trash"
-              type={IconType.FontAwesome}
-              size={25}
-              color={theme.colors.white}
-              onPress={() => listSelected && handleButtonDelete(listSelected)}
-            />
+            <Trash color={theme.colors.white} size={25} />
           </TouchableOpacity>
         </View>
         <View style={styles.containerList}>

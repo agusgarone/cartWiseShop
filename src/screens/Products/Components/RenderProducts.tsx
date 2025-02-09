@@ -1,8 +1,8 @@
 import React from 'react';
 import {StyleSheet, Text, TouchableOpacity} from 'react-native';
 import theme from '../../../common/theme';
-import Icon, {IconType} from 'react-native-dynamic-vector-icons';
 import {IProductDTO} from '../../../models/types/product';
+import {Trash} from 'lucide-react-native';
 
 const RenderProduct = ({
   item,
@@ -22,12 +22,9 @@ const RenderProduct = ({
         ]}>
         {item.name}
       </Text>
-      <Icon
-        style={{paddingRight: 16}}
-        name="trash"
-        type={IconType.FontAwesome}
-        size={25}
+      <Trash
         color={theme.colors.grey}
+        size={25}
         onPress={() => onPress({item})}
       />
     </TouchableOpacity>
@@ -46,6 +43,7 @@ const style = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     elevation: 2,
+    paddingRight: 16,
   },
   text: {
     color: theme.colors.grey,

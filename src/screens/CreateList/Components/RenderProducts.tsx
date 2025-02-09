@@ -3,6 +3,7 @@ import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import theme from '../../../common/theme';
 import Icon, {IconType} from 'react-native-dynamic-vector-icons';
 import {IProductDTO} from '../../../models/types/product';
+import {X} from 'lucide-react-native';
 
 const RenderProduct = ({
   item,
@@ -15,13 +16,7 @@ const RenderProduct = ({
     <View style={style.view}>
       <Text style={style.text}>{item.name}</Text>
       <TouchableOpacity style={style.button} onPress={() => onPress(item.id)}>
-        <Icon
-          name="times"
-          type={IconType.FontAwesome}
-          size={25}
-          color={theme.colors.grey}
-          onPress={() => onPress(item.id)}
-        />
+        <X color={theme.colors.grey} size={25} />
       </TouchableOpacity>
     </View>
   );

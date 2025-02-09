@@ -1,17 +1,41 @@
 import React from 'react';
-import Button from '../../components/Button';
-import {SafeAreaView, StyleSheet, View} from 'react-native';
+import {SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import theme from '../../common/theme';
 import {loginController} from './Controller/loginController';
+import {GoogleSigninButton} from '@react-native-google-signin/google-signin';
 
 export default function Login() {
   const {handleLoginGoogle} = loginController();
   return (
     <SafeAreaView style={Style.screen}>
       <View style={Style.home}>
-        <Button type="primary" onPress={handleLoginGoogle}>
-          {'Iniciar sesión con Google'}
-        </Button>
+        <View
+          style={{
+            width: '100%',
+            display: 'flex',
+            alignItems: 'center',
+          }}>
+          <Text
+            style={{
+              fontSize: 30,
+              color: theme.colors.black,
+              fontWeight: 'bold',
+              width: '70%',
+              textAlign: 'center',
+            }}>
+            Bienvenido a Cart Wise Shop
+          </Text>
+        </View>
+        <GoogleSigninButton
+          style={{
+            width: '100%',
+            paddingVertical: 12,
+            paddingHorizontal: 18,
+          }}
+          color={GoogleSigninButton.Color.Light}
+          onPress={handleLoginGoogle}
+          // disabled={isInProgress}
+        />
       </View>
     </SafeAreaView>
   );
@@ -24,7 +48,7 @@ const Style = StyleSheet.create({
   home: {
     flex: 1,
     display: 'flex',
-    justifyContent: 'center',
+    justifyContent: 'space-around',
     paddingHorizontal: 24,
   },
   content: {

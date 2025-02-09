@@ -2,10 +2,10 @@ import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Home from '../screens/Home';
 import CreateList from '../screens/CreateList';
-import Icon, {IconType} from 'react-native-dynamic-vector-icons';
 import theme from '../common/theme';
 import Products from '../screens/Products';
 import {DrawerScreenProps} from '@react-navigation/drawer';
+import {House, ListPlus, ShoppingBasket} from 'lucide-react-native';
 
 export type TabsParamList = {
   Home: undefined;
@@ -25,12 +25,9 @@ const BottomTabs = ({navigation}: DrawerNavigation) => {
         options={{
           header: () => null,
           tabBarIcon: ({focused}) => (
-            <Icon
-              name="home"
-              type={IconType.FontAwesome}
-              size={25}
+            <House
               color={focused ? theme.colors.primary : theme.colors.grey}
-              onPress={() => {}}
+              size={25}
             />
           ),
           tabBarActiveTintColor: theme.colors.primary,
@@ -43,12 +40,9 @@ const BottomTabs = ({navigation}: DrawerNavigation) => {
           header: () => null,
           tabBarLabel: 'Create list',
           tabBarIcon: ({focused}) => (
-            <Icon
-              name="plus"
-              type={IconType.FontAwesome}
-              size={25}
+            <ListPlus
               color={focused ? theme.colors.primary : theme.colors.grey}
-              onPress={() => {}}
+              size={25}
             />
           ),
           tabBarActiveTintColor: theme.colors.primary,
@@ -61,12 +55,9 @@ const BottomTabs = ({navigation}: DrawerNavigation) => {
           header: () => null,
           tabBarLabel: 'Products',
           tabBarIcon: ({focused}) => (
-            <Icon
-              name="list"
-              type={IconType.FontAwesome}
-              size={25}
+            <ShoppingBasket
               color={focused ? theme.colors.primary : theme.colors.grey}
-              onPress={() => {}}
+              size={25}
             />
           ),
           tabBarActiveTintColor: theme.colors.primary,
