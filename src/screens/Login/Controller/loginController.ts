@@ -1,29 +1,28 @@
 import {useContext} from 'react';
 import {StorageService} from '../../../storage/asyncStorage';
-import {createUser, signInWithGoogle} from '../Service/loginService';
+import {
+  createUser,
+  signInWithGoogle,
+  loginSupabase,
+} from '../Service/loginService';
 import {NavigationContext} from '@react-navigation/native';
 
 export const loginController = () => {
   const navigation = useContext(NavigationContext);
   const handleLoginGoogle = async () => {
     try {
-      const user = await signInWithGoogle();
+      const {user, tokenId} = await signInWithGoogle();
       console.log('✅ Usuario autenticado:', user);
+
+      await loginSupabase(tokenId);
+
       const responseSaveUser = await createUser(user?.user);
-      console.log(responseSaveUser.status);
-      if (
-        responseSaveUser.status === 200 ||
-        responseSaveUser.status === 201 ||
-        responseSaveUser.status === 204
-      ) {
-        // * mensaje de exito
-        // * redireccion al home y guardado de uid en el localStorage
-        console.log('Se guarda el uid_user', user?.user.uid);
-        await StorageService.setItem('uidUser', user?.user.uid);
-        navigation?.navigate('MainDrawer');
-      } else {
-        // * mensaje de error
+      if (![200, 201, 204].includes(responseSaveUser.status)) {
+        console.log('Error guardando usuario en la BD');
       }
+
+      await StorageService.setItem('uidUser', user?.user.uid);
+      navigation?.navigate('MainDrawer');
     } catch (error) {
       console.error('❌ Error al iniciar sesión:', error);
     }

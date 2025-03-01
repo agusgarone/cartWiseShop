@@ -4,6 +4,8 @@ import AddProducts from '../screens/AddProducts';
 import CreateProduct from '../screens/CreateProduct';
 import {DrawerNavigator} from './DrawerNavigator';
 import Login from '../screens/Login';
+import {useContext, useEffect} from 'react';
+import {AuthContext} from './AuthProvider';
 
 export type StackParamList = {
   Login: undefined;
@@ -16,13 +18,17 @@ export type StackParamList = {
 const Stack = createStackNavigator<StackParamList>();
 
 function StackNavigator() {
+  const auth = useContext(AuthContext);
+
   return (
     <Stack.Navigator initialRouteName="Login">
-      <Stack.Screen
-        name="Login"
-        component={Login}
-        options={{headerShown: false}}
-      />
+      {!auth?.session && (
+        <Stack.Screen
+          name="Login"
+          component={Login}
+          options={{headerShown: false}}
+        />
+      )}
       <Stack.Screen
         name="MainDrawer"
         component={DrawerNavigator}

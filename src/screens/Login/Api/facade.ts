@@ -14,3 +14,11 @@ export const insertUser = async (user: any) => {
 
   return response;
 };
+
+export const accessSupabase = async (token: string) => {
+  const response = await supabase.auth.signInWithIdToken({
+    provider: 'google',
+    token: token,
+  });
+  return response;
+};
