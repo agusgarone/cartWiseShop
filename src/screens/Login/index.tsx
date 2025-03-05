@@ -7,6 +7,7 @@ import Icon, {IconType} from 'react-native-dynamic-vector-icons';
 
 export default function Login() {
   const {handleLoginGoogle} = loginController();
+
   return (
     <SafeAreaView style={Style.screen}>
       <View style={Style.home}>
