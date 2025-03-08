@@ -6,6 +6,7 @@ import {DrawerNavigator} from './DrawerNavigator';
 import Login from '../screens/Login';
 import {useContext, useEffect} from 'react';
 import {AuthContext} from './AuthProvider';
+import UserSettings from '../screens/UserSettings';
 
 export type StackParamList = {
   Login: undefined;
@@ -13,6 +14,7 @@ export type StackParamList = {
   ListDetail: {itemId: string};
   AddProducts: undefined;
   CreateProduct: undefined;
+  UserSettings: undefined;
 };
 
 const Stack = createStackNavigator<StackParamList>();
@@ -47,6 +49,11 @@ function StackNavigator() {
       <Stack.Screen
         name="CreateProduct"
         component={CreateProduct}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="UserSettings"
+        component={UserSettings}
         options={{headerShown: false}}
       />
     </Stack.Navigator>

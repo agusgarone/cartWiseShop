@@ -7,9 +7,16 @@ import {IListDTO} from '../../models/types/list';
 import theme from '../../common/theme';
 import {homeController} from './Controller/homeController';
 import {IProductDTO} from '../../models/types/product';
+import ProfileButton from '../../components/ProfileButton';
 
 const Home = () => {
-  const {list, navigateToListDetail, navigateToEditList} = homeController();
+  const {
+    list,
+    navigateToListDetail,
+    navigateToEditList,
+    navigateToUserSettings,
+    user,
+  } = homeController();
 
   const _renderList = ({item}: {item: IListDTO<IProductDTO>}) => {
     return (
@@ -26,7 +33,12 @@ const Home = () => {
       <View style={Style.home}>
         <Header
           center={<Text style={Style.text}>ShopListApp</Text>}
-          left={<></>}
+          left={
+            <ProfileButton
+              onPress={navigateToUserSettings}
+              imageUrl={user?.photoURL || ''}
+            />
+          }
           right={<></>}
           key={'Header'}
         />

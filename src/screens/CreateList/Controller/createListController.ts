@@ -11,6 +11,7 @@ import {createList, editList, fetchListById} from '../../../services/List';
 import {IProductDTO} from '../../../models/types/product';
 import {mapperListDTOToSupabase} from '../../../models/mappers/mapperListDTOToSupabase';
 import {mapperListSupabaseToDTO} from '../../../models/mappers/mapperListSupabaseToDTO';
+import {FirebaseAuthTypes} from '@react-native-firebase/auth';
 
 export const createListController = () => {
   const navigation = useContext(NavigationContext);
@@ -52,7 +53,8 @@ export const createListController = () => {
     actions.setStatus(FORM_STATUS.idle);
     const currentList: number = await StorageService.getItem('currentList');
     const isEditing: boolean = await StorageService.getItem('isEditing');
-    const uidUser: string = await StorageService.getItem('uidUser');
+    const userAuthenticated: FirebaseAuthTypes.User =
+      await StorageService.getItem('userAuthenticated');
 
     if (values.name) {
       if (currentList && isEditing) {
@@ -68,7 +70,10 @@ export const createListController = () => {
           products: products ?? [],
           id: Math.floor(Math.random() * 900000) + 100000,
         };
-        await createList(mapperListDTOToSupabase(newList), uidUser);
+        await createList(
+          mapperListDTOToSupabase(newList),
+          userAuthenticated.uid,
+        );
       }
       await resetVariablesAndStates();
       Keyboard.dismiss();
@@ -91,12 +96,13 @@ export const createListController = () => {
   const getList = async () => {
     const idList: string = await StorageService.getItem('idList');
     if (idList) {
-      const uidUser: string = await StorageService.getItem('uidUser');
+      const userAuthenticated: FirebaseAuthTypes.User =
+        await StorageService.getItem('userAuthenticated');
       await StorageService.setItem('isEditing', true);
       await StorageService.removeItem('idList');
       const responseGetList = await fetchListById(
         parseInt(idList, 10),
-        uidUser,
+        userAuthenticated.uid,
       );
       if (responseGetList.error) {
         console.log(responseGetList.error);

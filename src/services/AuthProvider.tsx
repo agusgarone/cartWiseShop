@@ -11,7 +11,7 @@ export const AuthContext = createContext<AuthContextType | null>(null);
 const AuthProvider = ({children}: any) => {
   const [session, setSession] = useState<any>(null);
   const [lastActiveTime, setLastActiveTime] = useState(Date.now());
-  const MAX_INACTIVITY_TIME = 15 * 60 * 1000;
+  const MAX_INACTIVITY_TIME = 2 * 60 * 1000;
 
   useEffect(() => {
     const getSession = async () => {

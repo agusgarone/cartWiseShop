@@ -5,14 +5,18 @@ import {fetchLists} from '../../../services/List';
 import {StorageService} from '../../../storage/asyncStorage';
 import {IProductDTO} from '../../../models/types/product';
 import {mapperListsSupabaseToDTO} from '../../../models/mappers/mapperListsSupabaseToDTO';
+import {FirebaseAuthTypes} from '@react-native-firebase/auth';
 
 export const homeController = () => {
   const [list, setList] = useState<IListDTO<IProductDTO>[]>([]);
   const navigation = useContext(NavigationContext);
+  const [user, setUser] = useState<FirebaseAuthTypes.User>();
 
   const navigateToListDetail = (id: string) => {
     navigation?.navigate('ListDetail', {id: id});
   };
+
+  const navigateToUserSettings = () => navigation?.navigate('UserSettings');
 
   const navigateToEditList = async (id: string) => {
     await StorageService.setItem('idList', id);
@@ -24,12 +28,15 @@ export const homeController = () => {
   });
 
   const loadList = async () => {
-    const uidUser: string = await StorageService.getItem('uidUser');
-    const responseFetchList = await fetchLists(uidUser);
+    const userAuthenticated: FirebaseAuthTypes.User =
+      await StorageService.getItem('userAuthenticated');
+    console.log(userAuthenticated);
+    const responseFetchList = await fetchLists(userAuthenticated.uid);
     if (responseFetchList.error) {
       console.log(responseFetchList.error);
     } else {
       setList(mapperListsSupabaseToDTO(responseFetchList.data));
+      setUser(userAuthenticated);
     }
   };
 
@@ -37,5 +44,7 @@ export const homeController = () => {
     list,
     navigateToListDetail,
     navigateToEditList,
+    navigateToUserSettings,
+    user,
   };
 };

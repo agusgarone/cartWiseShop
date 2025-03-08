@@ -21,7 +21,7 @@ export const loginController = () => {
         console.log('Error guardando usuario en la BD');
       }
 
-      await StorageService.setItem('uidUser', user?.user.uid);
+      await StorageService.setItem('userAuthenticated', user?.user);
       navigation?.navigate('MainDrawer');
     } catch (error) {
       console.error('❌ Error al iniciar sesión:', error);

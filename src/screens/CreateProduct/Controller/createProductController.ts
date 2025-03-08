@@ -7,6 +7,7 @@ import {categories} from '../../../data-mock';
 import {createProduct} from '../../../services/Product';
 import {IProductSupabase} from '../../../models/types/product';
 import {StorageService} from '../../../storage/asyncStorage';
+import {FirebaseAuthTypes} from '@react-native-firebase/auth';
 
 export const createProductController = () => {
   const navigation = useContext(NavigationContext);
@@ -35,8 +36,9 @@ export const createProductController = () => {
         id_category:
           categories.find(category => category.id === values.category)?.id || 1,
       };
-      const uidUser: string = await StorageService.getItem('uidUser');
-      await createProduct(newProduct, uidUser);
+      const userAuthenticated: FirebaseAuthTypes.User =
+        await StorageService.getItem('userAuthenticated');
+      await createProduct(newProduct, userAuthenticated.uid);
       Keyboard.dismiss();
       actions.resetForm();
       navigation?.goBack();

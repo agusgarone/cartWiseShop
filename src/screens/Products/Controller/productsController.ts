@@ -6,6 +6,7 @@ import {fetchProducts, removeProduct} from '../../../services/Product';
 import {IProductDTO} from '../../../models/types/product';
 import {mapperProductSupabaseToDTO} from '../../../models/mappers/mapperProductSupabaseToDTO';
 import {StorageService} from '../../../storage/asyncStorage';
+import {FirebaseAuthTypes} from '@react-native-firebase/auth';
 
 export const productsController = () => {
   const navigation = useContext(NavigationContext);
@@ -13,8 +14,12 @@ export const productsController = () => {
   const [allProducts, setAllProducts] = useState<IProductDTO[]>(products);
 
   const fetchData = async (filters?: any) => {
-    const uidUser: string = await StorageService.getItem('uidUser');
-    const responseGetAllProducts = await fetchProducts(filters, uidUser);
+    const userAuthenticated: FirebaseAuthTypes.User =
+      await StorageService.getItem('userAuthenticated');
+    const responseGetAllProducts = await fetchProducts(
+      filters,
+      userAuthenticated.uid,
+    );
     if (responseGetAllProducts.error) {
       console.log(responseGetAllProducts.error);
     } else {

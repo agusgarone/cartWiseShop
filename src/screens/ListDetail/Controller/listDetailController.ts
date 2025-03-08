@@ -6,6 +6,7 @@ import {fetchListById, removeList} from '../../../services/List';
 import {IProductForm} from '../../../models/types/product';
 import {IListDTO} from '../../../models/types/list';
 import {mapperListSupabaseToForm} from '../../../models/mappers/mapperListSupabaseToForm';
+import {FirebaseAuthTypes} from '@react-native-firebase/auth';
 
 export const listDetailController = () => {
   const [listSelected, setListSelected] =
@@ -13,10 +14,11 @@ export const listDetailController = () => {
   const navigation = useContext(NavigationContext);
 
   const getListByID = async (id: string) => {
-    const uidUser: string = await StorageService.getItem('uidUser');
+    const userAuthenticated: FirebaseAuthTypes.User =
+      await StorageService.getItem('userAuthenticated');
     const responseFetchListById = await fetchListById(
       parseInt(id, 10),
-      uidUser,
+      userAuthenticated.uid,
     );
     if (responseFetchListById.error) {
       console.log(responseFetchListById.error);
