@@ -1,14 +1,62 @@
 import React from 'react';
-import {SafeAreaView, StyleSheet, Text, View} from 'react-native';
+import {
+  Image,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import Header from '../../components/Header';
 import theme from '../../common/theme';
+import {userSettingsController} from './Controller/userSettingsController';
+import {Moon, Sun} from 'lucide-react-native';
 
 const UserSettings = () => {
+  const {themeApp, user, lang, handleChangeTheme, handleChangeLanguage} =
+    userSettingsController();
   return (
     <SafeAreaView style={Style.screen}>
+      <Header center={<></>} left={<></>} right={<></>} key={'Header'} />
       <View style={Style.home}>
-        <Header center={<></>} left={<></>} right={<></>} key={'Header'} />
-        <View style={Style.content}></View>
+        <View style={Style.content}>
+          <View style={Style.containerImage}>
+            {user?.photoURL && (
+              <Image source={{uri: user?.photoURL}} style={Style.image} />
+            )}
+          </View>
+          <View style={Style.infoUser}>
+            <Text style={Style.nameGoogle}>{'agus garone'}</Text>
+            <Text style={Style.byGoogle}>{'Perfil creado con Google'}</Text>
+          </View>
+          <View style={Style.settingsContainer}>
+            <View style={Style.itemSetting}>
+              <Text style={Style.itemSettingText}>Idioma</Text>
+              <TouchableOpacity onPress={handleChangeLanguage}>
+                <Text style={Style.itemSettingText}>{lang}</Text>
+              </TouchableOpacity>
+            </View>
+            <View style={Style.itemSetting}>
+              <Text style={Style.itemSettingText}>Tema de la app</Text>
+              <TouchableOpacity onPress={handleChangeTheme}>
+                {themeApp === 'Light' ? (
+                  <Sun color={theme.colors.black} />
+                ) : (
+                  <Moon color={theme.colors.black} />
+                )}
+              </TouchableOpacity>
+            </View>
+            <Text style={Style.itemSettingText}>
+              Como ver los productos en las listas
+            </Text>
+            <Text>
+              - Se dejan tal como se crea la lista y punto - Se divide entre los
+              que ya estan y los restantes en dos listas separadas - Se mandan
+              para arriba los productos que restan y los que ya estan se van
+              para abajo de la lista
+            </Text>
+          </View>
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -20,14 +68,63 @@ const Style = StyleSheet.create({
   },
   home: {
     flex: 1,
+    display: 'flex',
+    justifyContent: 'space-around',
+    backgroundColor: theme.colors.primary,
+    paddingTop: '25%',
   },
   content: {
     flex: 1,
-    paddingHorizontal: 16,
-    paddingVertical: 32,
+    display: 'flex',
+    backgroundColor: 'white',
+    borderTopRightRadius: 32,
+    borderTopLeftRadius: 32,
+    paddingHorizontal: 24,
   },
-  text: {
+  containerImage: {
+    width: 100,
+    height: 100,
+    borderRadius: 99,
+    overflow: 'hidden',
+    backgroundColor: 'red',
+    position: 'relative',
+    top: -40,
+    alignSelf: 'center',
+  },
+  image: {
+    height: '100%',
+    width: '100%',
+  },
+  infoUser: {
+    display: 'flex',
+    alignItems: 'center',
+    width: '100%',
+    height: 70,
+    gap: 8,
+    marginBottom: 50,
+  },
+  nameGoogle: {
+    fontSize: theme.fontSize.xxxl,
+    color: theme.colors.black,
+  },
+  byGoogle: {
+    fontSize: theme.fontSize.l,
     color: theme.colors.grey,
+  },
+  settingsContainer: {
+    display: 'flex',
+    width: '100%',
+    height: 130,
+    gap: 16,
+  },
+  itemSetting: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  itemSettingText: {
+    fontSize: theme.fontSize.xl,
+    color: theme.colors.black,
   },
 });
 
