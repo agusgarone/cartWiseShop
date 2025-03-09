@@ -33,12 +33,16 @@ export const userSettingsController = () => {
   };
 
   const handleChangeLanguage = () => {
-    if (lang === 'ES') {
-      setLang('EN');
-    } else if (lang === 'EN') {
-      setLang('IT');
-    } else {
-      setLang('ES');
+    switch (lang) {
+      case 'ES':
+        setLang('EN');
+        break;
+      case 'EN':
+        setLang('IT');
+        break;
+      case 'IT':
+        setLang('ES');
+        break;
     }
   };
 

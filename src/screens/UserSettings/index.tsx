@@ -11,6 +11,8 @@ import Header from '../../components/Header';
 import theme from '../../common/theme';
 import {userSettingsController} from './Controller/userSettingsController';
 import {Moon, Sun} from 'lucide-react-native';
+import PreviewList from './Components/PreviewList';
+import CountryFlag from 'react-native-country-flag';
 
 const UserSettings = () => {
   const {themeApp, user, lang, handleChangeTheme, handleChangeLanguage} =
@@ -33,7 +35,11 @@ const UserSettings = () => {
             <View style={Style.itemSetting}>
               <Text style={Style.itemSettingText}>Idioma</Text>
               <TouchableOpacity onPress={handleChangeLanguage}>
-                <Text style={Style.itemSettingText}>{lang}</Text>
+                <CountryFlag
+                  isoCode={lang === 'EN' ? 'us' : lang.toLowerCase()}
+                  size={20}
+                  style={{borderRadius: 6}}
+                />
               </TouchableOpacity>
             </View>
             <View style={Style.itemSetting}>
@@ -46,15 +52,7 @@ const UserSettings = () => {
                 )}
               </TouchableOpacity>
             </View>
-            <Text style={Style.itemSettingText}>
-              Como ver los productos en las listas
-            </Text>
-            <Text>
-              - Se dejan tal como se crea la lista y punto - Se divide entre los
-              que ya estan y los restantes en dos listas separadas - Se mandan
-              para arriba los productos que restan y los que ya estan se van
-              para abajo de la lista
-            </Text>
+            <PreviewList />
           </View>
         </View>
       </View>
@@ -114,7 +112,6 @@ const Style = StyleSheet.create({
   settingsContainer: {
     display: 'flex',
     width: '100%',
-    height: 130,
     gap: 16,
   },
   itemSetting: {

@@ -1,9 +1,11 @@
 const colors = {
   primary: '#39bd5c',
+  primaryOpacity: '#39bd5cb3',
   grey: '#8e9490',
   white: '#FFF',
   black: '#000',
   red: '#ff0000',
+  redOpacity: '#ff0000b3',
   whiteInput: '#F5F5F5',
 };
 
