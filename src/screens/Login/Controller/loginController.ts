@@ -1,4 +1,4 @@
-import {useContext} from 'react';
+import {useContext, useState} from 'react';
 import {StorageService} from '../../../storage/asyncStorage';
 import {
   createUser,
@@ -9,8 +9,9 @@ import {
 import {NavigationContext} from '@react-navigation/native';
 
 export const loginController = () => {
+  const [isNew, setIsNew] = useState<boolean>(true);
   const navigation = useContext(NavigationContext);
-  const handleLoginGoogle = async () => {
+  const handleSigninGoogle = async () => {
     try {
       const {user, tokenId} = await signInWithGoogle();
       console.log('✅ Usuario autenticado:', user);
@@ -43,7 +44,38 @@ export const loginController = () => {
     }
   };
 
+  const handleLoginGoogle = async () => {
+    try {
+      const {user, tokenId} = await signInWithGoogle();
+      console.log('✅ Usuario autenticado:', user);
+
+      const responseFetchUser = await fetchUserById(user.user.uid);
+      console.log('response fetchUserById', responseFetchUser);
+      if (responseFetchUser.error) {
+        console.log('Error verificando usuario en supabase');
+        throw responseFetchUser.error;
+      }
+      if (!responseFetchUser.data) {
+        console.log('El usuario no fue encontrado en la BD');
+        throw new Error('El usuario no fue encontrado en la BD');
+      }
+      console.log('El usuario existe en supabase');
+      await loginSupabase(tokenId);
+      await StorageService.setItem('userAuthenticated', responseFetchUser.data);
+      navigation?.navigate('MainDrawer');
+    } catch (error) {
+      console.error('❌ Error al iniciar sesión:', error);
+    }
+  };
+
+  const handleViewUserLogin = () => {
+    setIsNew(!isNew);
+  };
+
   return {
+    isNew,
+    handleSigninGoogle,
     handleLoginGoogle,
+    handleViewUserLogin,
   };
 };
