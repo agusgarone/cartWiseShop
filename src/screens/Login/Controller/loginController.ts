@@ -35,7 +35,6 @@ export const loginController = () => {
       }
 
       await loginSupabase(tokenId);
-
       await StorageService.setItem('userAuthenticated', responseFetchUser.data);
 
       navigation?.navigate('MainDrawer');

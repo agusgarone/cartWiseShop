@@ -12,16 +12,24 @@ import {User} from '../../../models/types/user';
 export const userSettingsController = () => {
   const navigation = useContext(NavigationContext);
   const [user, setUser] = useState<User>();
-  const [themeApp, setTheme] = useState<'light' | 'dark'>('light');
-  const [lang, setLang] = useState<'es' | 'en' | 'it'>('es');
+  const [themeApp, setTheme] = useState<string>('light');
+  const [lang, setLang] = useState<string>('es');
+  const [selectedOption, setSelectedOption] = useState('original');
 
   const fetchData = async (filters?: any) => {
     const userAuthenticated: User = await StorageService.getItem(
       'userAuthenticated',
     );
-    console.log(userAuthenticated);
     setUser(userAuthenticated);
   };
+
+  useEffect(() => {
+    if (user) {
+      setTheme(user.theme);
+      setLang(user.language);
+      setSelectedOption(user.listView);
+    }
+  }, [user]);
 
   const logOut = async (product: IProductDTO) => {};
 
@@ -74,6 +82,7 @@ export const userSettingsController = () => {
   };
 
   const handleEditListView = async (listView: string) => {
+    setSelectedOption(listView);
     const responseListView = await editListView(user, listView);
     console.log('responseListView', responseListView);
   };
@@ -90,6 +99,7 @@ export const userSettingsController = () => {
     user,
     themeApp,
     lang,
+    selectedOption,
     handleChangeTheme,
     handleChangeLanguage,
     handleChangeViewList,

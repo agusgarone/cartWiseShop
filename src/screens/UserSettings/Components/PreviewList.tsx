@@ -23,11 +23,11 @@ const LIST_OPTIONS = [
 
 const PreviewList = ({
   handleChangeViewList,
+  selectedOption,
 }: {
   handleChangeViewList: (viewType: string) => void;
+  selectedOption: string;
 }) => {
-  const [selectedOption, setSelectedOption] = useState('original');
-
   const exampleList = [
     {id: '1', name: 'Leche', checked: false},
     {id: '2', name: 'Pan', checked: true},
@@ -46,10 +46,7 @@ const PreviewList = ({
               styles.option,
               selectedOption === option.id && styles.selectedOption,
             ]}
-            onPress={() => {
-              setSelectedOption(option.id);
-              handleChangeViewList(option.id);
-            }}>
+            onPress={() => handleChangeViewList(option.id)}>
             <Text
               style={[
                 styles.optionTitle,

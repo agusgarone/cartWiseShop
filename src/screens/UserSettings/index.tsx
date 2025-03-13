@@ -18,6 +18,7 @@ const UserSettings = () => {
     themeApp,
     user,
     lang,
+    selectedOption,
     handleChangeTheme,
     handleChangeLanguage,
     handleChangeViewList,
@@ -56,7 +57,10 @@ const UserSettings = () => {
                 )}
               </TouchableOpacity>
             </View>
-            <PreviewList handleChangeViewList={handleChangeViewList} />
+            <PreviewList
+              handleChangeViewList={handleChangeViewList}
+              selectedOption={selectedOption}
+            />
           </View>
         </View>
       </View>
