@@ -49,11 +49,8 @@ export const createProductController = () => {
     }
   };
 
-  const goBack = () => navigation?.goBack();
-
   return {
     handleFormikSubmit,
-    goBack,
     initialValues,
   };
 };

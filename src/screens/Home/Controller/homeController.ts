@@ -30,7 +30,7 @@ export const homeController = () => {
   const loadList = async () => {
     const userAuthenticated: FirebaseAuthTypes.User =
       await StorageService.getItem('userAuthenticated');
-    console.log(userAuthenticated);
+    console.log('userAuthenticated', userAuthenticated);
     const responseFetchList = await fetchLists(userAuthenticated.uid);
     if (responseFetchList.error) {
       console.log(responseFetchList.error);

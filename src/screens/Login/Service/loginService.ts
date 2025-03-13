@@ -1,5 +1,12 @@
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
-import {accessSupabase, insertUser} from '../Api/facade';
+import {
+  accessSupabase,
+  getUserById,
+  insertUser,
+  updateLanguage,
+  updateListView,
+  updateTheme,
+} from '../Api/facade';
 import auth from '@react-native-firebase/auth';
 import {GOOGLE_WEB_CLIENT} from '@env';
 
@@ -7,6 +14,11 @@ import {GOOGLE_WEB_CLIENT} from '@env';
 GoogleSignin.configure({
   webClientId: GOOGLE_WEB_CLIENT,
 });
+
+export const fetchUserById = async (uid: string) => {
+  const responseGetUserById = await getUserById(uid);
+  return responseGetUserById;
+};
 
 export const createUser = async (userData: any) => {
   const responseInsertUser = await insertUser(userData);
@@ -37,4 +49,19 @@ export const signInWithGoogle = async () => {
     console.error('❌ Error en Google Sign-In:', error);
     throw error;
   }
+};
+
+export const editLanguage = async (user: any, lang: string) => {
+  const responseUpdateLanguage = await updateLanguage(user, lang);
+  return responseUpdateLanguage;
+};
+
+export const editTheme = async (user: any, theme: string) => {
+  const responseUpdateTheme = await updateTheme(user, theme);
+  return responseUpdateTheme;
+};
+
+export const editListView = async (user: any, listView: string) => {
+  const responseUpdateListView = await updateListView(user, listView);
+  return responseUpdateListView;
 };

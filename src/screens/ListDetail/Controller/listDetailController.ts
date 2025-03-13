@@ -73,12 +73,9 @@ export const listDetailController = () => {
 
   const goHome = () => navigation?.navigate('MainDrawer');
 
-  const goBack = () => navigation?.goBack();
-
   return {
     listSelected,
     getListByID,
-    goBack,
     handleButtonDelete,
     handleAllSelected,
   };

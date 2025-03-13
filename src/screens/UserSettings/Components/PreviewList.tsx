@@ -2,7 +2,6 @@ import React, {useState} from 'react';
 import {View, Text, TouchableOpacity, FlatList, StyleSheet} from 'react-native';
 import theme from '../../../common/theme';
 
-// Opciones de distribución
 const LIST_OPTIONS = [
   {
     id: 'original',
@@ -22,10 +21,13 @@ const LIST_OPTIONS = [
   },
 ];
 
-const PreviewList = () => {
-  const [selectedOption, setSelectedOption] = useState('original'); // Estado para opción seleccionada
+const PreviewList = ({
+  handleChangeViewList,
+}: {
+  handleChangeViewList: (viewType: string) => void;
+}) => {
+  const [selectedOption, setSelectedOption] = useState('original');
 
-  // Simulación de una lista de productos
   const exampleList = [
     {id: '1', name: 'Leche', checked: false},
     {id: '2', name: 'Pan', checked: true},
@@ -33,29 +35,10 @@ const PreviewList = () => {
     {id: '4', name: 'Manzanas', checked: true},
   ];
 
-  // Función para aplicar el orden seleccionado a la lista de ejemplo
-  const getPreviewList = () => {
-    if (selectedOption === 'separated') {
-      return {
-        pending: exampleList.filter(item => !item.checked),
-        completed: exampleList.filter(item => item.checked),
-      };
-    } else if (selectedOption === 'sorted') {
-      return [
-        ...exampleList.filter(item => !item.checked),
-        ...exampleList.filter(item => item.checked),
-      ];
-    }
-    return exampleList;
-  };
-
-  const previewList = getPreviewList();
-
   return (
     <View>
       <Text style={styles.header}>Configuración de Listas</Text>
       <View style={styles.optionsContainer}>
-        {/* Opciones de distribución */}
         {LIST_OPTIONS.map(option => (
           <TouchableOpacity
             key={option.id}
@@ -63,7 +46,10 @@ const PreviewList = () => {
               styles.option,
               selectedOption === option.id && styles.selectedOption,
             ]}
-            onPress={() => setSelectedOption(option.id)}>
+            onPress={() => {
+              setSelectedOption(option.id);
+              handleChangeViewList(option.id);
+            }}>
             <Text
               style={[
                 styles.optionTitle,

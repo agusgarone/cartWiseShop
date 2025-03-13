@@ -74,13 +74,10 @@ export const addProductsController = () => {
     }
   };
 
-  const goBack = () => navigation?.goBack();
-
   return {
     productsSelected,
     onPress,
     handleButton,
     handleFormikSubmit,
-    goBack,
   };
 };

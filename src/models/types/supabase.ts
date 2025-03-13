@@ -8,7 +8,10 @@ export type Database = {
           displayName: string;
           photoURL: string;
           providerId: string;
-          createdAt: string; // Fecha en formato ISO (timestamp)
+          createdAt: string;
+          language: string;
+          theme: string;
+          listView: string;
         };
         Insert: {
           uid: string;
@@ -17,6 +20,9 @@ export type Database = {
           photoURL?: string;
           providerId: string;
           createdAt?: string;
+          language: string;
+          theme: string;
+          listView: string;
         };
         Update: {
           uid?: string;
@@ -25,6 +31,9 @@ export type Database = {
           photoURL?: string;
           providerId?: string;
           createdAt?: string;
+          language?: string;
+          theme?: string;
+          listView?: string;
         };
         Relationships: [];
       };

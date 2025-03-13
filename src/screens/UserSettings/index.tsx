@@ -7,7 +7,6 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import Header from '../../components/Header';
 import theme from '../../common/theme';
 import {userSettingsController} from './Controller/userSettingsController';
 import {Moon, Sun} from 'lucide-react-native';
@@ -15,11 +14,16 @@ import PreviewList from './Components/PreviewList';
 import CountryFlag from 'react-native-country-flag';
 
 const UserSettings = () => {
-  const {themeApp, user, lang, handleChangeTheme, handleChangeLanguage} =
-    userSettingsController();
+  const {
+    themeApp,
+    user,
+    lang,
+    handleChangeTheme,
+    handleChangeLanguage,
+    handleChangeViewList,
+  } = userSettingsController();
   return (
     <SafeAreaView style={Style.screen}>
-      <Header center={<></>} left={<></>} right={<></>} key={'Header'} />
       <View style={Style.home}>
         <View style={Style.content}>
           <View style={Style.containerImage}>
@@ -36,7 +40,7 @@ const UserSettings = () => {
               <Text style={Style.itemSettingText}>Idioma</Text>
               <TouchableOpacity onPress={handleChangeLanguage}>
                 <CountryFlag
-                  isoCode={lang === 'EN' ? 'us' : lang.toLowerCase()}
+                  isoCode={lang === 'en' ? 'us' : lang.toLowerCase()}
                   size={20}
                   style={{borderRadius: 6}}
                 />
@@ -45,14 +49,14 @@ const UserSettings = () => {
             <View style={Style.itemSetting}>
               <Text style={Style.itemSettingText}>Tema de la app</Text>
               <TouchableOpacity onPress={handleChangeTheme}>
-                {themeApp === 'Light' ? (
+                {themeApp === 'light' ? (
                   <Sun color={theme.colors.black} />
                 ) : (
                   <Moon color={theme.colors.black} />
                 )}
               </TouchableOpacity>
             </View>
-            <PreviewList />
+            <PreviewList handleChangeViewList={handleChangeViewList} />
           </View>
         </View>
       </View>

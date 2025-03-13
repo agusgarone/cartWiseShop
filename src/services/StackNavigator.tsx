@@ -36,26 +36,10 @@ function StackNavigator() {
         component={DrawerNavigator}
         options={{headerShown: false}}
       />
-      <Stack.Screen
-        name="ListDetail"
-        component={ListDetail}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
-        name="AddProducts"
-        component={AddProducts}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
-        name="CreateProduct"
-        component={CreateProduct}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
-        name="UserSettings"
-        component={UserSettings}
-        options={{headerShown: false}}
-      />
+      <Stack.Screen name="ListDetail" component={ListDetail} />
+      <Stack.Screen name="AddProducts" component={AddProducts} />
+      <Stack.Screen name="CreateProduct" component={CreateProduct} />
+      <Stack.Screen name="UserSettings" component={UserSettings} />
     </Stack.Navigator>
   );
 }

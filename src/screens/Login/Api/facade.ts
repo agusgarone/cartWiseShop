@@ -9,9 +9,21 @@ export const insertUser = async (user: any) => {
       photoURL: user.photoURL,
       providerId: 'google.com',
       createdAt: new Date().toISOString(),
+      language: 'es',
+      theme: 'light',
+      listView: 'original',
     },
   ]);
 
+  return response;
+};
+
+export const getUserById = async (uid: string) => {
+  const response = await supabase
+    .from('users')
+    .select('*')
+    .eq('uid', uid)
+    .single();
   return response;
 };
 
@@ -20,5 +32,38 @@ export const accessSupabase = async (token: string) => {
     provider: 'google',
     token: token,
   });
+  return response;
+};
+
+export const updateLanguage = async (user: any, lang: string) => {
+  const response = await supabase
+    .from('users')
+    .update({
+      language: lang,
+    })
+    .eq('uid', user.uid);
+
+  return response;
+};
+
+export const updateTheme = async (user: any, theme: string) => {
+  const response = await supabase
+    .from('users')
+    .update({
+      theme: theme,
+    })
+    .eq('uid', user.uid);
+
+  return response;
+};
+
+export const updateListView = async (user: any, listView: string) => {
+  const response = await supabase
+    .from('users')
+    .update({
+      listView: listView,
+    })
+    .eq('uid', user.uid);
+
   return response;
 };
