@@ -1,5 +1,5 @@
-import {useContext, useEffect, useState} from 'react';
-import {NavigationContext} from '@react-navigation/native';
+import {useCallback, useEffect, useState} from 'react';
+import {useFocusEffect} from '@react-navigation/native';
 import {IProductDTO} from '../../../models/types/product';
 import {StorageService} from '../../../storage/asyncStorage';
 import {
@@ -10,7 +10,6 @@ import {
 import {User} from '../../../models/types/user';
 
 export const userSettingsController = () => {
-  const navigation = useContext(NavigationContext);
   const [user, setUser] = useState<User>();
   const [themeApp, setTheme] = useState<string>('light');
   const [lang, setLang] = useState<string>('es');
@@ -33,11 +32,15 @@ export const userSettingsController = () => {
 
   const logOut = async (product: IProductDTO) => {};
 
-  useEffect(() => {
-    navigation?.addListener('focus', () => {
+  useFocusEffect(
+    useCallback(() => {
       fetchData();
-    });
-  }, []);
+
+      return () => {
+        console.log('🔄 Cleanup: Se desmonta el listener');
+      };
+    }, []),
+  );
 
   const handleChangeTheme = () => {
     if (themeApp === 'light') {

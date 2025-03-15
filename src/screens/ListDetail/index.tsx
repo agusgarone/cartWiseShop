@@ -6,8 +6,13 @@ import {listDetailController} from './Controller/listDetailController';
 
 const ListDetail = ({route}: any) => {
   const {key, name, params} = route;
-  const {listSelected, getListByID, handleButtonDelete, handleAllSelected} =
-    listDetailController();
+  const {
+    user,
+    listSelected,
+    getListByID,
+    handleButtonDelete,
+    handleAllSelected,
+  } = listDetailController();
 
   return (
     <SafeAreaView style={Style.screen}>
@@ -17,6 +22,7 @@ const ListDetail = ({route}: any) => {
         handleAllSelected={handleAllSelected}
         handleButtonDelete={handleButtonDelete}
         listSelected={listSelected}
+        user={user}
       />
     </SafeAreaView>
   );

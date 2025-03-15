@@ -1,6 +1,6 @@
-import {useContext, useEffect, useState} from 'react';
+import {useCallback, useContext, useState} from 'react';
 import {GlobalStateService} from '../../../services/globalStates';
-import {NavigationContext} from '@react-navigation/native';
+import {NavigationContext, useFocusEffect} from '@react-navigation/native';
 import {Alert} from 'react-native';
 import {fetchProducts, removeProduct} from '../../../services/Product';
 import {IProductDTO} from '../../../models/types/product';
@@ -60,11 +60,15 @@ export const productsController = () => {
   const handleDeleteProduct = (product: IProductDTO) =>
     DialogDeleteProduct(product);
 
-  useEffect(() => {
-    navigation?.addListener('focus', () => {
+  useFocusEffect(
+    useCallback(() => {
       fetchData();
-    });
-  }, []);
+
+      return () => {
+        console.log('🔄 Cleanup: Se desmonta el listener');
+      };
+    }, []),
+  );
 
   return {
     allProducts,

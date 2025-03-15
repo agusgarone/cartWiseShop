@@ -11,3 +11,10 @@ export interface IListDTO<T> {
   name: string;
   products: T[];
 }
+
+export interface IListForm<T> {
+  id: number;
+  created_at: string;
+  name: string;
+  products: Record<number, T>;
+}

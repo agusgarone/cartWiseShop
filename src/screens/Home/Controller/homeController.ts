@@ -1,16 +1,16 @@
-import {useContext, useState} from 'react';
-import {NavigationContext} from '@react-navigation/native';
+import {useCallback, useContext, useState} from 'react';
+import {NavigationContext, useFocusEffect} from '@react-navigation/native';
 import {IListDTO} from '../../../models/types/list';
 import {fetchLists} from '../../../services/List';
 import {StorageService} from '../../../storage/asyncStorage';
 import {IProductDTO} from '../../../models/types/product';
 import {mapperListsSupabaseToDTO} from '../../../models/mappers/mapperListsSupabaseToDTO';
-import {FirebaseAuthTypes} from '@react-native-firebase/auth';
+import {User} from '../../../models/types/user';
 
 export const homeController = () => {
   const [list, setList] = useState<IListDTO<IProductDTO>[]>([]);
   const navigation = useContext(NavigationContext);
-  const [user, setUser] = useState<FirebaseAuthTypes.User>();
+  const [user, setUser] = useState<User>();
 
   const navigateToListDetail = (id: string) => {
     navigation?.navigate('ListDetail', {id: id});
@@ -23,15 +23,23 @@ export const homeController = () => {
     navigation?.navigate('MainTabs', {screen: 'CreateList'});
   };
 
-  navigation?.addListener('focus', () => {
-    loadList();
-  });
+  useFocusEffect(
+    useCallback(() => {
+      loadList();
+
+      return () => {
+        console.log('🔄 Cleanup: Se desmonta el listener');
+      };
+    }, []),
+  );
 
   const loadList = async () => {
-    const userAuthenticated: FirebaseAuthTypes.User =
-      await StorageService.getItem('userAuthenticated');
-    console.log('userAuthenticated', userAuthenticated);
+    const userAuthenticated: User = await StorageService.getItem(
+      'userAuthenticated',
+    );
+    console.log('responseFetchList', userAuthenticated.uid);
     const responseFetchList = await fetchLists(userAuthenticated.uid);
+    console.log('responseFetchList', responseFetchList);
     if (responseFetchList.error) {
       console.log(responseFetchList.error);
     } else {

@@ -4,18 +4,21 @@ import {StorageService} from '../../../storage/asyncStorage';
 import {Alert} from 'react-native';
 import {fetchListById, removeList} from '../../../services/List';
 import {IProductForm} from '../../../models/types/product';
-import {IListDTO} from '../../../models/types/list';
+import {IListDTO, IListForm} from '../../../models/types/list';
 import {mapperListSupabaseToForm} from '../../../models/mappers/mapperListSupabaseToForm';
-import {FirebaseAuthTypes} from '@react-native-firebase/auth';
+import {User} from '../../../models/types/user';
 
 export const listDetailController = () => {
   const [listSelected, setListSelected] =
-    useState<IListDTO<IProductForm> | null>(null);
+    useState<IListForm<IProductForm> | null>(null);
+  const [user, setUser] = useState<User>();
   const navigation = useContext(NavigationContext);
 
   const getListByID = async (id: string) => {
-    const userAuthenticated: FirebaseAuthTypes.User =
-      await StorageService.getItem('userAuthenticated');
+    const userAuthenticated: User = await StorageService.getItem(
+      'userAuthenticated',
+    );
+    setUser(userAuthenticated);
     const responseFetchListById = await fetchListById(
       parseInt(id, 10),
       userAuthenticated.uid,
@@ -28,6 +31,58 @@ export const listDetailController = () => {
       if (responseFetchListById.data) {
         setListSelected(
           mapperListSupabaseToForm(responseFetchListById.data[0]),
+          // {
+          //   id: 1,
+          //   created_at: '2024-03-07T12:00:00Z',
+          //   name: 'Lista de Compras Semanal',
+          //   products: {
+          //     101: {
+          //       id: 101,
+          //       name: 'Leche',
+          //       category: {
+          //         id: 2539,
+          //         name: 'Almacén',
+          //       },
+          //       isChecked: false,
+          //     },
+          //     102: {
+          //       id: 102,
+          //       name: 'Pan',
+          //       category: {
+          //         id: 6993,
+          //         name: 'Panadería',
+          //       },
+          //       isChecked: false,
+          //     },
+          //     103: {
+          //       id: 103,
+          //       name: 'Manzanas',
+          //       category: {
+          //         id: 4479,
+          //         name: 'Frutas y Verduras',
+          //       },
+          //       isChecked: false,
+          //     },
+          //     104: {
+          //       id: 104,
+          //       name: 'Detergente',
+          //       category: {
+          //         id: 8332,
+          //         name: 'Limpieza',
+          //       },
+          //       isChecked: false,
+          //     },
+          //     105: {
+          //       id: 105,
+          //       name: 'Yogur',
+          //       category: {
+          //         id: 9522,
+          //         name: 'Lácteos y productos frescos',
+          //       },
+          //       isChecked: false,
+          //     },
+          //   },
+          // },
         );
       }
     }
@@ -74,6 +129,7 @@ export const listDetailController = () => {
   const goHome = () => navigation?.navigate('MainDrawer');
 
   return {
+    user,
     listSelected,
     getListByID,
     handleButtonDelete,

@@ -8,6 +8,7 @@ import RenderProduct from './RenderProducts';
 import {IProductDTO, IProductForm} from '../../../models/types/product';
 import {Trash} from 'lucide-react-native';
 import Separated from './ListView/Separated';
+import {User} from '../../../models/types/user';
 
 const Content = ({
   id,
@@ -15,8 +16,10 @@ const Content = ({
   handleAllSelected,
   handleButtonDelete,
   listSelected,
+  user,
 }: {
   id: string;
+  user: User | undefined;
   getListByID: (id: string) => Promise<void>;
   handleButtonDelete: (list: IListDTO<IProductForm>) => void;
   handleAllSelected: () => void;
@@ -33,7 +36,9 @@ const Content = ({
     item: IProductDTO;
     index: number;
   }) => {
-    return <RenderProduct item={item} index={index} />;
+    return (
+      <RenderProduct item={item} index={index} key={`${item.id}${index}`} />
+    );
   };
 
   return (
@@ -56,23 +61,32 @@ const Content = ({
             onSubmit={values => console.log(values)}>
             {({values}) => {
               useEffect(() => {
-                const allSelected = values.products.every(
-                  (product: IProductForm) => product.isChecked,
+                const allSelected = Object.values(values.products).every(
+                  product => product.isChecked,
                 );
-                if (allSelected && values.products.length > 0) {
+                if (allSelected && Object.keys(values.products).length > 0) {
                   handleAllSelected();
                 }
               }, [values.products]);
               return (
                 <FieldArray
                   name="products"
-                  render={() => (
-                    // <List data={values.products} render={_renderProducts} />
-                    <Separated
-                      data={values.products}
-                      render={_renderProducts}
-                    />
-                  )}
+                  render={() => {
+                    if (user && user.listView === 'separated') {
+                      return (
+                        <Separated
+                          data={Object.values(values.products)}
+                          render={_renderProducts}
+                        />
+                      );
+                    }
+                    return (
+                      <List
+                        data={Object.values(values.products)}
+                        render={_renderProducts}
+                      />
+                    );
+                  }}
                 />
               );
             }}
