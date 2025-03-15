@@ -7,6 +7,7 @@ import {IListDTO} from '../../../models/types/list';
 import RenderProduct from './RenderProducts';
 import {IProductDTO, IProductForm} from '../../../models/types/product';
 import {Trash} from 'lucide-react-native';
+import Separated from './ListView/Separated';
 
 const Content = ({
   id,
@@ -66,7 +67,11 @@ const Content = ({
                 <FieldArray
                   name="products"
                   render={() => (
-                    <List data={values.products} render={_renderProducts} />
+                    // <List data={values.products} render={_renderProducts} />
+                    <Separated
+                      data={values.products}
+                      render={_renderProducts}
+                    />
                   )}
                 />
               );
