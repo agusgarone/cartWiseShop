@@ -1,6 +1,6 @@
-import {useContext, useEffect, useState} from 'react';
+import {useCallback, useContext, useEffect, useState} from 'react';
 import {GlobalStateService} from '../../../services/globalStates';
-import {NavigationContext} from '@react-navigation/native';
+import {NavigationContext, useFocusEffect} from '@react-navigation/native';
 import {FormikState} from 'formik';
 import {FORM_STATUS} from '../../../common/utils/formStatus';
 import moment from 'moment';
@@ -23,12 +23,16 @@ export const createListController = () => {
     name: '',
   });
 
-  useEffect(() => {
-    navigation?.addListener('focus', async () => {
-      await getDataFromStorage();
-      await getList();
-    });
-  }, [navigation]);
+  useFocusEffect(
+    useCallback(() => {
+      getDataFromStorage();
+      getList();
+
+      return () => {
+        console.log('🔄 Cleanup: Se desmonta el listener');
+      };
+    }, []),
+  );
 
   useEffect(() => {
     if (list) {

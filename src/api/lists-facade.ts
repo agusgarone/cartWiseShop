@@ -7,7 +7,7 @@ export const insertList = async (list: IListSupabase, userUid: string) => {
       id: list.id,
       created_at: list.created_at,
       name: list.name,
-      id_products: list.id_products,
+      id_products: list.id_products.map(Number),
       uid_user: userUid,
     },
   ]);
@@ -39,6 +39,8 @@ export const getLists = async (userUid: string) => {
     'get_lists_with_products_and_categories',
     {p_uid_user: userUid},
   );
+
+  // const response = await supabase.from('lists').select('*');
 
   return response;
 };

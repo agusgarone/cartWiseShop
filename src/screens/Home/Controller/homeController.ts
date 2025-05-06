@@ -37,7 +37,7 @@ export const homeController = () => {
     const userAuthenticated: User = await StorageService.getItem(
       'userAuthenticated',
     );
-    console.log('responseFetchList', userAuthenticated.uid);
+    console.log('responseFetchListtt', userAuthenticated.uid);
     const responseFetchList = await fetchLists(userAuthenticated.uid);
     console.log('responseFetchList', responseFetchList);
     if (responseFetchList.error) {
