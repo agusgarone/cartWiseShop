@@ -3,9 +3,8 @@ apply plugin: "org.jetbrains.kotlin.android"
 apply plugin: "com.facebook.react"
 apply plugin: 'com.google.gms.google-services'
 
-/**
- * Configuración para React Native
- */
+def hermesEnabled = false
+
 react {
     // Configuraciones opcionales aquí (puedes dejarlo como está)
 }
