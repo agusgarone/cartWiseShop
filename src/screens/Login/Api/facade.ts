@@ -1,9 +1,16 @@
 import {supabase} from '../../../services/supabase';
 
 export const insertUser = async (user: any) => {
+  const {data: session} = await supabase.auth.getSession();
+
+  const userUid = session?.session?.user?.id;
+
+  if (!userUid) {
+    throw new Error('No hay usuario autenticado');
+  }
   const response = await supabase.from('users').upsert([
     {
-      uid: user.uid,
+      uid: userUid,
       email: user.email,
       displayName: user.displayName,
       photoURL: user.photoURL,
@@ -18,11 +25,18 @@ export const insertUser = async (user: any) => {
   return response;
 };
 
-export const getUserById = async (uid: string) => {
+export const getUserById = async () => {
+  const {data: session} = await supabase.auth.getSession();
+
+  const userUid = session?.session?.user?.id;
+
+  if (!userUid) {
+    throw new Error('No hay usuario autenticado');
+  }
   const response = await supabase
     .from('users')
     .select('*')
-    .eq('uid', uid)
+    .eq('uid', userUid)
     .single();
   return response;
 };

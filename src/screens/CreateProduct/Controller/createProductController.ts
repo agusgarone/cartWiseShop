@@ -29,16 +29,18 @@ export const createProductController = () => {
   ) => {
     actions.setStatus(FORM_STATUS.idle);
     if (values.name) {
-      // * Se hizo la edicion pero despues decidí sacar es funcionalidad para que solo exista la baja y alta de productos
       const newProduct: IProductSupabase = {
         id: Math.floor(Math.random() * 900000) + 100000,
         name: values.name,
         id_category:
           categories.find(category => category.id === values.category)?.id || 1,
       };
+      console.log('new product', newProduct);
       const userAuthenticated: FirebaseAuthTypes.User =
         await StorageService.getItem('userAuthenticated');
-      await createProduct(newProduct, userAuthenticated.uid);
+      console.log('🧪 supabase.auth.getSession():');
+      const response = await createProduct(newProduct);
+      console.log('response', response);
       Keyboard.dismiss();
       actions.resetForm();
       navigation?.goBack();

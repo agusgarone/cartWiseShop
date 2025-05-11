@@ -15,8 +15,8 @@ GoogleSignin.configure({
   webClientId: GOOGLE_WEB_CLIENT,
 });
 
-export const fetchUserById = async (uid: string) => {
-  const responseGetUserById = await getUserById(uid);
+export const fetchUserById = async () => {
+  const responseGetUserById = await getUserById();
   return responseGetUserById;
 };
 

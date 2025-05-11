@@ -16,12 +16,14 @@ export const loginController = () => {
       const {user, tokenId} = await signInWithGoogle();
       console.log('✅ Usuario autenticado:', user);
 
-      const responseFetchUser = await fetchUserById(user.user.uid);
-      console.log('response fetchUserById', responseFetchUser);
-      if (responseFetchUser.error) {
-        console.log('Error verificando usuario en supabase');
-        throw responseFetchUser.error;
+      const {error: supabaseLoginError} = await loginSupabase(tokenId);
+      if (supabaseLoginError) {
+        throw new Error('❌ Error al loguearse en Supabase');
       }
+
+      const responseFetchUser = await fetchUserById();
+      console.log('response fetchUserById', responseFetchUser);
+
       if (responseFetchUser.data) {
         console.log('El usuario ya existe en supabase');
       } else {
@@ -35,9 +37,7 @@ export const loginController = () => {
         }
       }
 
-      await loginSupabase(tokenId);
-      await StorageService.setItem('userAuthenticated', responseFetchUser.data);
-
+      await StorageService.setItem('userAuthenticated', user.user);
       navigation?.navigate('MainDrawer');
     } catch (error) {
       console.error('❌ Error al iniciar sesión:', error);
@@ -49,18 +49,25 @@ export const loginController = () => {
       const {user, tokenId} = await signInWithGoogle();
       console.log('✅ Usuario autenticado:', user);
 
-      const responseFetchUser = await fetchUserById(user.user.uid);
+      const {error: supabaseLoginError} = await loginSupabase(tokenId);
+      if (supabaseLoginError) {
+        throw new Error('❌ Error al loguearse en Supabase');
+      }
+      const responseFetchUser = await fetchUserById();
       console.log('response fetchUserById', responseFetchUser);
+
       if (responseFetchUser.error) {
         console.log('Error verificando usuario en supabase');
         throw responseFetchUser.error;
       }
+
       if (!responseFetchUser.data) {
         console.log('El usuario no fue encontrado en la BD');
         throw new Error('El usuario no fue encontrado en la BD');
       }
+
       console.log('El usuario existe en supabase');
-      await loginSupabase(tokenId);
+
       await StorageService.setItem('userAuthenticated', responseFetchUser.data);
       navigation?.navigate('MainDrawer');
     } catch (error) {

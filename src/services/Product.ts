@@ -5,11 +5,8 @@ import {
 } from '../api/products-facade';
 import {IProductSupabase} from '../models/types/product';
 
-export const createProduct = async (
-  productData: IProductSupabase,
-  userUid: string,
-) => {
-  const responseInsertProduct = await insertProduct(productData, userUid);
+export const createProduct = async (productData: IProductSupabase) => {
+  const responseInsertProduct = await insertProduct(productData);
   return responseInsertProduct;
 };
 

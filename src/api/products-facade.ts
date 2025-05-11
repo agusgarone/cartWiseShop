@@ -1,10 +1,17 @@
 import {IProductSupabase} from '../models/types/product';
 import {supabase} from '../services/supabase';
 
-export const insertProduct = async (
-  product: IProductSupabase,
-  userUid: string,
-) => {
+export const insertProduct = async (product: IProductSupabase) => {
+  const {data: session} = await supabase.auth.getSession();
+
+  console.log('session', session);
+
+  const userUid = session?.session?.user?.id;
+
+  if (!userUid) {
+    throw new Error('No hay usuario autenticado');
+  }
+
   const response = await supabase.from('products').upsert([
     {
       id: product.id,
