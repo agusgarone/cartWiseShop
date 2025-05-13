@@ -22,7 +22,6 @@ export const loginController = () => {
       }
 
       const responseFetchUser = await fetchUserById();
-      console.log('response fetchUserById', responseFetchUser);
 
       if (responseFetchUser.data) {
         console.log('El usuario ya existe en supabase');
@@ -36,7 +35,6 @@ export const loginController = () => {
           console.log('Usuario creado con Exito');
         }
       }
-
       await StorageService.setItem('userAuthenticated', user.user);
       navigation?.navigate('MainDrawer');
     } catch (error) {
@@ -67,8 +65,7 @@ export const loginController = () => {
       }
 
       console.log('El usuario existe en supabase');
-
-      await StorageService.setItem('userAuthenticated', responseFetchUser.data);
+      await StorageService.setItem('userAuthenticated', user.user);
       navigation?.navigate('MainDrawer');
     } catch (error) {
       console.error('❌ Error al iniciar sesión:', error);

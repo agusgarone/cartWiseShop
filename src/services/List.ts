@@ -7,23 +7,23 @@ import {
 } from '../api/lists-facade';
 import {IListSupabase} from '../models/types/list';
 
-export const createList = async (listData: IListSupabase, userUid: string) => {
-  const responseInsertList = await insertList(listData, userUid);
+export const createList = async (listData: IListSupabase) => {
+  const responseInsertList = await insertList(listData);
   return responseInsertList;
 };
 
-export const removeList = async (listId: number, userUid: string) => {
-  const responseDeleteList = await deleteList(listId, userUid);
+export const removeList = async (listId: number) => {
+  const responseDeleteList = await deleteList(listId);
   return responseDeleteList;
 };
 
-export const fetchListById = async (listId: number, userUid: string) => {
-  const responsefetchListById = await getListById(listId, userUid);
+export const fetchListById = async (listId: number) => {
+  const responsefetchListById = await getListById(listId);
   return responsefetchListById;
 };
 
-export const fetchLists = async (userUid: string) => {
-  const responseFetchLists = await getLists(userUid);
+export const fetchLists = async () => {
+  const responseFetchLists = await getLists();
   return responseFetchLists;
 };
 

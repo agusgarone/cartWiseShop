@@ -5,8 +5,6 @@ import {Alert} from 'react-native';
 import {fetchProducts, removeProduct} from '../../../services/Product';
 import {IProductDTO} from '../../../models/types/product';
 import {mapperProductSupabaseToDTO} from '../../../models/mappers/mapperProductSupabaseToDTO';
-import {StorageService} from '../../../storage/asyncStorage';
-import {FirebaseAuthTypes} from '@react-native-firebase/auth';
 
 export const productsController = () => {
   const navigation = useContext(NavigationContext);
@@ -14,12 +12,7 @@ export const productsController = () => {
   const [allProducts, setAllProducts] = useState<IProductDTO[]>(products);
 
   const fetchData = async (filters?: any) => {
-    const userAuthenticated: FirebaseAuthTypes.User =
-      await StorageService.getItem('userAuthenticated');
-    const responseGetAllProducts = await fetchProducts(
-      filters,
-      userAuthenticated.uid,
-    );
+    const responseGetAllProducts = await fetchProducts(filters);
     if (responseGetAllProducts.error) {
       console.log(responseGetAllProducts.error);
     } else {
@@ -45,8 +38,7 @@ export const productsController = () => {
     );
 
   const handleDelete = async (product: IProductDTO) => {
-    const userUid: string = '';
-    const responseRemoveProduct = await removeProduct(product.id, userUid);
+    const responseRemoveProduct = await removeProduct(product.id);
     if (responseRemoveProduct.error) {
       console.log('error', responseRemoveProduct.error);
     } else {

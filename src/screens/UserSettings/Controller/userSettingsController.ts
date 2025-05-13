@@ -75,18 +75,18 @@ export const userSettingsController = () => {
   };
 
   const handleEditLang = async (lang: string) => {
-    const responseEditLang = await editLanguage(user, lang);
+    const responseEditLang = await editLanguage(lang);
     console.log('responseEditLang', responseEditLang);
   };
 
   const handleEditTheme = async (theme: string) => {
-    const responseEditTheme = await editTheme(user, theme);
+    const responseEditTheme = await editTheme(theme);
     console.log('responseEditTheme', responseEditTheme);
   };
 
   const handleEditListView = async (listView: string) => {
     setSelectedOption(listView);
-    const responseListView = await editListView(user, listView);
+    const responseListView = await editListView(listView);
     console.log('responseListView', responseListView);
   };
 

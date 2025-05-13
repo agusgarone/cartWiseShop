@@ -11,22 +11,26 @@ export const AuthContext = createContext<AuthContextType | null>(null);
 const AuthProvider = ({children}: any) => {
   const [session, setSession] = useState<any>(null);
   const [lastActiveTime, setLastActiveTime] = useState(Date.now());
-  const MAX_INACTIVITY_TIME = 2 * 60 * 1000;
+  // const MAX_INACTIVITY_TIME = 2 * 60 * 1000;
 
   useEffect(() => {
-    const getSession = async () => {
+    const initSession = async () => {
       const {data, error} = await supabase.auth.getSession();
       if (error) console.error('❌ Error obteniendo sesión:', error);
       setSession(data?.session ?? null);
     };
 
-    getSession();
-  }, []);
+    initSession();
 
-  useEffect(() => {
     const {data: authListener} = supabase.auth.onAuthStateChange(
-      (_event, session) => {
-        setSession(session);
+      (event, session) => {
+        console.log('🔄 Supabase auth event:', event);
+        if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') {
+          setSession(session);
+        }
+        if (event === 'SIGNED_OUT') {
+          setSession(null);
+        }
       },
     );
 
@@ -45,15 +49,18 @@ const AuthProvider = ({children}: any) => {
     };
   }, []);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (session && Date.now() - lastActiveTime > MAX_INACTIVITY_TIME) {
-        supabase.auth.signOut();
-      }
-    }, 60 * 1000);
+  // * Esta funcion tiene que cerrar la sesion del usuario cuando se cumple el MAX_INACTIVITY_TIME en modo BACKGROUND
+  // Opción: cerrar sesión manualmente tras inactividad
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     if (session && Date.now() - lastActiveTime > MAX_INACTIVITY_TIME) {
+  //       console.log('Cerrar sesion por inactividad');
+  //       supabase.auth.signOut();
+  //     }
+  //   }, 60 * 1000);
 
-    return () => clearInterval(interval);
-  }, [session, lastActiveTime]);
+  //   return () => clearInterval(interval);
+  // }, [session, lastActiveTime]);
 
   return (
     <AuthContext.Provider value={{session}}>{children}</AuthContext.Provider>

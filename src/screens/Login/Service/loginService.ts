@@ -51,17 +51,17 @@ export const signInWithGoogle = async () => {
   }
 };
 
-export const editLanguage = async (user: any, lang: string) => {
-  const responseUpdateLanguage = await updateLanguage(user, lang);
+export const editLanguage = async (lang: string) => {
+  const responseUpdateLanguage = await updateLanguage(lang);
   return responseUpdateLanguage;
 };
 
-export const editTheme = async (user: any, theme: string) => {
-  const responseUpdateTheme = await updateTheme(user, theme);
+export const editTheme = async (theme: string) => {
+  const responseUpdateTheme = await updateTheme(theme);
   return responseUpdateTheme;
 };
 
-export const editListView = async (user: any, listView: string) => {
-  const responseUpdateListView = await updateListView(user, listView);
+export const editListView = async (listView: string) => {
+  const responseUpdateListView = await updateListView(listView);
   return responseUpdateListView;
 };

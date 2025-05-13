@@ -6,8 +6,6 @@ import {Alert, Keyboard} from 'react-native';
 import {categories} from '../../../data-mock';
 import {createProduct} from '../../../services/Product';
 import {IProductSupabase} from '../../../models/types/product';
-import {StorageService} from '../../../storage/asyncStorage';
-import {FirebaseAuthTypes} from '@react-native-firebase/auth';
 
 export const createProductController = () => {
   const navigation = useContext(NavigationContext);
@@ -35,12 +33,7 @@ export const createProductController = () => {
         id_category:
           categories.find(category => category.id === values.category)?.id || 1,
       };
-      console.log('new product', newProduct);
-      const userAuthenticated: FirebaseAuthTypes.User =
-        await StorageService.getItem('userAuthenticated');
-      console.log('🧪 supabase.auth.getSession():');
-      const response = await createProduct(newProduct);
-      console.log('response', response);
+      await createProduct(newProduct);
       Keyboard.dismiss();
       actions.resetForm();
       navigation?.goBack();

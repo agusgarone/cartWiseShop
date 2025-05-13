@@ -19,10 +19,7 @@ export const listDetailController = () => {
       'userAuthenticated',
     );
     setUser(userAuthenticated);
-    const responseFetchListById = await fetchListById(
-      parseInt(id, 10),
-      userAuthenticated.uid,
-    );
+    const responseFetchListById = await fetchListById(parseInt(id, 10));
     if (responseFetchListById.error) {
       console.log(responseFetchListById.error);
       Alert.alert('¡Esta lista no existe!');
@@ -31,65 +28,13 @@ export const listDetailController = () => {
       if (responseFetchListById.data) {
         setListSelected(
           mapperListSupabaseToForm(responseFetchListById.data[0]),
-          // {
-          //   id: 1,
-          //   created_at: '2024-03-07T12:00:00Z',
-          //   name: 'Lista de Compras Semanal',
-          //   products: {
-          //     101: {
-          //       id: 101,
-          //       name: 'Leche',
-          //       category: {
-          //         id: 2539,
-          //         name: 'Almacén',
-          //       },
-          //       isChecked: false,
-          //     },
-          //     102: {
-          //       id: 102,
-          //       name: 'Pan',
-          //       category: {
-          //         id: 6993,
-          //         name: 'Panadería',
-          //       },
-          //       isChecked: false,
-          //     },
-          //     103: {
-          //       id: 103,
-          //       name: 'Manzanas',
-          //       category: {
-          //         id: 4479,
-          //         name: 'Frutas y Verduras',
-          //       },
-          //       isChecked: false,
-          //     },
-          //     104: {
-          //       id: 104,
-          //       name: 'Detergente',
-          //       category: {
-          //         id: 8332,
-          //         name: 'Limpieza',
-          //       },
-          //       isChecked: false,
-          //     },
-          //     105: {
-          //       id: 105,
-          //       name: 'Yogur',
-          //       category: {
-          //         id: 9522,
-          //         name: 'Lácteos y productos frescos',
-          //       },
-          //       isChecked: false,
-          //     },
-          //   },
-          // },
         );
       }
     }
   };
 
-  const handleDeleteList = async (listId: number, userUid: string) => {
-    const responseRemoveList = await removeList(listId, userUid);
+  const handleDeleteList = async (listId: number) => {
+    const responseRemoveList = await removeList(listId);
     if (responseRemoveList.error) {
       console.log(responseRemoveList.error);
     } else {
@@ -110,8 +55,7 @@ export const listDetailController = () => {
         {
           text: 'OK',
           onPress: () => {
-            const userUid = '';
-            handleDeleteList(list.id, userUid);
+            handleDeleteList(list.id);
             navigation?.navigate('MainTabs', {screen: 'Home'});
           },
         },

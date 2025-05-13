@@ -10,12 +10,12 @@ export const createProduct = async (productData: IProductSupabase) => {
   return responseInsertProduct;
 };
 
-export const removeProduct = async (productId: number, userUid: string) => {
-  const responseDeleteProduct = await deleteProduct(productId, userUid);
+export const removeProduct = async (productId: number) => {
+  const responseDeleteProduct = await deleteProduct(productId);
   return responseDeleteProduct;
 };
 
-export const fetchProducts = async (filters: any, uidUser: string) => {
-  const responseGetProducts = await getProducts(filters, uidUser);
+export const fetchProducts = async (filters: any) => {
+  const responseGetProducts = await getProducts(filters);
   return responseGetProducts;
 };
