@@ -4,7 +4,7 @@ import {StorageService} from '../../../storage/asyncStorage';
 import {Alert} from 'react-native';
 import {fetchListById, removeList} from '../../../services/List';
 import {IProductForm} from '../../../models/types/product';
-import {IListDTO, IListForm} from '../../../models/types/list';
+import {IListForm} from '../../../models/types/list';
 import {mapperListSupabaseToForm} from '../../../models/mappers/mapperListSupabaseToForm';
 import {User} from '../../../models/types/user';
 
@@ -42,7 +42,7 @@ export const listDetailController = () => {
     }
   };
 
-  const DialogDeleteList = (list: IListDTO<IProductForm>) =>
+  const DialogDeleteList = (list: IListForm<IProductForm>) =>
     Alert.alert(
       `¡Atención!`,
       `Va a eliminar la lista con nombre: ${list.name}`,
@@ -67,7 +67,7 @@ export const listDetailController = () => {
     // Puedes añadir más lógica aquí, como mostrar un mensaje, enviar datos, etc.
   };
 
-  const handleButtonDelete = (list: IListDTO<IProductForm>) =>
+  const handleButtonDelete = (list: IListForm<IProductForm>) =>
     DialogDeleteList(list);
 
   const goHome = () => navigation?.navigate('MainDrawer');

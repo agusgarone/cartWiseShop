@@ -40,8 +40,6 @@ export const getProducts = async (filters: {
 const getUserUid = async () => {
   const {data: session} = await supabase.auth.getSession();
 
-  console.log('session', session);
-
   const userUid = session?.session?.user?.id;
 
   if (!userUid) {

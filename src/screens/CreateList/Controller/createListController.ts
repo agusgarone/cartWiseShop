@@ -11,6 +11,7 @@ import {createList, editList, fetchListById} from '../../../services/List';
 import {IProductDTO} from '../../../models/types/product';
 import {mapperListDTOToSupabase} from '../../../models/mappers/mapperListDTOToSupabase';
 import {mapperListSupabaseToDTO} from '../../../models/mappers/mapperListSupabaseToDTO';
+import {formatDateToISO} from '../../../common/utils/formatDateISO';
 
 export const createListController = () => {
   const navigation = useContext(NavigationContext);
@@ -66,7 +67,7 @@ export const createListController = () => {
         await editList(currentList, newValues);
       } else {
         const newList: IListDTO<IProductDTO> = {
-          created_at: moment().format('DD-MM-YYYY'),
+          created_at: formatDateToISO(new Date()),
           name: values.name,
           products: products ?? [],
           id: Math.floor(Math.random() * 900000) + 100000,

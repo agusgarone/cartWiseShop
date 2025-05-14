@@ -35,7 +35,7 @@ export const loginController = () => {
           console.log('Usuario creado con Exito');
         }
       }
-      await StorageService.setItem('userAuthenticated', user.user);
+      await StorageService.setItem('userAuthenticated', responseFetchUser.data);
       navigation?.navigate('MainDrawer');
     } catch (error) {
       console.error('❌ Error al iniciar sesión:', error);
@@ -52,7 +52,6 @@ export const loginController = () => {
         throw new Error('❌ Error al loguearse en Supabase');
       }
       const responseFetchUser = await fetchUserById();
-      console.log('response fetchUserById', responseFetchUser);
 
       if (responseFetchUser.error) {
         console.log('Error verificando usuario en supabase');
@@ -65,7 +64,7 @@ export const loginController = () => {
       }
 
       console.log('El usuario existe en supabase');
-      await StorageService.setItem('userAuthenticated', user.user);
+      await StorageService.setItem('userAuthenticated', responseFetchUser.data);
       navigation?.navigate('MainDrawer');
     } catch (error) {
       console.error('❌ Error al iniciar sesión:', error);

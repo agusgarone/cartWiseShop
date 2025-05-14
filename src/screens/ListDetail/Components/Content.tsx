@@ -2,12 +2,11 @@ import React, {useEffect} from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import List from '../../../components/List';
 import theme from '../../../common/theme';
-import {FieldArray, Formik} from 'formik';
-import {IListDTO} from '../../../models/types/list';
+import {Formik} from 'formik';
+import {IListForm} from '../../../models/types/list';
 import RenderProduct from './RenderProducts';
 import {IProductDTO, IProductForm} from '../../../models/types/product';
 import {Trash} from 'lucide-react-native';
-import Separated from './ListView/Separated';
 import {User} from '../../../models/types/user';
 
 const Content = ({
@@ -21,25 +20,13 @@ const Content = ({
   id: string;
   user: User | undefined;
   getListByID: (id: string) => Promise<void>;
-  handleButtonDelete: (list: IListDTO<IProductForm>) => void;
+  handleButtonDelete: (list: IListForm<IProductForm>) => void;
   handleAllSelected: () => void;
-  listSelected: IListDTO<IProductForm> | null;
+  listSelected: IListForm<IProductForm> | null;
 }) => {
   useEffect(() => {
     getListByID(id);
   }, [id]);
-
-  const _renderProducts = ({
-    item,
-    index,
-  }: {
-    item: IProductDTO;
-    index: number;
-  }) => {
-    return (
-      <RenderProduct item={item} index={index} key={`${item.id}${index}`} />
-    );
-  };
 
   return (
     <View style={styles.centeredView}>
@@ -67,26 +54,26 @@ const Content = ({
                 if (allSelected && Object.keys(values.products).length > 0) {
                   handleAllSelected();
                 }
-              }, [values.products]);
+              }, [
+                Object.values(values.products)
+                  .map(p => p.isChecked)
+                  .join(','),
+              ]);
+
+              // if (user && user.listView === 'separated') {
+              //   return (
+              //     <Separated
+              //       data={mapProductsArrayToObject(
+              //         Object.values(values.products),
+              //       )}
+              //       render={_renderProducts}
+              //     />
+              //   );
+              // }
               return (
-                <FieldArray
-                  name="products"
-                  render={() => {
-                    if (user && user.listView === 'separated') {
-                      return (
-                        <Separated
-                          data={Object.values(values.products)}
-                          render={_renderProducts}
-                        />
-                      );
-                    }
-                    return (
-                      <List
-                        data={Object.values(values.products)}
-                        render={_renderProducts}
-                      />
-                    );
-                  }}
+                <List
+                  data={Object.values(values.products)}
+                  render={_renderProducts}
                 />
               );
             }}
@@ -95,6 +82,10 @@ const Content = ({
       </View>
     </View>
   );
+};
+
+const _renderProducts = ({item, index}: {item: IProductDTO; index: number}) => {
+  return <RenderProduct item={item} index={index} key={`${item.id}${index}`} />;
 };
 
 const styles = StyleSheet.create({

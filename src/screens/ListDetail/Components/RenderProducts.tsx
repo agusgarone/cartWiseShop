@@ -6,7 +6,7 @@ import CheckBox from '@react-native-community/checkbox';
 import {IProductDTO} from '../../../models/types/product';
 
 const RenderProduct = ({item, index}: {index: number; item: IProductDTO}) => {
-  const [field, meta, helpers] = useField(`products.${item.id}.isChecked`);
+  const [field, , helpers] = useField(`products.${index}.isChecked`);
   return (
     <TouchableOpacity
       style={style.view}

@@ -1,4 +1,4 @@
-import {useCallback, useContext, useState} from 'react';
+import {useCallback, useContext, useEffect, useState} from 'react';
 import {NavigationContext, useFocusEffect} from '@react-navigation/native';
 import {IListDTO} from '../../../models/types/list';
 import {fetchLists} from '../../../services/List';
