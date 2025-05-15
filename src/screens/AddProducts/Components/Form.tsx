@@ -18,7 +18,7 @@ const BottomSheetForm = ({
   useEffect(() => {
     const timeoutId = setTimeout(() => {
       handleFormikSubmit({textSearched: query});
-    }, 500);
+    }, 1000);
     return () => clearTimeout(timeoutId);
   }, [query]);
 

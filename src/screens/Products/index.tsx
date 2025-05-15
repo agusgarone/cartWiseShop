@@ -16,6 +16,7 @@ import {
   DrawerScreenProps,
 } from '@react-navigation/drawer';
 import {IProductDTO} from '../../models/types/product';
+import Loader from '../../components/Loader';
 
 type ProductsProps = {
   NavMainTabs?: DrawerNavigationProp<any, 'MainTabs', undefined>;
@@ -23,7 +24,7 @@ type ProductsProps = {
 };
 
 const Products = ({NavMainTabs, NavProduct}: ProductsProps) => {
-  const {allProducts, goToCreateProduct, handleDeleteProduct} =
+  const {allProducts, goToCreateProduct, handleDeleteProduct, loading} =
     productsController();
 
   const _renderProducts = ({item}: {item: IProductDTO}) => {
@@ -54,19 +55,28 @@ const Products = ({NavMainTabs, NavProduct}: ProductsProps) => {
             </View>
           </View>
           <View style={Style.containerList}>
-            <FlatList
-              style={{paddingVertical: 5}}
-              data={allProducts}
-              renderItem={_renderProducts}
-              ListEmptyComponent={() => (
-                <View style={Style.noProducts}>
-                  <Text style={Style.text}>¡No hay productos!</Text>
-                </View>
-              )}
-              ListFooterComponent={() => (
-                <View style={Style.marginListFooter}></View>
-              )}
-            />
+            {loading ? (
+              <Loader />
+            ) : (
+              <FlatList
+                style={{paddingVertical: 5}}
+                data={allProducts}
+                renderItem={_renderProducts}
+                ListEmptyComponent={() => {
+                  if (loading) {
+                    return null;
+                  }
+                  return (
+                    <View style={Style.noProducts}>
+                      <Text style={Style.text}>¡No hay productos!</Text>
+                    </View>
+                  );
+                }}
+                ListFooterComponent={() => (
+                  <View style={Style.marginListFooter}></View>
+                )}
+              />
+            )}
           </View>
           <View style={Style.containerButton}>
             <Button

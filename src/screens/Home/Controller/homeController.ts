@@ -11,6 +11,7 @@ export const homeController = () => {
   const [list, setList] = useState<IListDTO<IProductDTO>[]>([]);
   const navigation = useContext(NavigationContext);
   const [user, setUser] = useState<User>();
+  const [loading, setLoading] = useState(false);
 
   const navigateToListDetail = (id: string) => {
     navigation?.navigate('ListDetail', {id: id});
@@ -34,6 +35,7 @@ export const homeController = () => {
   );
 
   const loadList = async () => {
+    setLoading(true);
     const userAuthenticated: User = await StorageService.getItem(
       'userAuthenticated',
     );
@@ -43,6 +45,7 @@ export const homeController = () => {
     } else {
       setList(mapperListsSupabaseToDTO(responseFetchList.data));
       setUser(userAuthenticated);
+      setLoading(false);
     }
   };
 
@@ -52,5 +55,6 @@ export const homeController = () => {
     navigateToEditList,
     navigateToUserSettings,
     user,
+    loading,
   };
 };

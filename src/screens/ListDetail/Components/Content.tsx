@@ -8,6 +8,7 @@ import RenderProduct from './RenderProducts';
 import {IProductDTO, IProductForm} from '../../../models/types/product';
 import {Trash} from 'lucide-react-native';
 import {User} from '../../../models/types/user';
+import Loader from '../../../components/Loader';
 
 const Content = ({
   id,
@@ -16,6 +17,7 @@ const Content = ({
   handleButtonDelete,
   listSelected,
   user,
+  loading,
 }: {
   id: string;
   user: User | undefined;
@@ -23,6 +25,7 @@ const Content = ({
   handleButtonDelete: (list: IListForm<IProductForm>) => void;
   handleAllSelected: () => void;
   listSelected: IListForm<IProductForm> | null;
+  loading: boolean;
 }) => {
   useEffect(() => {
     getListByID(id);
@@ -30,56 +33,60 @@ const Content = ({
 
   return (
     <View style={styles.centeredView}>
-      <View style={styles.containerResult}>
-        <View style={styles.containerTitle}>
-          <Text style={styles.title}>{listSelected?.name}</Text>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => listSelected && handleButtonDelete(listSelected)}>
-            <Trash color={theme.colors.white} size={25} />
-          </TouchableOpacity>
-        </View>
-        <View style={styles.containerList}>
-          <Formik
-            enableReinitialize
-            initialValues={{
-              products: listSelected?.products || [],
-            }}
-            onSubmit={values => console.log(values)}>
-            {({values}) => {
-              useEffect(() => {
-                const allSelected = Object.values(values.products).every(
-                  product => product.isChecked,
-                );
-                if (allSelected && Object.keys(values.products).length > 0) {
-                  handleAllSelected();
-                }
-              }, [
-                Object.values(values.products)
-                  .map(p => p.isChecked)
-                  .join(','),
-              ]);
+      {loading ? (
+        <Loader />
+      ) : (
+        <View style={styles.containerResult}>
+          <View style={styles.containerTitle}>
+            <Text style={styles.title}>{listSelected?.name}</Text>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => listSelected && handleButtonDelete(listSelected)}>
+              <Trash color={theme.colors.white} size={25} />
+            </TouchableOpacity>
+          </View>
+          <View style={styles.containerList}>
+            <Formik
+              enableReinitialize
+              initialValues={{
+                products: listSelected?.products || [],
+              }}
+              onSubmit={values => console.log(values)}>
+              {({values}) => {
+                useEffect(() => {
+                  const allSelected = Object.values(values.products).every(
+                    product => product.isChecked,
+                  );
+                  if (allSelected && Object.keys(values.products).length > 0) {
+                    handleAllSelected();
+                  }
+                }, [
+                  Object.values(values.products)
+                    .map(p => p.isChecked)
+                    .join(','),
+                ]);
 
-              // if (user && user.listView === 'separated') {
-              //   return (
-              //     <Separated
-              //       data={mapProductsArrayToObject(
-              //         Object.values(values.products),
-              //       )}
-              //       render={_renderProducts}
-              //     />
-              //   );
-              // }
-              return (
-                <List
-                  data={Object.values(values.products)}
-                  render={_renderProducts}
-                />
-              );
-            }}
-          </Formik>
+                // if (user && user.listView === 'separated') {
+                //   return (
+                //     <Separated
+                //       data={mapProductsArrayToObject(
+                //         Object.values(values.products),
+                //       )}
+                //       render={_renderProducts}
+                //     />
+                //   );
+                // }
+                return (
+                  <List
+                    data={Object.values(values.products)}
+                    render={_renderProducts}
+                  />
+                );
+              }}
+            </Formik>
+          </View>
         </View>
-      </View>
+      )}
     </View>
   );
 };

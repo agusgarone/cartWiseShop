@@ -10,13 +10,16 @@ export const productsController = () => {
   const navigation = useContext(NavigationContext);
   const products: IProductDTO[] = GlobalStateService.getProductsSelected();
   const [allProducts, setAllProducts] = useState<IProductDTO[]>(products);
+  const [loading, setLoading] = useState(false);
 
   const fetchData = async (filters?: any) => {
+    setLoading(true);
     const responseGetAllProducts = await fetchProducts(filters);
     if (responseGetAllProducts.error) {
       console.log(responseGetAllProducts.error);
     } else {
       setAllProducts(mapperProductSupabaseToDTO(responseGetAllProducts.data));
+      setLoading(false);
     }
   };
 
@@ -42,7 +45,6 @@ export const productsController = () => {
     if (responseRemoveProduct.error) {
       console.log('error', responseRemoveProduct.error);
     } else {
-      // * fetch registros actualizados
       fetchData();
     }
   };
@@ -66,5 +68,6 @@ export const productsController = () => {
     allProducts,
     goToCreateProduct,
     handleDeleteProduct,
+    loading,
   };
 };

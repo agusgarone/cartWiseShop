@@ -13,8 +13,11 @@ export const listDetailController = () => {
     useState<IListForm<IProductForm> | null>(null);
   const [user, setUser] = useState<User>();
   const navigation = useContext(NavigationContext);
+  const [showConfetti, setShowConfetti] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const getListByID = async (id: string) => {
+    setLoading(true);
     const userAuthenticated: User = await StorageService.getItem(
       'userAuthenticated',
     );
@@ -29,6 +32,7 @@ export const listDetailController = () => {
         setListSelected(
           mapperListSupabaseToForm(responseFetchListById.data[0]),
         );
+        setLoading(false);
       }
     }
   };
@@ -64,7 +68,7 @@ export const listDetailController = () => {
 
   const handleAllSelected = () => {
     console.log('¡Todos los elementos están seleccionados!');
-    // Puedes añadir más lógica aquí, como mostrar un mensaje, enviar datos, etc.
+    setShowConfetti(true);
   };
 
   const handleButtonDelete = (list: IListForm<IProductForm>) =>
@@ -78,5 +82,8 @@ export const listDetailController = () => {
     getListByID,
     handleButtonDelete,
     handleAllSelected,
+    setShowConfetti,
+    showConfetti,
+    loading,
   };
 };

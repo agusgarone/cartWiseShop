@@ -8,6 +8,7 @@ import theme from '../../common/theme';
 import {homeController} from './Controller/homeController';
 import {IProductDTO} from '../../models/types/product';
 import ProfileButton from '../../components/ProfileButton';
+import Loader from '../../components/Loader';
 
 const Home = () => {
   const {
@@ -16,6 +17,7 @@ const Home = () => {
     navigateToEditList,
     navigateToUserSettings,
     user,
+    loading,
   } = homeController();
 
   const _renderList = ({item}: {item: IListDTO<IProductDTO>}) => {
@@ -43,7 +45,7 @@ const Home = () => {
           key={'Header'}
         />
         <View style={Style.content}>
-          <List data={list} render={_renderList} />
+          {loading ? <Loader /> : <List data={list} render={_renderList} />}
         </View>
       </View>
     </SafeAreaView>

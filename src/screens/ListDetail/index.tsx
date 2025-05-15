@@ -3,6 +3,7 @@ import {SafeAreaView, StyleSheet} from 'react-native';
 import theme from '../../common/theme';
 import Content from './Components/Content';
 import {listDetailController} from './Controller/listDetailController';
+import ConfettiCannon from 'react-native-confetti-cannon';
 
 const ListDetail = ({route}: any) => {
   const {key, name, params} = route;
@@ -12,6 +13,9 @@ const ListDetail = ({route}: any) => {
     getListByID,
     handleButtonDelete,
     handleAllSelected,
+    setShowConfetti,
+    showConfetti,
+    loading,
   } = listDetailController();
 
   return (
@@ -23,7 +27,18 @@ const ListDetail = ({route}: any) => {
         handleButtonDelete={handleButtonDelete}
         listSelected={listSelected}
         user={user}
+        loading={loading}
       />
+      {showConfetti && (
+        <ConfettiCannon
+          count={200}
+          origin={{x: -10, y: 0}}
+          fadeOut={true}
+          explosionSpeed={350}
+          fallSpeed={3000}
+          onAnimationEnd={() => setShowConfetti(false)}
+        />
+      )}
     </SafeAreaView>
   );
 };

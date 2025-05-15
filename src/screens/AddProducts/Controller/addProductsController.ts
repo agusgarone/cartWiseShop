@@ -12,6 +12,7 @@ export const addProductsController = () => {
   const products: IProductDTO[] = GlobalStateService.getProductsSelected();
   const [productsSelected, setProductsSelected] =
     useState<IProductDTO[]>(products);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     loadProducts();
@@ -42,6 +43,7 @@ export const addProductsController = () => {
   };
 
   const loadProducts = async () => {
+    setLoading(true);
     const filters = undefined;
     const responseGetAllProducts = await fetchProducts(filters);
     if (responseGetAllProducts.error) {
@@ -52,6 +54,7 @@ export const addProductsController = () => {
       GlobalStateService.setValuesSearched(
         mapperProductSupabaseToDTO(responseGetAllProducts.data),
       );
+      setLoading(false);
     }
   };
 
@@ -72,5 +75,6 @@ export const addProductsController = () => {
     onPress,
     handleButton,
     handleFormikSubmit,
+    loading,
   };
 };

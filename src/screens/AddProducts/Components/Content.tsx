@@ -6,17 +6,20 @@ import List from '../../../components/List';
 import RenderProduct from './RenderProducts';
 import {GlobalStateService} from '../../../services/globalStates';
 import {IProductDTO} from '../../../models/types/product';
+import Loader from '../../../components/Loader';
 
 const Content = ({
   handleButton,
   onPress,
   productsSelected,
   handleFormikSubmit,
+  loading,
 }: {
   productsSelected: IProductDTO[];
   handleButton: () => void;
   onPress: ({item}: {item: IProductDTO}) => void;
   handleFormikSubmit: (values: {textSearched: string}) => Promise<void>;
+  loading: boolean;
 }) => {
   const _renderProducts = ({item}: {item: IProductDTO}) => {
     const findProd = productsSelected.find(prod => prod.id === item.id);
@@ -34,10 +37,14 @@ const Content = ({
       />
       <View style={styles.containerResult}>
         <View style={styles.containerList}>
-          <List
-            data={GlobalStateService.getValuesSearched()}
-            render={_renderProducts}
-          />
+          {loading ? (
+            <Loader />
+          ) : (
+            <List
+              data={GlobalStateService.getValuesSearched()}
+              render={_renderProducts}
+            />
+          )}
         </View>
         <View style={styles.containerButton}>
           <Button type="primary" onPress={handleButton}>

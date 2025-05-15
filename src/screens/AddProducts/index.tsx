@@ -5,7 +5,7 @@ import theme from '../../common/theme';
 import {addProductsController} from './Controller/addProductsController';
 
 const AddProducts = () => {
-  const {handleButton, handleFormikSubmit, onPress, productsSelected} =
+  const {handleButton, handleFormikSubmit, onPress, productsSelected, loading} =
     addProductsController();
 
   return (
@@ -15,6 +15,7 @@ const AddProducts = () => {
         handleFormikSubmit={handleFormikSubmit}
         onPress={onPress}
         productsSelected={productsSelected}
+        loading={loading}
       />
     </SafeAreaView>
   );
