@@ -4,6 +4,7 @@ import {supabase} from './supabase';
 
 interface AuthContextType {
   session: any | null;
+  loading: boolean;
 }
 
 export const AuthContext = createContext<AuthContextType | null>(null);
@@ -11,6 +12,7 @@ export const AuthContext = createContext<AuthContextType | null>(null);
 const AuthProvider = ({children}: any) => {
   const [session, setSession] = useState<any>(null);
   const [lastActiveTime, setLastActiveTime] = useState(Date.now());
+  const [loading, setLoading] = useState(true);
   // const MAX_INACTIVITY_TIME = 2 * 60 * 1000;
 
   useEffect(() => {
@@ -18,6 +20,7 @@ const AuthProvider = ({children}: any) => {
       const {data, error} = await supabase.auth.getSession();
       if (error) console.error('❌ Error obteniendo sesión:', error);
       setSession(data?.session ?? null);
+      setLoading(false);
     };
 
     initSession();
@@ -63,7 +66,9 @@ const AuthProvider = ({children}: any) => {
   // }, [session, lastActiveTime]);
 
   return (
-    <AuthContext.Provider value={{session}}>{children}</AuthContext.Provider>
+    <AuthContext.Provider value={{session, loading}}>
+      {children}
+    </AuthContext.Provider>
   );
 };
 

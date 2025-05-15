@@ -7,6 +7,7 @@ import Login from '../screens/Login';
 import {useContext, useEffect} from 'react';
 import {AuthContext} from './AuthProvider';
 import UserSettings from '../screens/UserSettings';
+import Loader from '../components/Loader';
 
 export type StackParamList = {
   Login: undefined;
@@ -15,6 +16,7 @@ export type StackParamList = {
   AddProducts: undefined;
   CreateProduct: undefined;
   UserSettings: undefined;
+  Loader: undefined;
 };
 
 const Stack = createStackNavigator<StackParamList>();
@@ -24,6 +26,13 @@ function StackNavigator() {
 
   return (
     <Stack.Navigator initialRouteName="Login">
+      {auth?.loading && (
+        <Stack.Screen
+          name="Loader"
+          component={Loader}
+          options={{headerShown: false}}
+        />
+      )}
       {!auth?.session && (
         <Stack.Screen
           name="Login"
