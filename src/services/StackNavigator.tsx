@@ -96,7 +96,7 @@ function StackNavigator() {
         name="UserSettings"
         component={UserSettings}
         options={{
-          title: 'Configurarión',
+          title: 'Configuración',
           headerStyle: {
             backgroundColor: theme.stack.background,
           },
