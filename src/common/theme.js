@@ -108,6 +108,11 @@ const light = {
     activeTabColor: '#39bd5c',
     background: '#FFF',
   },
+  stack: {
+    icon: '#000000',
+    background: '#FFF',
+    titleScreen: '#000000',
+  },
 };
 
 const dark = {
@@ -219,6 +224,11 @@ const dark = {
     icon: '#747b76',
     activeTabColor: '#34c95c',
     background: '#1E1E1E',
+  },
+  stack: {
+    icon: '#ffffff',
+    background: '#1E1E1E',
+    titleScreen: '#ffffff',
   },
 };
 

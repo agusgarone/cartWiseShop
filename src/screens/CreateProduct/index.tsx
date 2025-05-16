@@ -1,10 +1,14 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {View, StyleSheet, SafeAreaView} from 'react-native';
 import CreateProductForm from './Components/Form';
+import {ThemeContext} from '../../services/ThemeProvider';
 
 const CreateProduct = ({route}: any) => {
+  const {theme} = useContext(ThemeContext);
+
   return (
-    <SafeAreaView style={Style.screen}>
+    <SafeAreaView
+      style={[Style.screen, {backgroundColor: theme.backgroundScreen}]}>
       <View style={Style.content}>
         <CreateProductForm />
       </View>

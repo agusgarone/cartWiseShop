@@ -8,6 +8,7 @@ import {useContext, useEffect} from 'react';
 import {AuthContext} from './AuthProvider';
 import UserSettings from '../screens/UserSettings';
 import Loader from '../components/Loader';
+import {ThemeContext} from './ThemeProvider';
 
 export type StackParamList = {
   Login: undefined;
@@ -22,6 +23,7 @@ export type StackParamList = {
 const Stack = createStackNavigator<StackParamList>();
 
 function StackNavigator() {
+  const {theme} = useContext(ThemeContext);
   const auth = useContext(AuthContext);
 
   return (
@@ -45,10 +47,66 @@ function StackNavigator() {
         component={DrawerNavigator}
         options={{headerShown: false}}
       />
-      <Stack.Screen name="ListDetail" component={ListDetail} />
-      <Stack.Screen name="AddProducts" component={AddProducts} />
-      <Stack.Screen name="CreateProduct" component={CreateProduct} />
-      <Stack.Screen name="UserSettings" component={UserSettings} />
+      <Stack.Screen
+        name="ListDetail"
+        component={ListDetail}
+        options={{
+          title: 'Detalle de lista',
+          headerStyle: {
+            backgroundColor: theme.stack.background,
+          },
+          headerTintColor: theme.stack.titleScreen,
+          headerTitleStyle: {
+            fontWeight: '600',
+            color: theme.stack.icon,
+          },
+        }}
+      />
+      <Stack.Screen
+        name="AddProducts"
+        component={AddProducts}
+        options={{
+          title: 'Añadir productos',
+          headerStyle: {
+            backgroundColor: theme.stack.background,
+          },
+          headerTintColor: theme.stack.titleScreen,
+          headerTitleStyle: {
+            fontWeight: '600',
+            color: theme.stack.icon,
+          },
+        }}
+      />
+      <Stack.Screen
+        name="CreateProduct"
+        component={CreateProduct}
+        options={{
+          title: 'Crear producto',
+          headerStyle: {
+            backgroundColor: theme.stack.background,
+          },
+          headerTintColor: theme.stack.titleScreen,
+          headerTitleStyle: {
+            fontWeight: '600',
+            color: theme.stack.icon,
+          },
+        }}
+      />
+      <Stack.Screen
+        name="UserSettings"
+        component={UserSettings}
+        options={{
+          title: 'Configurarión',
+          headerStyle: {
+            backgroundColor: theme.stack.background,
+          },
+          headerTintColor: theme.stack.titleScreen,
+          headerTitleStyle: {
+            fontWeight: '600',
+            color: theme.stack.icon,
+          },
+        }}
+      />
     </Stack.Navigator>
   );
 }

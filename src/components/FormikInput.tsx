@@ -50,7 +50,7 @@ export const FormikInputValue = ({
         <TextInput
           onFocus={() => setFocus(true)}
           onBlur={() => setFocus(false)}
-          style={{flex: 1}}
+          style={{flex: 1, color: theme.input.color}}
           placeholder={placeholder}
           placeholderTextColor={theme.input.placeHolder}
           value={field.value}

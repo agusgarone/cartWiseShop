@@ -25,7 +25,6 @@ const UserSettings = () => {
     handleChangeViewList,
   } = userSettingsController();
   const {theme} = useContext(ThemeContext);
-
   return (
     <SafeAreaView style={Style.screen}>
       <View
@@ -43,14 +42,14 @@ const UserSettings = () => {
           <View style={Style.infoUser}>
             <Text
               style={[Style.nameGoogle, {color: theme.userSettings.nameColor}]}>
-              {'agus garone'}
+              {user?.displayName}
             </Text>
             <Text
               style={[
                 Style.byGoogle,
                 {color: theme.userSettings.descriptionColor},
               ]}>
-              {'Perfil creado con Google'}
+              {`Perfil creado con ${user?.providerId.split('.')[0]}`}
             </Text>
           </View>
           <View style={Style.settingsContainer}>
@@ -86,10 +85,10 @@ const UserSettings = () => {
                 )}
               </TouchableOpacity>
             </View>
-            <PreviewList
+            {/* <PreviewList
               handleChangeViewList={handleChangeViewList}
               selectedOption={selectedOption}
-            />
+            /> */}
           </View>
         </View>
       </View>

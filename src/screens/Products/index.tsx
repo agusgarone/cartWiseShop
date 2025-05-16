@@ -47,7 +47,7 @@ const Products = ({NavMainTabs, NavProduct}: ProductsProps) => {
         <View style={Style.content}>
           <View style={Style.header}>
             <View style={{flexDirection: 'row'}}>
-              <TouchableOpacity
+              {/* <TouchableOpacity
                 style={[
                   Style.action,
                   {backgroundColor: theme.products.buttonFilter.background},
@@ -64,7 +64,7 @@ const Products = ({NavMainTabs, NavProduct}: ProductsProps) => {
                   ]}>
                   Filtros
                 </Text>
-              </TouchableOpacity>
+              </TouchableOpacity> */}
             </View>
           </View>
           <View style={Style.containerList}>
