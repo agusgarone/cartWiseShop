@@ -1,9 +1,10 @@
 import React, {useField} from 'formik';
 import {View, StyleSheet} from 'react-native';
 import theme from '../common/theme';
-import {useState} from 'react';
+import {useContext, useState} from 'react';
 import {Picker} from '@react-native-picker/picker';
 import {ICategory} from '../models/types/category';
+import {ThemeContext} from '../services/ThemeProvider';
 
 interface IFormikInputValue {
   name: string;
@@ -18,7 +19,8 @@ export const FormikSelectValue = ({
   onChange,
   options,
 }: IFormikInputValue) => {
-  const [field, meta, helpers] = useField(name);
+  const {theme} = useContext(ThemeContext);
+  const [field, , helpers] = useField(name);
   const [focus, setFocus] = useState(false);
 
   const Style = StyleSheet.create({
@@ -27,7 +29,7 @@ export const FormikSelectValue = ({
       display: 'flex',
     },
     container: {
-      borderColor: focus ? theme.colors.primary : 'transparent',
+      borderColor: focus ? theme.select.borderColor : 'transparent',
       borderWidth: 2,
     },
   });
@@ -37,7 +39,7 @@ export const FormikSelectValue = ({
       style={[
         {
           width: '100%',
-          backgroundColor: theme.colors.white,
+          backgroundColor: theme.select.background,
           minHeight: 54,
           borderRadius: 12,
           elevation: 3,
@@ -46,13 +48,13 @@ export const FormikSelectValue = ({
       ]}>
       <Picker
         mode="dialog"
-        dropdownIconRippleColor={theme.colors.black}
-        dropdownIconColor={theme.colors.black}
+        dropdownIconRippleColor={theme.select.dropdownIconRipple}
+        dropdownIconColor={theme.select.dropdownIcon}
         selectedValue={field.value}
         placeholder={placeholder}
         onValueChange={value => helpers.setValue(value)}
         style={{
-          color: theme.colors.black,
+          color: theme.select.color,
         }}
         onFocus={() => setFocus(true)}
         onBlur={() => setFocus(false)}>

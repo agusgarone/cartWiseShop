@@ -1,14 +1,14 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import Header from '../../components/Header';
 import List from '../../components/List';
 import RenderList from './Components/RenderList';
 import {IListDTO} from '../../models/types/list';
-import theme from '../../common/theme';
 import {homeController} from './Controller/homeController';
 import {IProductDTO} from '../../models/types/product';
 import ProfileButton from '../../components/ProfileButton';
 import Loader from '../../components/Loader';
+import {ThemeContext} from '../../services/ThemeProvider';
 
 const Home = () => {
   const {
@@ -19,6 +19,7 @@ const Home = () => {
     user,
     loading,
   } = homeController();
+  const {theme} = useContext(ThemeContext);
 
   const _renderList = ({item}: {item: IListDTO<IProductDTO>}) => {
     return (
@@ -31,10 +32,11 @@ const Home = () => {
   };
 
   return (
-    <SafeAreaView style={Style.screen}>
+    <SafeAreaView
+      style={[Style.screen, {backgroundColor: theme.backgroundScreen}]}>
       <View style={Style.home}>
         <Header
-          center={<Text style={Style.text}>ShopListApp</Text>}
+          center={<Text style={{color: theme.home.color}}>ShopListApp</Text>}
           left={
             <ProfileButton
               onPress={navigateToUserSettings}
@@ -63,9 +65,6 @@ const Style = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 16,
     paddingVertical: 32,
-  },
-  text: {
-    color: theme.colors.grey,
   },
 });
 

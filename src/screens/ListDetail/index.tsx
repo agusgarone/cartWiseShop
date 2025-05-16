@@ -1,11 +1,12 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {SafeAreaView, StyleSheet} from 'react-native';
-import theme from '../../common/theme';
 import Content from './Components/Content';
 import {listDetailController} from './Controller/listDetailController';
 import ConfettiCannon from 'react-native-confetti-cannon';
+import {ThemeContext} from '../../services/ThemeProvider';
 
 const ListDetail = ({route}: any) => {
+  const {theme} = useContext(ThemeContext);
   const {key, name, params} = route;
   const {
     user,
@@ -19,7 +20,8 @@ const ListDetail = ({route}: any) => {
   } = listDetailController();
 
   return (
-    <SafeAreaView style={Style.screen}>
+    <SafeAreaView
+      style={[Style.screen, {backgroundColor: theme.backgroundScreen}]}>
       <Content
         id={params?.id}
         getListByID={getListByID}
@@ -46,9 +48,6 @@ const ListDetail = ({route}: any) => {
 const Style = StyleSheet.create({
   screen: {
     flex: 1,
-  },
-  text: {
-    color: theme.colors.grey,
   },
 });
 

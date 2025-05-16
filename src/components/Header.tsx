@@ -1,5 +1,6 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {View, StyleSheet, Platform} from 'react-native';
+import {ThemeContext} from '../services/ThemeProvider';
 
 interface IHeader {
   left: React.JSX.Element;
@@ -8,8 +9,16 @@ interface IHeader {
 }
 
 const Header = ({left, center, right}: IHeader) => {
+  const {theme} = useContext(ThemeContext);
   return (
-    <View style={[styles.structure]}>
+    <View
+      style={[
+        styles.structure,
+        {
+          shadowColor: theme.header.shadow,
+          backgroundColor: theme.header.background,
+        },
+      ]}>
       <View style={styles.sides}>{left}</View>
       <View style={styles.center}>{center}</View>
       <View style={styles.sides}>{right}</View>
@@ -28,7 +37,6 @@ const styles = StyleSheet.create({
     alignContent: 'center',
     paddingHorizontal: 24,
     elevation: 5,
-    shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 4,

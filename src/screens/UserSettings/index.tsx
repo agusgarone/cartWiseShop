@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {
   Image,
   SafeAreaView,
@@ -12,6 +12,7 @@ import {userSettingsController} from './Controller/userSettingsController';
 import {Moon, Sun} from 'lucide-react-native';
 import PreviewList from './Components/PreviewList';
 import CountryFlag from 'react-native-country-flag';
+import {ThemeContext} from '../../services/ThemeProvider';
 
 const UserSettings = () => {
   const {
@@ -23,22 +24,44 @@ const UserSettings = () => {
     handleChangeLanguage,
     handleChangeViewList,
   } = userSettingsController();
+  const {theme} = useContext(ThemeContext);
+
   return (
     <SafeAreaView style={Style.screen}>
-      <View style={Style.home}>
-        <View style={Style.content}>
+      <View
+        style={[Style.home, {backgroundColor: theme.userSettings.background}]}>
+        <View
+          style={[
+            Style.content,
+            {backgroundColor: theme.userSettings.backgroundDiv},
+          ]}>
           <View style={Style.containerImage}>
             {user?.photoURL && (
               <Image source={{uri: user?.photoURL}} style={Style.image} />
             )}
           </View>
           <View style={Style.infoUser}>
-            <Text style={Style.nameGoogle}>{'agus garone'}</Text>
-            <Text style={Style.byGoogle}>{'Perfil creado con Google'}</Text>
+            <Text
+              style={[Style.nameGoogle, {color: theme.userSettings.nameColor}]}>
+              {'agus garone'}
+            </Text>
+            <Text
+              style={[
+                Style.byGoogle,
+                {color: theme.userSettings.descriptionColor},
+              ]}>
+              {'Perfil creado con Google'}
+            </Text>
           </View>
           <View style={Style.settingsContainer}>
             <View style={Style.itemSetting}>
-              <Text style={Style.itemSettingText}>Idioma</Text>
+              <Text
+                style={[
+                  Style.itemSettingText,
+                  {color: theme.userSettings.itemSettingColor},
+                ]}>
+                Idioma
+              </Text>
               <TouchableOpacity onPress={handleChangeLanguage}>
                 <CountryFlag
                   isoCode={lang === 'en' ? 'us' : lang.toLowerCase()}
@@ -48,12 +71,18 @@ const UserSettings = () => {
               </TouchableOpacity>
             </View>
             <View style={Style.itemSetting}>
-              <Text style={Style.itemSettingText}>Tema de la app</Text>
+              <Text
+                style={[
+                  Style.itemSettingText,
+                  {color: theme.userSettings.itemSettingColor},
+                ]}>
+                Tema de la app
+              </Text>
               <TouchableOpacity onPress={handleChangeTheme}>
                 {themeApp === 'light' ? (
-                  <Sun color={theme.colors.black} />
+                  <Sun color={theme.userSettings.iconColor} />
                 ) : (
-                  <Moon color={theme.colors.black} />
+                  <Moon color={theme.userSettings.iconColor} />
                 )}
               </TouchableOpacity>
             </View>
@@ -76,13 +105,11 @@ const Style = StyleSheet.create({
     flex: 1,
     display: 'flex',
     justifyContent: 'space-around',
-    backgroundColor: theme.colors.primary,
     paddingTop: '25%',
   },
   content: {
     flex: 1,
     display: 'flex',
-    backgroundColor: 'white',
     borderTopRightRadius: 32,
     borderTopLeftRadius: 32,
     paddingHorizontal: 24,
@@ -92,7 +119,6 @@ const Style = StyleSheet.create({
     height: 100,
     borderRadius: 99,
     overflow: 'hidden',
-    backgroundColor: 'red',
     position: 'relative',
     top: -40,
     alignSelf: 'center',
@@ -111,11 +137,9 @@ const Style = StyleSheet.create({
   },
   nameGoogle: {
     fontSize: theme.fontSize.xxxl,
-    color: theme.colors.black,
   },
   byGoogle: {
     fontSize: theme.fontSize.l,
-    color: theme.colors.grey,
   },
   settingsContainer: {
     display: 'flex',
@@ -129,7 +153,6 @@ const Style = StyleSheet.create({
   },
   itemSettingText: {
     fontSize: theme.fontSize.xl,
-    color: theme.colors.black,
   },
 });
 

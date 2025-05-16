@@ -76,14 +76,12 @@ const renderTabBar = (
 ) => (
   <TabBar
     {...props}
-    indicatorStyle={{backgroundColor: theme.colors.black}}
-    style={{backgroundColor: theme.colors.whiteInput}}
+    indicatorStyle={{backgroundColor: theme.light.black}}
+    style={{backgroundColor: theme.light.whiteInput}}
     activeColor={
-      props.navigationState.index === 0
-        ? theme.colors.red
-        : theme.colors.primary
+      props.navigationState.index === 0 ? theme.light.red : theme.light.primary
     }
-    inactiveColor={theme.colors.black}
+    inactiveColor={theme.light.black}
   />
 );
 

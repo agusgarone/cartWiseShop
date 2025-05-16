@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {
   View,
   Text,
@@ -8,6 +8,7 @@ import {
   ViewStyle,
 } from 'react-native';
 import theme from '../common/theme';
+import {ThemeContext} from '../services/ThemeProvider';
 
 interface IButton {
   isDisabled?: boolean;
@@ -18,10 +19,10 @@ interface IButton {
 }
 
 const Button = ({children, onPress, isDisabled, type, icon}: IButton) => {
+  const {theme} = useContext(ThemeContext);
   const buttonStyles: StyleProp<ViewStyle> = [
     {
-      backgroundColor:
-        type === 'primary' ? theme.colors.primary : theme.colors.white,
+      backgroundColor: theme.button.background,
     },
     icon && {display: 'flex', flexDirection: 'row', gap: 10},
     styles.button,
@@ -36,8 +37,7 @@ const Button = ({children, onPress, isDisabled, type, icon}: IButton) => {
         {icon && icon}
         <Text
           style={{
-            color:
-              type === 'primary' ? theme.colors.white : theme.colors.primary,
+            color: theme.button.text,
           }}>
           {children}
         </Text>
@@ -60,9 +60,6 @@ const styles = StyleSheet.create({
     letterSpacing: 0.25,
     marginBottom: 1,
   },
-  // disabledOpacity: {
-  //   opacity: 0.5,
-  // },
 });
 
 export default Button;

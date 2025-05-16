@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useContext, useEffect} from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import List from '../../../components/List';
 import theme from '../../../common/theme';
@@ -9,6 +9,7 @@ import {IProductDTO, IProductForm} from '../../../models/types/product';
 import {Trash} from 'lucide-react-native';
 import {User} from '../../../models/types/user';
 import Loader from '../../../components/Loader';
+import {ThemeContext} from '../../../services/ThemeProvider';
 
 const Content = ({
   id,
@@ -27,6 +28,7 @@ const Content = ({
   listSelected: IListForm<IProductForm> | null;
   loading: boolean;
 }) => {
+  const {theme} = useContext(ThemeContext);
   useEffect(() => {
     getListByID(id);
   }, [id]);
@@ -38,11 +40,16 @@ const Content = ({
       ) : (
         <View style={styles.containerResult}>
           <View style={styles.containerTitle}>
-            <Text style={styles.title}>{listSelected?.name}</Text>
+            <Text style={[styles.title, {color: theme.listDetail.titleColor}]}>
+              {listSelected?.name}
+            </Text>
             <TouchableOpacity
-              style={styles.button}
+              style={[
+                styles.button,
+                {backgroundColor: theme.listDetail.button.background},
+              ]}
               onPress={() => listSelected && handleButtonDelete(listSelected)}>
-              <Trash color={theme.colors.white} size={25} />
+              <Trash color={theme.listDetail.button.icon} size={25} />
             </TouchableOpacity>
           </View>
           <View style={styles.containerList}>
@@ -117,13 +124,11 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   title: {
-    color: theme.colors.black,
     fontSize: theme.fontSize.xxl,
     fontWeight: '700',
     maxWidth: '70%',
   },
   button: {
-    backgroundColor: theme.colors.grey,
     paddingHorizontal: 16,
     paddingVertical: 4,
     borderRadius: 8,

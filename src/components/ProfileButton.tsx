@@ -1,7 +1,7 @@
 import {View} from 'lucide-react-native';
-import React from 'react';
+import React, {useContext} from 'react';
 import {TouchableOpacity, Image, StyleSheet} from 'react-native';
-import theme from '../common/theme';
+import {ThemeContext} from '../services/ThemeProvider';
 
 interface ProfileButtonProps {
   imageUrl: string;
@@ -9,12 +9,18 @@ interface ProfileButtonProps {
 }
 
 const ProfileButton = ({imageUrl, onPress}: ProfileButtonProps) => {
+  const {theme} = useContext(ThemeContext);
   return (
     <TouchableOpacity style={styles.container} onPress={onPress}>
       {imageUrl ? (
         <Image source={{uri: imageUrl}} style={styles.image} />
       ) : (
-        <View style={[styles.image, styles.background]} />
+        <View
+          style={[
+            styles.image,
+            {backgroundColor: theme.profileButton.background},
+          ]}
+        />
       )}
     </TouchableOpacity>
   );
@@ -30,9 +36,6 @@ const styles = StyleSheet.create({
   image: {
     width: '100%',
     height: '100%',
-  },
-  background: {
-    backgroundColor: theme.colors.grey,
   },
 });
 

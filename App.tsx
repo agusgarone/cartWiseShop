@@ -4,14 +4,17 @@ import {NavigationContainer} from '@react-navigation/native';
 import StackNavigator from './src/services/StackNavigator';
 import 'react-native-url-polyfill/auto';
 import AuthProvider from './src/services/AuthProvider';
+import ThemeProvider from './src/services/ThemeProvider';
 
 function App(): React.JSX.Element {
   return (
     <GestureHandlerRootView style={{flex: 1}}>
       <AuthProvider>
-        <NavigationContainer>
-          <StackNavigator />
-        </NavigationContainer>
+        <ThemeProvider>
+          <NavigationContainer>
+            <StackNavigator />
+          </NavigationContainer>
+        </ThemeProvider>
       </AuthProvider>
     </GestureHandlerRootView>
   );

@@ -1,7 +1,7 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {StyleSheet, Text, TouchableOpacity} from 'react-native';
-import theme from '../../../common/theme';
 import {IProductDTO} from '../../../models/types/product';
+import {ThemeContext} from '../../../services/ThemeProvider';
 
 const RenderProduct = ({
   item,
@@ -12,19 +12,25 @@ const RenderProduct = ({
   item: IProductDTO;
   onPress: ({item}: {item: IProductDTO}) => void;
 }) => {
+  const {theme} = useContext(ThemeContext);
   return (
     <TouchableOpacity
       style={[
         style.view,
         isSelected
-          ? {backgroundColor: theme.colors.primary}
-          : {backgroundColor: theme.colors.white},
+          ? {
+              backgroundColor:
+                theme.addProducts.renderProduct.backgroundSelected,
+            }
+          : {backgroundColor: theme.addProducts.renderProduct.background},
       ]}
       onPress={() => onPress({item})}>
       <Text
         style={[
           style.text,
-          isSelected ? {color: theme.colors.white} : {color: theme.colors.grey},
+          isSelected
+            ? {color: theme.addProducts.renderProduct.colorSelected}
+            : {color: theme.addProducts.renderProduct.color},
         ]}>
         {item.name}
       </Text>
@@ -44,7 +50,6 @@ const style = StyleSheet.create({
     elevation: 2,
   },
   text: {
-    color: theme.colors.grey,
     paddingVertical: 16,
     paddingHorizontal: 16,
   },

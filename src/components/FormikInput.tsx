@@ -1,7 +1,8 @@
 import React, {useField} from 'formik';
 import {View, StyleSheet, TextInput} from 'react-native';
 import theme from '../common/theme';
-import {useState} from 'react';
+import {useContext, useState} from 'react';
+import {ThemeContext} from '../services/ThemeProvider';
 
 interface IFormikInputValue {
   name: string;
@@ -14,6 +15,7 @@ export const FormikInputValue = ({
   placeholder,
   onChange,
 }: IFormikInputValue) => {
+  const {theme} = useContext(ThemeContext);
   const [field, meta, helpers] = useField(name);
   const [focus, setFocus] = useState(false);
 
@@ -24,14 +26,14 @@ export const FormikInputValue = ({
     },
     container: {
       flex: 1,
-      color: theme.colors.black,
+      color: theme.input.color,
       flexDirection: 'row',
       alignItems: 'center',
-      borderColor: focus ? theme.colors.primary : 'transparent',
+      borderColor: focus ? theme.input.borderColor : 'transparent',
       width: '100%',
       borderWidth: 2,
       borderRadius: 12,
-      backgroundColor: theme.colors.white,
+      backgroundColor: theme.input.background,
       paddingHorizontal: 16,
       justifyContent: 'space-between',
       elevation: 3,
@@ -48,9 +50,9 @@ export const FormikInputValue = ({
         <TextInput
           onFocus={() => setFocus(true)}
           onBlur={() => setFocus(false)}
-          style={{flex: 1, color: theme.colors.black}}
+          style={{flex: 1}}
           placeholder={placeholder}
-          placeholderTextColor={theme.colors.grey}
+          placeholderTextColor={theme.input.placeHolder}
           value={field.value}
           onChangeText={(value: any) => {
             helpers.setTouched(value.trim() !== meta.initialValue.trim());

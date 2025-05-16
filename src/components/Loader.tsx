@@ -1,11 +1,12 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {View, ActivityIndicator, StyleSheet} from 'react-native';
-import theme from '../common/theme';
+import {ThemeContext} from '../services/ThemeProvider';
 
 const Loader = () => {
+  const {theme} = useContext(ThemeContext);
   return (
     <View style={styles.container}>
-      <ActivityIndicator size="large" color={theme.colors.primary} />
+      <ActivityIndicator size="large" color={theme.loader.color} />
     </View>
   );
 };

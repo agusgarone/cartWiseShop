@@ -14,7 +14,7 @@ const RenderProduct = ({item, index}: {index: number; item: ICategory}) => {
         onValueChange={newValue => {
           helpers.setValue(newValue);
         }}
-        trackColor={{true: theme.colors.primary, false: theme.colors.grey}}
+        trackColor={{true: theme.light.primary, false: theme.light.grey}}
       />
     </View>
   );
@@ -30,7 +30,7 @@ const style = StyleSheet.create({
     alignItems: 'center',
   },
   text: {
-    color: theme.colors.grey,
+    color: theme.light.grey,
     paddingVertical: 6,
     width: '75%',
   },

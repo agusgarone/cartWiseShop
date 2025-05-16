@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 16,
-    color: theme.colors.black,
+    color: theme.light.black,
   },
   filterRow: {
     flexDirection: 'row',
@@ -44,6 +44,6 @@ const styles = StyleSheet.create({
   },
   filterText: {
     fontSize: 16,
-    color: theme.colors.black,
+    color: theme.light.black,
   },
 });

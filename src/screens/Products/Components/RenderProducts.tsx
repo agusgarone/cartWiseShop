@@ -1,8 +1,8 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {StyleSheet, Text, TouchableOpacity} from 'react-native';
-import theme from '../../../common/theme';
 import {IProductDTO} from '../../../models/types/product';
 import {Trash} from 'lucide-react-native';
+import {ThemeContext} from '../../../services/ThemeProvider';
 
 const RenderProduct = ({
   item,
@@ -13,17 +13,26 @@ const RenderProduct = ({
   item: IProductDTO;
   onPress: ({item}: {item: IProductDTO}) => void;
 }) => {
+  const {theme} = useContext(ThemeContext);
+
   return (
-    <TouchableOpacity style={style.view} onPress={() => onPress({item})}>
+    <TouchableOpacity
+      style={[
+        style.view,
+        {backgroundColor: theme.products.renderProduct.background},
+      ]}
+      onPress={() => onPress({item})}>
       <Text
         style={[
           style.text,
-          isSelected ? {color: theme.colors.white} : {color: theme.colors.grey},
+          isSelected
+            ? {color: theme.products.renderProduct.colorSelected}
+            : {color: theme.products.renderProduct.color},
         ]}>
         {item.name}
       </Text>
       <Trash
-        color={theme.colors.grey}
+        color={theme.products.renderProduct.icon}
         size={25}
         onPress={() => onPress({item})}
       />
@@ -33,7 +42,6 @@ const RenderProduct = ({
 
 const style = StyleSheet.create({
   view: {
-    backgroundColor: theme.colors.white,
     marginHorizontal: 3,
     marginTop: 2,
     marginBottom: 5,
@@ -46,7 +54,6 @@ const style = StyleSheet.create({
     paddingRight: 16,
   },
   text: {
-    color: theme.colors.grey,
     paddingVertical: 16,
     paddingHorizontal: 16,
   },

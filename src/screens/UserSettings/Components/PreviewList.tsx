@@ -50,7 +50,7 @@ const PreviewList = ({
             <Text
               style={[
                 styles.optionTitle,
-                selectedOption === option.id && {color: theme.colors.white},
+                selectedOption === option.id && {color: theme.light.white},
               ]}>
               {option.title}
             </Text>
@@ -67,7 +67,7 @@ const PreviewList = ({
           <View
             style={[
               styles.previewBox,
-              {backgroundColor: theme.colors.primaryOpacity},
+              {backgroundColor: theme.light.primaryOpacity},
             ]}>
             <Text style={styles.previewSubtitle}>Pendientes</Text>
             <FlatList
@@ -81,7 +81,7 @@ const PreviewList = ({
           <View
             style={[
               styles.previewBox,
-              {backgroundColor: theme.colors.redOpacity},
+              {backgroundColor: theme.light.redOpacity},
             ]}>
             <Text style={styles.previewSubtitle}>Comprados</Text>
             <FlatList
@@ -99,14 +99,14 @@ const PreviewList = ({
             ...exampleList.filter(item => !item.checked),
             ...exampleList.filter(item => item.checked),
           ]}
-          style={[styles.previewList, {backgroundColor: theme.colors.white}]}
+          style={[styles.previewList, {backgroundColor: theme.light.white}]}
           keyExtractor={item => item.id}
           renderItem={({item}) => (
             <Text
               style={[
                 styles.previewItem,
                 item.checked && styles.completedItem,
-                {color: theme.colors.grey},
+                {color: theme.light.grey},
               ]}>
               {item.name}
             </Text>
@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
   },
   header: {
     fontSize: theme.fontSize.xl,
-    color: theme.colors.black,
+    color: theme.light.black,
     marginBottom: 10,
   },
   option: {
@@ -136,24 +136,24 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   selectedOption: {
-    backgroundColor: theme.colors.primary,
+    backgroundColor: theme.light.primary,
   },
   optionTitle: {
     fontWeight: 'bold',
     fontSize: theme.fontSize.l,
 
-    color: theme.colors.black,
+    color: theme.light.black,
   },
-  optionDescription: {fontSize: 14, color: theme.colors.grey, marginBottom: 20},
+  optionDescription: {fontSize: 14, color: theme.light.grey, marginBottom: 20},
   previewTitle: {fontSize: 18, fontWeight: 'bold', marginTop: 15},
   previewItem: {
     paddingVertical: 5,
     fontSize: 16,
-    color: theme.colors.white,
+    color: theme.light.white,
   },
   completedItem: {
     textDecorationLine: 'line-through',
-    color: theme.colors.black,
+    color: theme.light.black,
   },
   separatedPreview: {
     flexDirection: 'row',
@@ -165,7 +165,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: 'bold',
     marginBottom: 5,
-    color: theme.colors.white,
+    color: theme.light.white,
   },
   previewList: {padding: 10, borderRadius: 16, elevation: 2},
 });

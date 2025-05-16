@@ -1,6 +1,5 @@
 import React from 'react';
 import {View, StyleSheet, SafeAreaView} from 'react-native';
-import theme from '../../common/theme';
 import CreateProductForm from './Components/Form';
 
 const CreateProduct = ({route}: any) => {
@@ -21,9 +20,6 @@ const Style = StyleSheet.create({
     paddingHorizontal: 20,
     display: 'flex',
     flex: 1,
-  },
-  text: {
-    color: theme.colors.grey,
   },
 });
 

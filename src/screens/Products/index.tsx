@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {
   FlatList,
   SafeAreaView,
@@ -17,6 +17,7 @@ import {
 } from '@react-navigation/drawer';
 import {IProductDTO} from '../../models/types/product';
 import Loader from '../../components/Loader';
+import {ThemeContext} from '../../services/ThemeProvider';
 
 type ProductsProps = {
   NavMainTabs?: DrawerNavigationProp<any, 'MainTabs', undefined>;
@@ -24,6 +25,8 @@ type ProductsProps = {
 };
 
 const Products = ({NavMainTabs, NavProduct}: ProductsProps) => {
+  const {theme} = useContext(ThemeContext);
+
   const {allProducts, goToCreateProduct, handleDeleteProduct, loading} =
     productsController();
 
@@ -38,19 +41,29 @@ const Products = ({NavMainTabs, NavProduct}: ProductsProps) => {
   };
 
   return (
-    <SafeAreaView style={Style.screen}>
+    <SafeAreaView
+      style={[Style.screen, {backgroundColor: theme.backgroundScreen}]}>
       <View style={Style.selectList}>
         <View style={Style.content}>
           <View style={Style.header}>
             <View style={{flexDirection: 'row'}}>
               <TouchableOpacity
-                style={Style.action}
+                style={[
+                  Style.action,
+                  {backgroundColor: theme.products.buttonFilter.background},
+                ]}
                 onPress={() =>
                   NavProduct?.navigation
                     ? NavProduct.navigation.openDrawer()
                     : NavMainTabs?.openDrawer()
                 }>
-                <Text style={Style.buttonText}>Filtros</Text>
+                <Text
+                  style={[
+                    Style.buttonText,
+                    {color: theme.products.buttonFilter.color},
+                  ]}>
+                  Filtros
+                </Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -68,7 +81,9 @@ const Products = ({NavMainTabs, NavProduct}: ProductsProps) => {
                   }
                   return (
                     <View style={Style.noProducts}>
-                      <Text style={Style.text}>¡No hay productos!</Text>
+                      <Text style={{color: theme.products.color}}>
+                        ¡No hay productos!
+                      </Text>
                     </View>
                   );
                 }}
@@ -114,22 +129,15 @@ const Style = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 16,
   },
-  delete: {
-    padding: 10,
-    backgroundColor: theme.colors.red,
-    borderRadius: 16,
-  },
   action: {
     padding: 10,
     width: 80,
-    backgroundColor: theme.colors.primary,
     borderRadius: 16,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
   },
   buttonText: {
-    color: theme.colors.white,
     fontSize: theme.fontSize.m,
     fontWeight: '600',
   },
@@ -149,9 +157,6 @@ const Style = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     gap: 16,
-  },
-  text: {
-    color: theme.colors.grey,
   },
   marginListFooter: {
     marginVertical: 20,

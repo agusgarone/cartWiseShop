@@ -1,9 +1,8 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import theme from '../../../common/theme';
-import Icon, {IconType} from 'react-native-dynamic-vector-icons';
 import {IProductDTO} from '../../../models/types/product';
 import {X} from 'lucide-react-native';
+import {ThemeContext} from '../../../services/ThemeProvider';
 
 const RenderProduct = ({
   item,
@@ -12,11 +11,18 @@ const RenderProduct = ({
   item: IProductDTO;
   onPress: (id: number) => void;
 }) => {
+  const {theme} = useContext(ThemeContext);
   return (
-    <View style={style.view}>
-      <Text style={style.text}>{item.name}</Text>
+    <View
+      style={[
+        style.view,
+        {backgroundColor: theme.createList.renderProduct.background},
+      ]}>
+      <Text style={{color: theme.createList.renderProduct.color}}>
+        {item.name}
+      </Text>
       <TouchableOpacity style={style.button} onPress={() => onPress(item.id)}>
-        <X color={theme.colors.grey} size={25} />
+        <X color={theme.createList.renderProduct.icon} size={25} />
       </TouchableOpacity>
     </View>
   );
@@ -24,7 +30,6 @@ const RenderProduct = ({
 
 const style = StyleSheet.create({
   view: {
-    backgroundColor: theme.colors.white,
     marginHorizontal: 3,
     marginTop: 2,
     marginBottom: 5,
@@ -35,9 +40,6 @@ const style = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     elevation: 2,
-  },
-  text: {
-    color: theme.colors.grey,
   },
   button: {
     paddingHorizontal: 12,

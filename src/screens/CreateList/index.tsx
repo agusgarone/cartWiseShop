@@ -1,8 +1,8 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {View, StyleSheet, SafeAreaView} from 'react-native';
-import theme from '../../common/theme';
 import CreateListForm from '../../screens/CreateList/Components/Form';
 import {createListController} from './Controller/createListController';
+import {ThemeContext} from '../../services/ThemeProvider';
 
 const CreateList = () => {
   const {
@@ -12,9 +12,11 @@ const CreateList = () => {
     products,
     removeProductSelected,
   } = createListController();
+  const {theme} = useContext(ThemeContext);
 
   return (
-    <SafeAreaView style={Style.screen}>
+    <SafeAreaView
+      style={[Style.screen, {backgroundColor: theme.backgroundScreen}]}>
       <View style={Style.content}>
         <CreateListForm
           handleFormikSubmit={handleFormikSubmit}
@@ -38,9 +40,6 @@ const Style = StyleSheet.create({
     paddingTop: 32,
     display: 'flex',
     flex: 1,
-  },
-  text: {
-    color: theme.colors.grey,
   },
 });
 

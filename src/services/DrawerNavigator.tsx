@@ -17,7 +17,7 @@ export function DrawerNavigator() {
       drawerContent={props => <CustomDrawerContent {...props} />}
       screenOptions={{
         drawerStyle: {
-          backgroundColor: '#f5f5f5',
+          backgroundColor: 'red',
           width: 300,
           height: '100%',
         },

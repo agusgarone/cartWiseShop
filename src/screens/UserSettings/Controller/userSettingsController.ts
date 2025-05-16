@@ -1,4 +1,4 @@
-import {useCallback, useEffect, useState} from 'react';
+import {useCallback, useContext, useEffect, useState} from 'react';
 import {useFocusEffect} from '@react-navigation/native';
 import {IProductDTO} from '../../../models/types/product';
 import {StorageService} from '../../../storage/asyncStorage';
@@ -8,10 +8,12 @@ import {
   editTheme,
 } from '../../Login/Service/loginService';
 import {User} from '../../../models/types/user';
+import {ThemeContext} from '../../../services/ThemeProvider';
 
 export const userSettingsController = () => {
+  const {mode, setMode} = useContext(ThemeContext);
   const [user, setUser] = useState<User>();
-  const [themeApp, setTheme] = useState<string>('light');
+  const [themeApp, setTheme] = useState<'light' | 'dark'>(mode);
   const [lang, setLang] = useState<string>('es');
   const [selectedOption, setSelectedOption] = useState('original');
 
@@ -24,7 +26,7 @@ export const userSettingsController = () => {
 
   useEffect(() => {
     if (user) {
-      setTheme(user.theme);
+      setTheme(user.theme as 'light' | 'dark');
       setLang(user.language);
       setSelectedOption(user.listView);
     }
@@ -79,8 +81,9 @@ export const userSettingsController = () => {
     console.log('responseEditLang', responseEditLang);
   };
 
-  const handleEditTheme = async (theme: string) => {
+  const handleEditTheme = async (theme: 'light' | 'dark') => {
     const responseEditTheme = await editTheme(theme);
+    setMode(theme);
     console.log('responseEditTheme', responseEditTheme);
   };
 

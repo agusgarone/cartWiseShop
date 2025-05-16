@@ -1,23 +1,35 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {StyleSheet, Text, TouchableOpacity} from 'react-native';
-import theme from '../../../common/theme';
 import {useField} from 'formik';
 import CheckBox from '@react-native-community/checkbox';
 import {IProductDTO} from '../../../models/types/product';
+import {ThemeContext} from '../../../services/ThemeProvider';
 
 const RenderProduct = ({item, index}: {index: number; item: IProductDTO}) => {
   const [field, , helpers] = useField(`products.${index}.isChecked`);
+  const {theme} = useContext(ThemeContext);
   return (
     <TouchableOpacity
-      style={style.view}
+      style={[
+        style.view,
+        {backgroundColor: theme.listDetail.renderProduct.background},
+      ]}
       onPress={() => helpers.setValue(!field.value)}>
-      <Text style={[style.text, field.value ? style.textChecked : null]}>
+      <Text
+        style={[
+          style.text,
+          {color: theme.listDetail.renderProduct.color},
+          field.value ? style.textChecked : null,
+        ]}>
         {item.name}
       </Text>
       <CheckBox
         value={field.value || false}
         onValueChange={newValue => helpers.setValue(newValue)}
-        tintColors={{true: theme.colors.primary, false: theme.colors.grey}}
+        tintColors={{
+          true: theme.listDetail.renderProduct.checkboxTrue,
+          false: theme.listDetail.renderProduct.checkboxFalse,
+        }}
       />
     </TouchableOpacity>
   );
@@ -33,17 +45,14 @@ const style = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor: theme.colors.white,
     elevation: 2,
     paddingHorizontal: 16,
   },
   text: {
-    color: theme.colors.grey,
     paddingVertical: 16,
   },
   textChecked: {
     textDecorationLine: 'line-through',
-    color: theme.colors.grey,
   },
 });
 

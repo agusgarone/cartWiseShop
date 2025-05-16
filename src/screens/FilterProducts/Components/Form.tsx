@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
   },
   filterText: {
     fontSize: 16,
-    color: theme.colors.black,
+    color: theme.light.black,
   },
 });
 

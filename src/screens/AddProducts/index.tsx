@@ -1,15 +1,18 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {SafeAreaView, StyleSheet} from 'react-native';
 import Content from './Components/Content';
-import theme from '../../common/theme';
 import {addProductsController} from './Controller/addProductsController';
+import {ThemeContext} from '../../services/ThemeProvider';
 
 const AddProducts = () => {
+  const {theme} = useContext(ThemeContext);
+
   const {handleButton, handleFormikSubmit, onPress, productsSelected, loading} =
     addProductsController();
 
   return (
-    <SafeAreaView style={Style.screen}>
+    <SafeAreaView
+      style={[Style.screen, {backgroundColor: theme.backgroundScreen}]}>
       <Content
         handleButton={handleButton}
         handleFormikSubmit={handleFormikSubmit}
@@ -24,9 +27,6 @@ const AddProducts = () => {
 const Style = StyleSheet.create({
   screen: {
     flex: 1,
-  },
-  text: {
-    color: theme.colors.grey,
   },
 });
 
