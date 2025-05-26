@@ -1,0 +1,54 @@
+{
+  "addProducts": {
+    "header": "Añadir productos",
+    "inputPlaceHolder": "Buscar producto",
+    "button": "Agregar"
+  },
+  "createList": {
+    "inputPlaceHolder": "Nombre de la lista",
+    "button": "Listo",
+    "emptyText": "¡No hay productos!",
+    "emptyButton": "Agregar productos",
+    "buttonAddProduct": "Añadir producto"
+  },
+  "createProduct": {
+    "header": "Crear producto",
+    "inputPlaceHolder": "Nombre del producto",
+    "selectPlaceHolder": "Categoria del producto",
+    "button": "Aceptar"
+  },
+  "home": {
+    "nameApp": "CartWiseShop",
+    "renderItem": {
+      "createdAt": "Creada el",
+      "product": "producto",
+      "products": "productos"
+    }
+  },
+  "listDetail": {
+    "header": "Detalle de lista"
+  },
+  "login": {
+    "nameApp": "CartWiseShop",
+    "signIn": {
+      "button": "Registrarse con Google",
+      "haveAnAccount": "¿Ya tienes una cuenta?",
+      "logIn": "Iniciar Sesion"
+    },
+    "logIn": {
+      "button": "Iniciar sesion con Google",
+      "dontHaveAccount": "¿No tiene una cuenta?",
+      "logIn": "Registrarse"
+    }
+  },
+  "products": {
+    "emptyText": "¡No hay productos!",
+    "button": "Agregar"
+  },
+  "userSettings": {
+    "header": "Configuración",
+    "profileCreatedWith": "Perfil creado con",
+    "language": "Idioma",
+    "appTheme": "Tema de la app"
+  }
+}

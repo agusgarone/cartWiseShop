@@ -9,6 +9,7 @@ import {
 } from '../../Login/Service/loginService';
 import {User} from '../../../models/types/user';
 import {ThemeContext} from '../../../services/ThemeProvider';
+import i18n from '../../../services/i18n';
 
 export const userSettingsController = () => {
   const {mode, setMode} = useContext(ThemeContext);
@@ -62,16 +63,19 @@ export const userSettingsController = () => {
         setLang('en');
         console.log('EN');
         handleEditLang('en');
+        i18n.changeLanguage('en');
         break;
       case 'en':
         setLang('it');
         console.log('IT');
         handleEditLang('it');
+        i18n.changeLanguage('it');
         break;
       case 'it':
         setLang('es');
         console.log('ES');
         handleEditLang('es');
+        i18n.changeLanguage('es');
         break;
     }
   };

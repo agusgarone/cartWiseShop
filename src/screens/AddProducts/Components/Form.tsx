@@ -3,6 +3,7 @@ import {View, StyleSheet} from 'react-native';
 import {Formik} from 'formik';
 
 import {FormikInputValue} from '../../../components/FormikInput';
+import {useTranslation} from 'react-i18next';
 
 const initialValues = {
   textSearched: '',
@@ -13,6 +14,7 @@ const BottomSheetForm = ({
 }: {
   handleFormikSubmit: (values: {textSearched: string}) => Promise<void>;
 }) => {
+  const {t} = useTranslation();
   const [query, setQuery] = useState('');
 
   useEffect(() => {
@@ -33,7 +35,7 @@ const BottomSheetForm = ({
           <View style={styles.form}>
             <FormikInputValue
               name="textSearched"
-              placeholder={'buscar producto'}
+              placeholder={t('addProducts.inputPlaceHolder')}
               onChange={value => handleInputChange(value)}
             />
           </View>

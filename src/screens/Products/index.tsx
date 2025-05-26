@@ -1,12 +1,5 @@
 import React, {useContext} from 'react';
-import {
-  FlatList,
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {FlatList, SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import theme from '../../common/theme';
 import RenderProduct from './Components/RenderProducts';
 import Button from '../../components/Button';
@@ -18,6 +11,7 @@ import {
 import {IProductDTO} from '../../models/types/product';
 import Loader from '../../components/Loader';
 import {ThemeContext} from '../../services/ThemeProvider';
+import {useTranslation} from 'react-i18next';
 
 type ProductsProps = {
   NavMainTabs?: DrawerNavigationProp<any, 'MainTabs', undefined>;
@@ -25,6 +19,7 @@ type ProductsProps = {
 };
 
 const Products = ({NavMainTabs, NavProduct}: ProductsProps) => {
+  const {t} = useTranslation();
   const {theme} = useContext(ThemeContext);
 
   const {allProducts, goToCreateProduct, handleDeleteProduct, loading} =
@@ -82,7 +77,7 @@ const Products = ({NavMainTabs, NavProduct}: ProductsProps) => {
                   return (
                     <View style={Style.noProducts}>
                       <Text style={{color: theme.products.color}}>
-                        ¡No hay productos!
+                        {t('products.emptyText')}
                       </Text>
                     </View>
                   );
@@ -95,7 +90,7 @@ const Products = ({NavMainTabs, NavProduct}: ProductsProps) => {
           </View>
           <View style={Style.containerButton}>
             <Button
-              children="Agregar"
+              children={t('products.button')}
               isDisabled={false}
               type="primary"
               onPress={goToCreateProduct}

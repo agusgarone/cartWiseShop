@@ -7,6 +7,7 @@ import {
   fetchUserById,
 } from '../Service/loginService';
 import {NavigationContext} from '@react-navigation/native';
+import i18n from '../../../services/i18n';
 
 export const loginController = () => {
   const [isNew, setIsNew] = useState<boolean>(true);
@@ -35,8 +36,7 @@ export const loginController = () => {
           console.log('Usuario creado con Exito');
         }
       }
-      await StorageService.setItem('userAuthenticated', responseFetchUser.data);
-      navigation?.navigate('MainDrawer');
+      await setInitialValues(responseFetchUser.data);
     } catch (error) {
       console.error('❌ Error al iniciar sesión:', error);
     }
@@ -63,12 +63,28 @@ export const loginController = () => {
         throw new Error('El usuario no fue encontrado en la BD');
       }
 
-      console.log('El usuario existe en supabase');
-      await StorageService.setItem('userAuthenticated', responseFetchUser.data);
-      navigation?.navigate('MainDrawer');
+      await setInitialValues(responseFetchUser.data);
     } catch (error) {
       console.error('❌ Error al iniciar sesión:', error);
     }
+  };
+
+  const setInitialValues = async (
+    data: {
+      uid: string;
+      email: string;
+      displayName: string;
+      photoURL: string;
+      providerId: string;
+      createdAt: string;
+      language: string;
+      theme: string;
+      listView: string;
+    } | null,
+  ) => {
+    await StorageService.setItem('userAuthenticated', data);
+    i18n.changeLanguage(data?.language || 'es');
+    navigation?.navigate('MainDrawer');
   };
 
   const handleViewUserLogin = () => {

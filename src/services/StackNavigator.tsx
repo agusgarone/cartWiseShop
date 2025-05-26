@@ -9,6 +9,7 @@ import {AuthContext} from './AuthProvider';
 import UserSettings from '../screens/UserSettings';
 import Loader from '../components/Loader';
 import {ThemeContext} from './ThemeProvider';
+import {useTranslation} from 'react-i18next';
 
 export type StackParamList = {
   Login: undefined;
@@ -23,6 +24,7 @@ export type StackParamList = {
 const Stack = createStackNavigator<StackParamList>();
 
 function StackNavigator() {
+  const {t} = useTranslation();
   const {theme} = useContext(ThemeContext);
   const auth = useContext(AuthContext);
 
@@ -51,7 +53,7 @@ function StackNavigator() {
         name="ListDetail"
         component={ListDetail}
         options={{
-          title: 'Detalle de lista',
+          title: t('listDetail.header'),
           headerStyle: {
             backgroundColor: theme.stack.background,
           },
@@ -66,7 +68,7 @@ function StackNavigator() {
         name="AddProducts"
         component={AddProducts}
         options={{
-          title: 'Añadir productos',
+          title: t('addProducts.header'),
           headerStyle: {
             backgroundColor: theme.stack.background,
           },
@@ -81,7 +83,7 @@ function StackNavigator() {
         name="CreateProduct"
         component={CreateProduct}
         options={{
-          title: 'Crear producto',
+          title: t('createProduct.header'),
           headerStyle: {
             backgroundColor: theme.stack.background,
           },
@@ -96,7 +98,7 @@ function StackNavigator() {
         name="UserSettings"
         component={UserSettings}
         options={{
-          title: 'Configuración',
+          title: t('userSettings.header'),
           headerStyle: {
             backgroundColor: theme.stack.background,
           },

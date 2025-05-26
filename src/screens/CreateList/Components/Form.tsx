@@ -6,6 +6,7 @@ import Button from '../../../components/Button';
 import {Content} from './Content';
 import RenderProduct from './RenderProducts';
 import {IProductDTO} from '../../../models/types/product';
+import {useTranslation} from 'react-i18next';
 
 const CreateListForm = ({
   goToAddProducts,
@@ -29,6 +30,7 @@ const CreateListForm = ({
   products: IProductDTO[];
   removeProductSelected: (id: number) => void;
 }) => {
+  const {t} = useTranslation();
   const _renderProducts = ({item}: {item: IProductDTO}) => {
     return <RenderProduct item={item} onPress={removeProductSelected} />;
   };
@@ -44,7 +46,7 @@ const CreateListForm = ({
             <View style={{marginTop: 16}}>
               <FormikInputValue
                 name="name"
-                placeholder={'Nombre de la lista'}
+                placeholder={t('createList.inputPlaceHolder')}
                 onChange={() => null}
               />
             </View>
@@ -56,7 +58,7 @@ const CreateListForm = ({
               />
               <View style={styles.containerButton}>
                 <Button
-                  children="Listo"
+                  children={t('createList.button')}
                   isDisabled={false}
                   type="primary"
                   onPress={handleSubmit}

@@ -1,0 +1,54 @@
+{
+  "addProducts": {
+    "header": "Add products",
+    "inputPlaceHolder": "Search product",
+    "button": "Add"
+  },
+  "createList": {
+    "inputPlaceHolder": "List name",
+    "button": "Done",
+    "emptyText": "No products!",
+    "emptyButton": "Add products",
+    "buttonAddProduct": "Add product"
+  },
+  "createProduct": {
+    "header": "Create product",
+    "inputPlaceHolder": "Product name",
+    "selectPlaceHolder": "Product category",
+    "button": "Accept"
+  },
+  "home": {
+    "nameApp": "CartWiseShop",
+    "renderItem": {
+      "createdAt": "Created on",
+      "product": "product",
+      "products": "products"
+    }
+  },
+  "listDetail": {
+    "header": "List detail"
+  },
+  "login": {
+    "nameApp": "CartWiseShop",
+    "signIn": {
+      "button": "Sign up with Google",
+      "haveAnAccount": "Already have an account?",
+      "logIn": "Log in"
+    },
+    "logIn": {
+      "button": "Log in with Google",
+      "dontHaveAccount": "Don't have an account?",
+      "logIn": "Sign up"
+    }
+  },
+  "products": {
+    "emptyText": "No products!",
+    "button": "Add"
+  },
+  "userSettings": {
+    "header": "Settings",
+    "profileCreatedWith": "Profile created with",
+    "language": "Language",
+    "appTheme": "App theme"
+  }
+}

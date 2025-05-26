@@ -7,6 +7,7 @@ import RenderProduct from './RenderProducts';
 import {GlobalStateService} from '../../../services/globalStates';
 import {IProductDTO} from '../../../models/types/product';
 import Loader from '../../../components/Loader';
+import {useTranslation} from 'react-i18next';
 
 const Content = ({
   handleButton,
@@ -21,6 +22,7 @@ const Content = ({
   handleFormikSubmit: (values: {textSearched: string}) => Promise<void>;
   loading: boolean;
 }) => {
+  const {t} = useTranslation();
   const _renderProducts = ({item}: {item: IProductDTO}) => {
     const findProd = productsSelected.find(prod => prod.id === item.id);
     const isSelected = findProd !== undefined;
@@ -48,7 +50,7 @@ const Content = ({
         </View>
         <View style={styles.containerButton}>
           <Button type="primary" onPress={handleButton}>
-            {'Agregar'}
+            {t('addProducts.button')}
           </Button>
         </View>
       </View>

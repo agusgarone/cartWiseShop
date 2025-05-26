@@ -4,8 +4,10 @@ import {loginController} from './Controller/loginController';
 import {SignIn} from './Components/SignIn';
 import {LoginUser} from './Components/LogInUser';
 import {ThemeContext} from '../../services/ThemeProvider';
+import {useTranslation} from 'react-i18next';
 
 export default function Login() {
+  const {t} = useTranslation();
   const {theme} = useContext(ThemeContext);
   const {isNew, handleSigninGoogle, handleViewUserLogin, handleLoginGoogle} =
     loginController();
@@ -22,7 +24,7 @@ export default function Login() {
               alignItems: 'center',
             }}>
             <Text style={[style.nameApp, {color: theme.login.color}]}>
-              Cart Wise Shop
+              {t('login.nameApp')}
             </Text>
           </View>
           {isNew ? (

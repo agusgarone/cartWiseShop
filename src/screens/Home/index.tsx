@@ -9,6 +9,7 @@ import {IProductDTO} from '../../models/types/product';
 import ProfileButton from '../../components/ProfileButton';
 import Loader from '../../components/Loader';
 import {ThemeContext} from '../../services/ThemeProvider';
+import {useTranslation} from 'react-i18next';
 
 const Home = () => {
   const {
@@ -19,6 +20,7 @@ const Home = () => {
     user,
     loading,
   } = homeController();
+  const {t} = useTranslation();
   const {theme} = useContext(ThemeContext);
 
   const _renderList = ({item}: {item: IListDTO<IProductDTO>}) => {
@@ -36,7 +38,9 @@ const Home = () => {
       style={[Style.screen, {backgroundColor: theme.backgroundScreen}]}>
       <View style={Style.home}>
         <Header
-          center={<Text style={{color: theme.home.color}}>ShopListApp</Text>}
+          center={
+            <Text style={{color: theme.home.color}}>{t('home.nameApp')}</Text>
+          }
           left={
             <ProfileButton
               onPress={navigateToUserSettings}

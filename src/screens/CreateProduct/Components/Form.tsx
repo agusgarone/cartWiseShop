@@ -6,8 +6,10 @@ import Button from '../../../components/Button';
 import {createProductController} from '../Controller/createProductController';
 import {FormikSelectValue} from '../../../components/FormikSelect';
 import {categories} from '../../../data-mock';
+import {useTranslation} from 'react-i18next';
 
 const CreateProductForm = () => {
+  const {t} = useTranslation();
   const {handleFormikSubmit, initialValues} = createProductController();
 
   return (
@@ -22,12 +24,12 @@ const CreateProductForm = () => {
             <View style={{marginTop: 32, display: 'flex', gap: 32}}>
               <FormikInputValue
                 name="name"
-                placeholder={'Nombre del producto'}
+                placeholder={t('createProduct.inputPlaceHolder')}
                 onChange={() => null}
               />
               <FormikSelectValue
                 name="category"
-                placeholder={'Categoria del producto'}
+                placeholder={t('createProduct.selectPlaceHolder')}
                 onChange={() => null}
                 options={categories}
               />
@@ -35,7 +37,7 @@ const CreateProductForm = () => {
             <View style={styles.containerResult}>
               <View style={styles.containerButton}>
                 <Button
-                  children="Aceptar"
+                  children={t('createProduct.button')}
                   isDisabled={false}
                   type="primary"
                   onPress={handleSubmit}

@@ -1,0 +1,48 @@
+{
+  "addProducts": {
+    "inputPlaceHolder": "Cerca prodotto",
+    "button": "Aggiungi"
+  },
+  "createList": {
+    "inputPlaceHolder": "Nome della lista",
+    "button": "Fatto",
+    "emptyText": "Nessun prodotto!",
+    "emptyButton": "Aggiungi prodotti",
+    "buttonAddProduct": "Aggiungi prodotto"
+  },
+  "createProduct": {
+    "inputPlaceHolder": "Nome del prodotto",
+    "selectPlaceHolder": "Categoria del prodotto",
+    "button": "Accetta"
+  },
+  "home": {
+    "nameApp": "CartWiseShop",
+    "renderItem": {
+      "createdAt": "Creata il",
+      "product": "prodotto",
+      "products": "prodotti"
+    }
+  },
+  "login": {
+    "nameApp": "CartWiseShop",
+    "signIn": {
+      "button": "Registrati con Google",
+      "haveAnAccount": "Hai già un account?",
+      "logIn": "Accedi"
+    },
+    "logIn": {
+      "button": "Accedi con Google",
+      "dontHaveAccount": "Non hai un account?",
+      "logIn": "Registrati"
+    }
+  },
+  "products": {
+    "emptyText": "Nessun prodotto!",
+    "button": "Aggiungi"
+  },
+  "userSettings": {
+    "profileCreatedWith": "Profilo creato con",
+    "language": "Lingua",
+    "appTheme": "Tema dell'app"
+  }
+}

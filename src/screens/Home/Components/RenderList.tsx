@@ -4,6 +4,7 @@ import {IListDTO} from '../../../models/types/list';
 import theme from '../../../common/theme';
 import {IProductDTO} from '../../../models/types/product';
 import {ThemeContext} from '../../../services/ThemeProvider';
+import {useTranslation} from 'react-i18next';
 
 const RenderList = ({
   item,
@@ -14,6 +15,7 @@ const RenderList = ({
   navigateToListDetail: (id: string) => void;
   navigateToEditList: (id: string) => void;
 }) => {
+  const {t} = useTranslation();
   const {theme} = useContext(ThemeContext);
   return (
     <TouchableOpacity
@@ -32,13 +34,18 @@ const RenderList = ({
           {color: theme.home.renderProduct.subtitleColor},
         ]}>
         {`${item.products.length} ${
-          item.products.length === 1 ? 'producto' : 'productos'
+          item.products.length === 1
+            ? t('home.renderItem.product')
+            : t('home.renderItem.products')
         }`}
       </Text>
       <Text
         style={{
           color: theme.home.renderProduct.subtitleColor,
-        }}>{`Creada el ${item.created_at}`}</Text>
+        }}>
+        {t('home.renderItem.createdAt')}
+        {` ${item.created_at}`}
+      </Text>
     </TouchableOpacity>
   );
 };

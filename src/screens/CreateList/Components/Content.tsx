@@ -1,9 +1,9 @@
 import React, {useContext} from 'react';
 import {FlatList, StyleSheet, Text, View} from 'react-native';
 import Button from '../../../components/Button';
-import theme from '../../../common/theme';
 import {IProductDTO} from '../../../models/types/product';
 import {ThemeContext} from '../../../services/ThemeProvider';
+import {useTranslation} from 'react-i18next';
 
 export const Content = ({
   _renderProducts,
@@ -14,6 +14,7 @@ export const Content = ({
   goToAddProducts: () => void | undefined;
   products: IProductDTO[];
 }) => {
+  const {t} = useTranslation();
   const {theme} = useContext(ThemeContext);
   return (
     <>
@@ -25,10 +26,10 @@ export const Content = ({
           ListEmptyComponent={() => (
             <View style={Style.noProducts}>
               <Text style={{color: theme.createList.listEmpty.color}}>
-                ¡No hay productos!
+                {t('createList.emptyText')}
               </Text>
               <Button
-                children="Agregar productos"
+                children={t('createList.emptyButton')}
                 isDisabled={false}
                 type="primary"
                 onPress={goToAddProducts}
@@ -41,7 +42,7 @@ export const Content = ({
               return (
                 <View style={{marginTop: 4}}>
                   <Button
-                    children="Agregar producto"
+                    children={t('createList.buttonAddProduct')}
                     isDisabled={false}
                     type="primary"
                     onPress={goToAddProducts}

@@ -3,6 +3,7 @@ import Icon, {IconType} from 'react-native-dynamic-vector-icons';
 import Button from '../../../components/Button';
 import {useContext} from 'react';
 import {ThemeContext} from '../../../services/ThemeProvider';
+import {useTranslation} from 'react-i18next';
 
 export const LoginUser = ({
   handleViewUserLogin,
@@ -11,6 +12,7 @@ export const LoginUser = ({
   handleViewUserLogin: () => void;
   handleLoginGoogle: () => Promise<void>;
 }) => {
+  const {t} = useTranslation();
   const {theme} = useContext(ThemeContext);
   return (
     <View>
@@ -26,16 +28,16 @@ export const LoginUser = ({
             onPress={() => null}
           />
         }>
-        Log in with Google
+        {t('login.logIn.button')}
       </Button>
       <View style={style.dontHaveAnAccount}>
         <Text style={{color: theme.login.logIn.descriptionColor}}>
-          Don't have an account?
+          {t('login.logIn.dontHaveAccount')}
         </Text>
         <TouchableOpacity onPress={handleViewUserLogin}>
           <Text
             style={[style.signIn, {color: theme.login.logIn.colorTextButton}]}>
-            Sign in
+            {t('login.logIn.logIn')}
           </Text>
         </TouchableOpacity>
       </View>

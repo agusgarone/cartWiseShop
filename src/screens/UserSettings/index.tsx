@@ -13,6 +13,7 @@ import {Moon, Sun} from 'lucide-react-native';
 import PreviewList from './Components/PreviewList';
 import CountryFlag from 'react-native-country-flag';
 import {ThemeContext} from '../../services/ThemeProvider';
+import {useTranslation} from 'react-i18next';
 
 const UserSettings = () => {
   const {
@@ -24,6 +25,7 @@ const UserSettings = () => {
     handleChangeLanguage,
     handleChangeViewList,
   } = userSettingsController();
+  const {t} = useTranslation();
   const {theme} = useContext(ThemeContext);
   return (
     <SafeAreaView style={Style.screen}>
@@ -49,7 +51,8 @@ const UserSettings = () => {
                 Style.byGoogle,
                 {color: theme.userSettings.descriptionColor},
               ]}>
-              {`Perfil creado con ${user?.providerId.split('.')[0]}`}
+              {t('userSettings.profileCreatedWith')}
+              {` ${user?.providerId.split('.')[0]}`}
             </Text>
           </View>
           <View style={Style.settingsContainer}>
@@ -59,7 +62,7 @@ const UserSettings = () => {
                   Style.itemSettingText,
                   {color: theme.userSettings.itemSettingColor},
                 ]}>
-                Idioma
+                {t('userSettings.language')}
               </Text>
               <TouchableOpacity onPress={handleChangeLanguage}>
                 <CountryFlag
@@ -75,7 +78,7 @@ const UserSettings = () => {
                   Style.itemSettingText,
                   {color: theme.userSettings.itemSettingColor},
                 ]}>
-                Tema de la app
+                {t('userSettings.appTheme')}
               </Text>
               <TouchableOpacity onPress={handleChangeTheme}>
                 {themeApp === 'light' ? (
