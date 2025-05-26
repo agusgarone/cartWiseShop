@@ -5,6 +5,7 @@
     "button": "Agregar"
   },
   "createList": {
+    "tab": "Crear lista",
     "inputPlaceHolder": "Nombre de la lista",
     "button": "Listo",
     "emptyText": "¡No hay productos!",
@@ -18,6 +19,7 @@
     "button": "Aceptar"
   },
   "home": {
+    "tab": "Inicio",
     "nameApp": "CartWiseShop",
     "renderItem": {
       "createdAt": "Creada el",
@@ -42,6 +44,7 @@
     }
   },
   "products": {
+    "tab": "Productos",
     "emptyText": "¡No hay productos!",
     "button": "Agregar"
   },

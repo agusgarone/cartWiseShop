@@ -1,9 +1,11 @@
 {
   "addProducts": {
+    "header": "Aggiungi prodotti",
     "inputPlaceHolder": "Cerca prodotto",
     "button": "Aggiungi"
   },
   "createList": {
+    "tab": "Crea lista",
     "inputPlaceHolder": "Nome della lista",
     "button": "Fatto",
     "emptyText": "Nessun prodotto!",
@@ -11,17 +13,22 @@
     "buttonAddProduct": "Aggiungi prodotto"
   },
   "createProduct": {
+    "header": "Crea prodotto",
     "inputPlaceHolder": "Nome del prodotto",
     "selectPlaceHolder": "Categoria del prodotto",
     "button": "Accetta"
   },
   "home": {
+    "tab": "Home",
     "nameApp": "CartWiseShop",
     "renderItem": {
       "createdAt": "Creata il",
       "product": "prodotto",
       "products": "prodotti"
     }
+  },
+  "listDetail": {
+    "header": "Dettaglio lista"
   },
   "login": {
     "nameApp": "CartWiseShop",
@@ -37,10 +44,12 @@
     }
   },
   "products": {
+    "tab": "Prodotti",
     "emptyText": "Nessun prodotto!",
     "button": "Aggiungi"
   },
   "userSettings": {
+    "header": "Impostazioni",
     "profileCreatedWith": "Profilo creato con",
     "language": "Lingua",
     "appTheme": "Tema dell'app"

@@ -6,6 +6,7 @@ import Products from '../screens/Products';
 import {DrawerScreenProps} from '@react-navigation/drawer';
 import {House, ListPlus, ShoppingBasket} from 'lucide-react-native';
 import {ThemeContext} from './ThemeProvider';
+import {useTranslation} from 'react-i18next';
 
 export type TabsParamList = {
   Home: undefined;
@@ -18,6 +19,7 @@ const Tab = createBottomTabNavigator<TabsParamList>();
 type DrawerNavigation = DrawerScreenProps<any, 'MainTabs'>;
 
 const BottomTabs = ({navigation}: DrawerNavigation) => {
+  const {t} = useTranslation();
   const {theme} = useContext(ThemeContext);
 
   return (
@@ -38,6 +40,7 @@ const BottomTabs = ({navigation}: DrawerNavigation) => {
               size={25}
             />
           ),
+          title: t('home.tab'),
           tabBarActiveTintColor: theme.tab.activeTabColor,
         }}
         component={Home}
@@ -46,13 +49,13 @@ const BottomTabs = ({navigation}: DrawerNavigation) => {
         name="CreateList"
         options={{
           header: () => null,
-          tabBarLabel: 'Create list',
           tabBarIcon: ({focused}) => (
             <ListPlus
               color={focused ? theme.tab.iconFocus : theme.tab.icon}
               size={25}
             />
           ),
+          title: t('createList.tab'),
           tabBarActiveTintColor: theme.tab.activeTabColor,
         }}
         component={CreateList}
@@ -61,13 +64,13 @@ const BottomTabs = ({navigation}: DrawerNavigation) => {
         name="ProductsTab"
         options={{
           header: () => null,
-          tabBarLabel: 'Products',
           tabBarIcon: ({focused}) => (
             <ShoppingBasket
               color={focused ? theme.tab.iconFocus : theme.tab.icon}
               size={25}
             />
           ),
+          title: t('products.tab'),
           tabBarActiveTintColor: theme.tab.activeTabColor,
         }}>
         {props => <Products NavMainTabs={navigation} />}
