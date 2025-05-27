@@ -14,6 +14,7 @@ import PreviewList from './Components/PreviewList';
 import CountryFlag from 'react-native-country-flag';
 import {ThemeContext} from '../../services/ThemeProvider';
 import {useTranslation} from 'react-i18next';
+import Button from '../../components/Button';
 
 const UserSettings = () => {
   const {
@@ -24,6 +25,7 @@ const UserSettings = () => {
     handleChangeTheme,
     handleChangeLanguage,
     handleChangeViewList,
+    logOut,
   } = userSettingsController();
   const {t} = useTranslation();
   const {theme} = useContext(ThemeContext);
@@ -36,62 +38,72 @@ const UserSettings = () => {
             Style.content,
             {backgroundColor: theme.userSettings.backgroundDiv},
           ]}>
-          <View style={Style.containerImage}>
-            {user?.photoURL && (
-              <Image source={{uri: user?.photoURL}} style={Style.image} />
-            )}
-          </View>
-          <View style={Style.infoUser}>
-            <Text
-              style={[Style.nameGoogle, {color: theme.userSettings.nameColor}]}>
-              {user?.displayName}
-            </Text>
-            <Text
-              style={[
-                Style.byGoogle,
-                {color: theme.userSettings.descriptionColor},
-              ]}>
-              {t('userSettings.profileCreatedWith')}
-              {` ${user?.providerId.split('.')[0]}`}
-            </Text>
-          </View>
-          <View style={Style.settingsContainer}>
-            <View style={Style.itemSetting}>
+          <View>
+            <View style={Style.containerImage}>
+              {user?.photoURL && (
+                <Image source={{uri: user?.photoURL}} style={Style.image} />
+              )}
+            </View>
+            <View style={Style.infoUser}>
               <Text
                 style={[
-                  Style.itemSettingText,
-                  {color: theme.userSettings.itemSettingColor},
+                  Style.nameGoogle,
+                  {color: theme.userSettings.nameColor},
                 ]}>
-                {t('userSettings.language')}
+                {user?.displayName}
               </Text>
-              <TouchableOpacity onPress={handleChangeLanguage}>
-                <CountryFlag
-                  isoCode={lang === 'en' ? 'us' : lang.toLowerCase()}
-                  size={20}
-                  style={{borderRadius: 6}}
-                />
-              </TouchableOpacity>
-            </View>
-            <View style={Style.itemSetting}>
               <Text
                 style={[
-                  Style.itemSettingText,
-                  {color: theme.userSettings.itemSettingColor},
+                  Style.byGoogle,
+                  {color: theme.userSettings.descriptionColor},
                 ]}>
-                {t('userSettings.appTheme')}
+                {t('userSettings.profileCreatedWith')}
+                {` ${user?.providerId.split('.')[0]}`}
               </Text>
-              <TouchableOpacity onPress={handleChangeTheme}>
-                {themeApp === 'light' ? (
-                  <Sun color={theme.userSettings.iconColor} />
-                ) : (
-                  <Moon color={theme.userSettings.iconColor} />
-                )}
-              </TouchableOpacity>
             </View>
-            {/* <PreviewList
+            <View style={Style.settingsContainer}>
+              <View style={Style.itemSetting}>
+                <Text
+                  style={[
+                    Style.itemSettingText,
+                    {color: theme.userSettings.itemSettingColor},
+                  ]}>
+                  {t('userSettings.language')}
+                </Text>
+                <TouchableOpacity onPress={handleChangeLanguage}>
+                  <CountryFlag
+                    isoCode={lang === 'en' ? 'us' : lang.toLowerCase()}
+                    size={20}
+                    style={{borderRadius: 6}}
+                  />
+                </TouchableOpacity>
+              </View>
+              <View style={Style.itemSetting}>
+                <Text
+                  style={[
+                    Style.itemSettingText,
+                    {color: theme.userSettings.itemSettingColor},
+                  ]}>
+                  {t('userSettings.appTheme')}
+                </Text>
+                <TouchableOpacity onPress={handleChangeTheme}>
+                  {themeApp === 'light' ? (
+                    <Sun color={theme.userSettings.iconColor} />
+                  ) : (
+                    <Moon color={theme.userSettings.iconColor} />
+                  )}
+                </TouchableOpacity>
+              </View>
+              {/* <PreviewList
               handleChangeViewList={handleChangeViewList}
               selectedOption={selectedOption}
             /> */}
+            </View>
+          </View>
+          <View>
+            <Button type="primary" onPress={logOut}>
+              {t('userSettings.logOut')}
+            </Button>
           </View>
         </View>
       </View>
@@ -115,6 +127,8 @@ const Style = StyleSheet.create({
     borderTopRightRadius: 32,
     borderTopLeftRadius: 32,
     paddingHorizontal: 24,
+    paddingBottom: 32,
+    justifyContent: 'space-between',
   },
   containerImage: {
     width: 100,

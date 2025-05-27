@@ -1,68 +1,69 @@
 {
   "addProducts": {
-    "header": "Add products",
-    "inputPlaceHolder": "Search product",
-    "button": "Add"
+    "header": "Aggiungi prodotti",
+    "inputPlaceHolder": "Cerca prodotto",
+    "button": "Aggiungi"
   },
   "createList": {
-    "tab": "Create list",
-    "inputPlaceHolder": "List name",
-    "button": "Done",
-    "emptyText": "No products!",
-    "emptyButton": "Add products",
-    "buttonAddProduct": "Add product",
-    "addNameToTheList": "Please add a name to the list!"
+    "tab": "Crea lista",
+    "inputPlaceHolder": "Nome della lista",
+    "button": "Fatto",
+    "emptyText": "Nessun prodotto!",
+    "emptyButton": "Aggiungi prodotti",
+    "buttonAddProduct": "Aggiungi prodotto",
+    "addNameToTheList": "Per favore aggiungi un nome alla lista!"
   },
   "createProduct": {
-    "header": "Create product",
-    "inputPlaceHolder": "Product name",
-    "selectPlaceHolder": "Product category",
-    "button": "Accept",
-    "unexpectedErrorToCreateProduct": "There was an error creating the product, please try again!"
+    "header": "Crea prodotto",
+    "inputPlaceHolder": "Nome del prodotto",
+    "selectPlaceHolder": "Categoria del prodotto",
+    "button": "Accetta",
+    "unexpectedErrorToCreateProduct": "Si è verificato un errore durante la creazione del prodotto, riprova per favore!"
   },
   "home": {
     "tab": "Home",
     "nameApp": "CartWiseShop",
     "renderItem": {
-      "createdAt": "Created on",
-      "product": "product",
-      "products": "products"
+      "createdAt": "Creata il",
+      "product": "prodotto",
+      "products": "prodotti"
     }
   },
   "listDetail": {
-    "header": "List detail",
-    "theListDoesntExist": "This list does not exist!",
-    "atention": "Attention!",
-    "youGoingToDeleteThelistWithName": "You are going to delete the list named:",
-    "accept": "Accept",
-    "cancel": "Cancel"
+    "header": "Dettaglio lista",
+    "theListDoesntExist": "Questa lista non esiste!",
+    "atention": "Attenzione!",
+    "youGoingToDeleteThelistWithName": "Stai per eliminare la lista chiamata:",
+    "accept": "Accetta",
+    "cancel": "Annulla"
   },
   "login": {
     "nameApp": "CartWiseShop",
     "signIn": {
-      "button": "Sign up with Google",
-      "haveAnAccount": "Already have an account?",
-      "logIn": "Log in"
+      "button": "Registrati con Google",
+      "haveAnAccount": "Hai già un account?",
+      "logIn": "Accedi"
     },
     "logIn": {
-      "button": "Log in with Google",
-      "dontHaveAccount": "Don't have an account?",
-      "logIn": "Sign up"
+      "button": "Accedi con Google",
+      "dontHaveAccount": "Non hai un account?",
+      "logIn": "Registrati"
     }
   },
   "products": {
-    "tab": "Products",
-    "emptyText": "No products!",
-    "button": "Add",
-    "atention": "Attention!",
-    "youGoingToDeleteTheProductWithName": "You are going to delete the product named:",
-    "accept": "Accept",
-    "cancel": "Cancel"
+    "tab": "Prodotti",
+    "emptyText": "Nessun prodotto!",
+    "button": "Aggiungi",
+    "atention": "Attenzione!",
+    "youGoingToDeleteTheProductWithName": "Stai per eliminare il prodotto chiamato:",
+    "accept": "Accetta",
+    "cancel": "Annulla"
   },
   "userSettings": {
-    "header": "Settings",
-    "profileCreatedWith": "Profile created with",
-    "language": "Language",
-    "appTheme": "App theme"
+    "header": "Impostazioni",
+    "profileCreatedWith": "Profilo creato con",
+    "language": "Lingua",
+    "appTheme": "Tema dell'app",
+    "logOut": "disconnettersi"
   }
 }

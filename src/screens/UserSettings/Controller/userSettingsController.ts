@@ -1,6 +1,5 @@
 import {useCallback, useContext, useEffect, useState} from 'react';
-import {useFocusEffect} from '@react-navigation/native';
-import {IProductDTO} from '../../../models/types/product';
+import {NavigationContext, useFocusEffect} from '@react-navigation/native';
 import {StorageService} from '../../../storage/asyncStorage';
 import {
   editLanguage,
@@ -10,8 +9,10 @@ import {
 import {User} from '../../../models/types/user';
 import {ThemeContext} from '../../../services/ThemeProvider';
 import i18n from '../../../services/i18n';
+import {logOutSupabase} from '../../Login/Api/facade';
 
 export const userSettingsController = () => {
+  const navigation = useContext(NavigationContext);
   const {mode, setMode} = useContext(ThemeContext);
   const [user, setUser] = useState<User>();
   const [themeApp, setTheme] = useState<'light' | 'dark'>(mode);
@@ -33,7 +34,14 @@ export const userSettingsController = () => {
     }
   }, [user]);
 
-  const logOut = async (product: IProductDTO) => {};
+  const logOut = async () => {
+    const {error} = await logOutSupabase();
+    if (error) {
+      console.error('❌ Error al desloguearse:', error.message);
+    } else {
+      navigation?.navigate('Login');
+    }
+  };
 
   useFocusEffect(
     useCallback(() => {
@@ -82,19 +90,16 @@ export const userSettingsController = () => {
 
   const handleEditLang = async (lang: string) => {
     const responseEditLang = await editLanguage(lang);
-    console.log('responseEditLang', responseEditLang);
   };
 
   const handleEditTheme = async (theme: 'light' | 'dark') => {
     const responseEditTheme = await editTheme(theme);
     setMode(theme);
-    console.log('responseEditTheme', responseEditTheme);
   };
 
   const handleEditListView = async (listView: string) => {
     setSelectedOption(listView);
     const responseListView = await editListView(listView);
-    console.log('responseListView', responseListView);
   };
 
   const handleChangeViewList = (
@@ -110,6 +115,7 @@ export const userSettingsController = () => {
     themeApp,
     lang,
     selectedOption,
+    logOut,
     handleChangeTheme,
     handleChangeLanguage,
     handleChangeViewList,

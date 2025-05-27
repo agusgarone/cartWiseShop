@@ -28,7 +28,6 @@ const ThemeProvider = ({children}: {children: React.ReactNode}) => {
         .select('theme')
         .eq('uid', uid)
         .single();
-      console.log('theme', data);
       if (data?.theme === 'dark') setMode('dark');
     };
 

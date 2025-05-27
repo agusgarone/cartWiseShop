@@ -63,6 +63,7 @@
     "header": "Configuración",
     "profileCreatedWith": "Perfil creado con",
     "language": "Idioma",
-    "appTheme": "Tema de la app"
+    "appTheme": "Tema de la app",
+    "logOut": "Cerrar sesión"
   }
 }

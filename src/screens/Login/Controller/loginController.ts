@@ -8,6 +8,7 @@ import {
 } from '../Service/loginService';
 import {NavigationContext} from '@react-navigation/native';
 import i18n from '../../../services/i18n';
+import {getPreferences} from '../Api/facade';
 
 export const loginController = () => {
   const [isNew, setIsNew] = useState<boolean>(true);

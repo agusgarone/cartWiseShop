@@ -27,6 +27,16 @@ export const getUserById = async () => {
   return response;
 };
 
+export const getPreferences = async (uid: string) => {
+  const response = await supabase
+    .from('users')
+    .select('language, theme')
+    .eq('uid', uid)
+    .single();
+
+  return response;
+};
+
 export const accessSupabase = async (token: string) => {
   const response = await supabase.auth.signInWithIdToken({
     provider: 'google',
@@ -65,6 +75,11 @@ export const updateListView = async (listView: string) => {
     })
     .eq('uid', await getUserUid());
 
+  return response;
+};
+
+export const logOutSupabase = async () => {
+  const response = await supabase.auth.signOut();
   return response;
 };
 

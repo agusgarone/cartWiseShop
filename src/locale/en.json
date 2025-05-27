@@ -63,6 +63,7 @@
     "header": "Settings",
     "profileCreatedWith": "Profile created with",
     "language": "Language",
-    "appTheme": "App theme"
+    "appTheme": "App theme",
+    "logOut": "Logout"
   }
 }

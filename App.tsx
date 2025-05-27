@@ -10,13 +10,13 @@ import './src/services/i18n';
 function App(): React.JSX.Element {
   return (
     <GestureHandlerRootView style={{flex: 1}}>
-      <AuthProvider>
-        <ThemeProvider>
+      <ThemeProvider>
+        <AuthProvider>
           <NavigationContainer>
             <StackNavigator />
           </NavigationContainer>
-        </ThemeProvider>
-      </AuthProvider>
+        </AuthProvider>
+      </ThemeProvider>
     </GestureHandlerRootView>
   );
 }
