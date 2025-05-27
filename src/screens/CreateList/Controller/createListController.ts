@@ -11,8 +11,10 @@ import {IProductDTO} from '../../../models/types/product';
 import {mapperListDTOToSupabase} from '../../../models/mappers/mapperListDTOToSupabase';
 import {mapperListSupabaseToDTO} from '../../../models/mappers/mapperListSupabaseToDTO';
 import {formatDateToISO} from '../../../common/utils/formatDateISO';
+import {useTranslation} from 'react-i18next';
 
 export const createListController = () => {
+  const {t} = useTranslation();
   const navigation = useContext(NavigationContext);
   const productsFromZustand = globalSessionState(
     state => state.productsSelected,
@@ -87,7 +89,7 @@ export const createListController = () => {
       actions.resetForm();
       navigation?.navigate('MainTabs', {screen: 'Home'});
     } else {
-      Alert.alert('Agregá un nombre a la lista, por favor!');
+      Alert.alert(t('createList.addNameToTheList'));
     }
   };
 

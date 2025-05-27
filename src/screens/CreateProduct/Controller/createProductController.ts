@@ -6,8 +6,10 @@ import {Alert, Keyboard} from 'react-native';
 import {categories} from '../../../data-mock';
 import {createProduct} from '../../../services/Product';
 import {IProductSupabase} from '../../../models/types/product';
+import {useTranslation} from 'react-i18next';
 
 export const createProductController = () => {
+  const {t} = useTranslation();
   const navigation = useContext(NavigationContext);
   const [initialValues, setInitialValues] = useState<{
     name: string;
@@ -38,9 +40,7 @@ export const createProductController = () => {
       actions.resetForm();
       navigation?.goBack();
     } else {
-      Alert.alert(
-        'Hubo un error al crear el producto, intentelo de nuevo por favor!',
-      );
+      Alert.alert(t('createProduct.unexpectedErrorToCreateProduct'));
     }
   };
 

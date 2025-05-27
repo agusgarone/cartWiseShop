@@ -15,12 +15,14 @@ declare module 'react-i18next' {
         emptyText: string;
         emptyButton: string;
         buttonAddProduct: string;
+        addNameToTheList: string;
       };
       createProduct: {
         header: string;
         inputPlaceHolder: string;
         selectPlaceHolder: string;
         button: string;
+        unexpectedErrorToCreateProduct: string;
       };
       home: {
         tab: string;
@@ -33,6 +35,11 @@ declare module 'react-i18next' {
       };
       listDetail: {
         header: string;
+        theListDoesntExist: string;
+        atention: string;
+        youGoingToDeleteThelistWithName: string;
+        accept: string;
+        cancel: string;
       };
       login: {
         nameApp: string;
@@ -51,6 +58,10 @@ declare module 'react-i18next' {
         tab: string;
         emptyText: string;
         button: string;
+        atention: string;
+        youGoingToDeleteTheProductWithName: string;
+        accept: string;
+        cancel: string;
       };
       userSettings: {
         header: string;

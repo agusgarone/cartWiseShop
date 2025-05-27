@@ -5,8 +5,10 @@ import {Alert} from 'react-native';
 import {fetchProducts, removeProduct} from '../../../services/Product';
 import {IProductDTO} from '../../../models/types/product';
 import {mapperProductSupabaseToDTO} from '../../../models/mappers/mapperProductSupabaseToDTO';
+import {useTranslation} from 'react-i18next';
 
 export const productsController = () => {
+  const {t} = useTranslation();
   const navigation = useContext(NavigationContext);
   const products: IProductDTO[] = globalSessionState(
     state => state.productsSelected,
@@ -28,16 +30,16 @@ export const productsController = () => {
 
   const DialogDeleteProduct = (product: IProductDTO) =>
     Alert.alert(
-      `¡Atención!`,
-      `Va a eliminar el producto con nombre: ${product.name}`,
+      t('products.atention'),
+      `${t('products.youGoingToDeleteTheProductWithName')} ${product.name}`,
       [
         {
-          text: 'Cancel',
-          onPress: () => console.log('Cancel Pressed'),
+          text: t('products.cancel'),
+          onPress: () => null,
           style: 'cancel',
         },
         {
-          text: 'OK',
+          text: t('products.accept'),
           onPress: () => handleDelete(product),
         },
       ],
@@ -45,9 +47,7 @@ export const productsController = () => {
 
   const handleDelete = async (product: IProductDTO) => {
     const responseRemoveProduct = await removeProduct(product.id);
-    if (responseRemoveProduct.error) {
-      console.log('error', responseRemoveProduct.error);
-    } else {
+    if (!responseRemoveProduct.error) {
       fetchData();
     }
   };

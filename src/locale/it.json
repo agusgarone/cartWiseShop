@@ -1,57 +1,68 @@
 {
   "addProducts": {
-    "header": "Aggiungi prodotti",
-    "inputPlaceHolder": "Cerca prodotto",
-    "button": "Aggiungi"
+    "header": "Add products",
+    "inputPlaceHolder": "Search product",
+    "button": "Add"
   },
   "createList": {
-    "tab": "Crea lista",
-    "inputPlaceHolder": "Nome della lista",
-    "button": "Fatto",
-    "emptyText": "Nessun prodotto!",
-    "emptyButton": "Aggiungi prodotti",
-    "buttonAddProduct": "Aggiungi prodotto"
+    "tab": "Create list",
+    "inputPlaceHolder": "List name",
+    "button": "Done",
+    "emptyText": "No products!",
+    "emptyButton": "Add products",
+    "buttonAddProduct": "Add product",
+    "addNameToTheList": "Please add a name to the list!"
   },
   "createProduct": {
-    "header": "Crea prodotto",
-    "inputPlaceHolder": "Nome del prodotto",
-    "selectPlaceHolder": "Categoria del prodotto",
-    "button": "Accetta"
+    "header": "Create product",
+    "inputPlaceHolder": "Product name",
+    "selectPlaceHolder": "Product category",
+    "button": "Accept",
+    "unexpectedErrorToCreateProduct": "There was an error creating the product, please try again!"
   },
   "home": {
     "tab": "Home",
     "nameApp": "CartWiseShop",
     "renderItem": {
-      "createdAt": "Creata il",
-      "product": "prodotto",
-      "products": "prodotti"
+      "createdAt": "Created on",
+      "product": "product",
+      "products": "products"
     }
   },
   "listDetail": {
-    "header": "Dettaglio lista"
+    "header": "List detail",
+    "theListDoesntExist": "This list does not exist!",
+    "atention": "Attention!",
+    "youGoingToDeleteThelistWithName": "You are going to delete the list named:",
+    "accept": "Accept",
+    "cancel": "Cancel"
   },
   "login": {
     "nameApp": "CartWiseShop",
     "signIn": {
-      "button": "Registrati con Google",
-      "haveAnAccount": "Hai già un account?",
-      "logIn": "Accedi"
+      "button": "Sign up with Google",
+      "haveAnAccount": "Already have an account?",
+      "logIn": "Log in"
     },
     "logIn": {
-      "button": "Accedi con Google",
-      "dontHaveAccount": "Non hai un account?",
-      "logIn": "Registrati"
+      "button": "Log in with Google",
+      "dontHaveAccount": "Don't have an account?",
+      "logIn": "Sign up"
     }
   },
   "products": {
-    "tab": "Prodotti",
-    "emptyText": "Nessun prodotto!",
-    "button": "Aggiungi"
+    "tab": "Products",
+    "emptyText": "No products!",
+    "button": "Add",
+    "atention": "Attention!",
+    "youGoingToDeleteTheProductWithName": "You are going to delete the product named:",
+    "accept": "Accept",
+    "cancel": "Cancel"
   },
   "userSettings": {
-    "header": "Impostazioni",
-    "profileCreatedWith": "Profilo creato con",
-    "language": "Lingua",
-    "appTheme": "Tema dell'app"
+    "header": "Settings",
+    "profileCreatedWith": "Profile created with",
+    "language": "Language",
+    "appTheme": "App theme"
   }
 }

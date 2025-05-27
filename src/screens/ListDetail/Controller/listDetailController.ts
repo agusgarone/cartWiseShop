@@ -7,8 +7,11 @@ import {IProductForm} from '../../../models/types/product';
 import {IListForm} from '../../../models/types/list';
 import {mapperListSupabaseToForm} from '../../../models/mappers/mapperListSupabaseToForm';
 import {User} from '../../../models/types/user';
+import {useTranslation} from 'react-i18next';
 
 export const listDetailController = () => {
+  const {t} = useTranslation();
+
   const [listSelected, setListSelected] =
     useState<IListForm<IProductForm> | null>(null);
   const [user, setUser] = useState<User>();
@@ -25,7 +28,7 @@ export const listDetailController = () => {
     const responseFetchListById = await fetchListById(parseInt(id, 10));
     if (responseFetchListById.error) {
       console.log(responseFetchListById.error);
-      Alert.alert('¡Esta lista no existe!');
+      Alert.alert(t('listDetail.theListDoesntExist'));
       goHome();
     } else {
       if (responseFetchListById.data) {
@@ -41,23 +44,21 @@ export const listDetailController = () => {
     const responseRemoveList = await removeList(listId);
     if (responseRemoveList.error) {
       console.log(responseRemoveList.error);
-    } else {
-      console.log('Se ha borrado exitosamente la lista');
     }
   };
 
   const DialogDeleteList = (list: IListForm<IProductForm>) =>
     Alert.alert(
-      `¡Atención!`,
-      `Va a eliminar la lista con nombre: ${list.name}`,
+      t('listDetail.atention'),
+      `${t('listDetail.youGoingToDeleteThelistWithName')} ${list.name}`,
       [
         {
-          text: 'Cancel',
-          onPress: () => console.log('Cancel Pressed'),
+          text: t('listDetail.cancel'),
+          onPress: () => null,
           style: 'cancel',
         },
         {
-          text: 'OK',
+          text: t('listDetail.accept'),
           onPress: () => {
             handleDeleteList(list.id);
             navigation?.navigate('MainTabs', {screen: 'Home'});
@@ -67,7 +68,6 @@ export const listDetailController = () => {
     );
 
   const handleAllSelected = () => {
-    console.log('¡Todos los elementos están seleccionados!');
     setShowConfetti(true);
   };
 

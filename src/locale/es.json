@@ -10,13 +10,15 @@
     "button": "Listo",
     "emptyText": "¡No hay productos!",
     "emptyButton": "Agregar productos",
-    "buttonAddProduct": "Añadir producto"
+    "buttonAddProduct": "Añadir producto",
+    "addNameToTheList": "¡Agregá un nombre a la lista, por favor!"
   },
   "createProduct": {
     "header": "Crear producto",
     "inputPlaceHolder": "Nombre del producto",
     "selectPlaceHolder": "Categoria del producto",
-    "button": "Aceptar"
+    "button": "Aceptar",
+    "unexpectedErrorToCreateProduct": "¡Hubo un error al crear el producto, intentelo de nuevo por favor!"
   },
   "home": {
     "tab": "Inicio",
@@ -28,7 +30,12 @@
     }
   },
   "listDetail": {
-    "header": "Detalle de lista"
+    "header": "Detalle de lista",
+    "theListDoesntExist": "¡Esta lista no existe!",
+    "atention": "¡Atención!",
+    "youGoingToDeleteThelistWithName": "Va a eliminar la lista con nombre:",
+    "accept": "Aceptar",
+    "cancel": "Cancelar"
   },
   "login": {
     "nameApp": "CartWiseShop",
@@ -46,7 +53,11 @@
   "products": {
     "tab": "Productos",
     "emptyText": "¡No hay productos!",
-    "button": "Agregar"
+    "button": "Agregar",
+    "atention": "¡Atención!",
+    "youGoingToDeleteTheProductWithName": "Va a eliminar el producto con nombre:",
+    "accept": "Aceptar",
+    "cancel": "Cancelar"
   },
   "userSettings": {
     "header": "Configuración",
