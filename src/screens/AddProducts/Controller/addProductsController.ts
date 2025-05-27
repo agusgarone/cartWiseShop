@@ -1,5 +1,5 @@
 import {useContext, useEffect, useState} from 'react';
-import {GlobalStateService} from '../../../services/globalStates';
+import {globalSessionState} from '../../../services/globalStates';
 import {NavigationContext} from '@react-navigation/native';
 import {Keyboard} from 'react-native';
 import {fetchProducts} from '../../../services/Product';
@@ -9,7 +9,15 @@ import {mapperProductSupabaseToDTO} from '../../../models/mappers/mapperProductS
 export const addProductsController = () => {
   const navigation = useContext(NavigationContext);
   const [allProducts, setAllProducts] = useState<IProductDTO[]>();
-  const products: IProductDTO[] = GlobalStateService.getProductsSelected();
+  const products: IProductDTO[] = globalSessionState(
+    state => state.productsSelected,
+  );
+  const setValuesSearched = globalSessionState(
+    state => state.setValuesSearched,
+  );
+  const setProductsSelectedZustand = globalSessionState(
+    state => state.setProductsSelected,
+  );
   const [productsSelected, setProductsSelected] =
     useState<IProductDTO[]>(products);
   const [loading, setLoading] = useState(false);
@@ -33,7 +41,7 @@ export const addProductsController = () => {
   };
 
   const handleButton = () => {
-    GlobalStateService.setProductsSelected(productsSelected);
+    setProductsSelectedZustand(productsSelected);
     navigation?.navigate('MainDrawer', {
       screen: 'MainTabs',
       params: {
@@ -51,9 +59,10 @@ export const addProductsController = () => {
     } else {
       console.log('responseGetAllProducts', responseGetAllProducts.data);
       setAllProducts(mapperProductSupabaseToDTO(responseGetAllProducts.data));
-      GlobalStateService.setValuesSearched(
+      setValuesSearched(
         mapperProductSupabaseToDTO(responseGetAllProducts.data),
       );
+
       setLoading(false);
     }
   };
@@ -65,7 +74,7 @@ export const addProductsController = () => {
           .toLocaleLowerCase()
           .includes(values.textSearched.toLocaleLowerCase()),
       );
-      GlobalStateService.setValuesSearched(valuesSearched);
+      setValuesSearched(valuesSearched);
       Keyboard.dismiss();
     }
   };

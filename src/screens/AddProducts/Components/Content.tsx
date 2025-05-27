@@ -4,7 +4,7 @@ import BottomSheetForm from './Form';
 import Button from '../../../components/Button';
 import List from '../../../components/List';
 import RenderProduct from './RenderProducts';
-import {GlobalStateService} from '../../../services/globalStates';
+import {globalSessionState} from '../../../services/globalStates';
 import {IProductDTO} from '../../../models/types/product';
 import Loader from '../../../components/Loader';
 import {useTranslation} from 'react-i18next';
@@ -23,13 +23,7 @@ const Content = ({
   loading: boolean;
 }) => {
   const {t} = useTranslation();
-  const _renderProducts = ({item}: {item: IProductDTO}) => {
-    const findProd = productsSelected.find(prod => prod.id === item.id);
-    const isSelected = findProd !== undefined;
-    return (
-      <RenderProduct item={item} isSelected={isSelected} onPress={onPress} />
-    );
-  };
+  const valuesSearched = globalSessionState(state => state.valuesSearched);
 
   return (
     <View style={styles.centeredView}>
@@ -43,8 +37,14 @@ const Content = ({
             <Loader />
           ) : (
             <List
-              data={GlobalStateService.getValuesSearched()}
-              render={_renderProducts}
+              data={valuesSearched}
+              render={({item}) => (
+                <RenderProductWrapper
+                  item={item}
+                  productsSelected={productsSelected}
+                  onPress={onPress}
+                />
+              )}
             />
           )}
         </View>
@@ -55,6 +55,21 @@ const Content = ({
         </View>
       </View>
     </View>
+  );
+};
+
+const RenderProductWrapper = ({
+  item,
+  productsSelected,
+  onPress,
+}: {
+  item: IProductDTO;
+  productsSelected: IProductDTO[];
+  onPress: ({item}: {item: IProductDTO}) => void;
+}) => {
+  const isSelected = productsSelected.some(prod => prod.id === item.id);
+  return (
+    <RenderProduct item={item} isSelected={isSelected} onPress={onPress} />
   );
 };
 

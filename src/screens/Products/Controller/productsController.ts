@@ -1,5 +1,5 @@
 import {useCallback, useContext, useState} from 'react';
-import {GlobalStateService} from '../../../services/globalStates';
+import {globalSessionState} from '../../../services/globalStates';
 import {NavigationContext, useFocusEffect} from '@react-navigation/native';
 import {Alert} from 'react-native';
 import {fetchProducts, removeProduct} from '../../../services/Product';
@@ -8,7 +8,10 @@ import {mapperProductSupabaseToDTO} from '../../../models/mappers/mapperProductS
 
 export const productsController = () => {
   const navigation = useContext(NavigationContext);
-  const products: IProductDTO[] = GlobalStateService.getProductsSelected();
+  const products: IProductDTO[] = globalSessionState(
+    state => state.productsSelected,
+  );
+
   const [allProducts, setAllProducts] = useState<IProductDTO[]>(products);
   const [loading, setLoading] = useState(false);
 

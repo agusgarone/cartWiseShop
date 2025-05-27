@@ -1,9 +1,8 @@
 import {useCallback, useContext, useEffect, useState} from 'react';
-import {GlobalStateService} from '../../../services/globalStates';
+import {globalSessionState} from '../../../services/globalStates';
 import {NavigationContext, useFocusEffect} from '@react-navigation/native';
 import {FormikState} from 'formik';
 import {FORM_STATUS} from '../../../common/utils/formStatus';
-import moment from 'moment';
 import {IListDTO} from '../../../models/types/list';
 import {Alert, Keyboard} from 'react-native';
 import {StorageService} from '../../../storage/asyncStorage';
@@ -15,8 +14,12 @@ import {formatDateToISO} from '../../../common/utils/formatDateISO';
 
 export const createListController = () => {
   const navigation = useContext(NavigationContext);
-  const [products, setProducts] = useState<IProductDTO[]>(
-    GlobalStateService.getProductsSelected(),
+  const productsFromZustand = globalSessionState(
+    state => state.productsSelected,
+  );
+  const [products, setProducts] = useState<IProductDTO[]>([]);
+  const setProductsSelected = globalSessionState(
+    state => state.setProductsSelected,
   );
   const [list, setList] = useState<IListDTO<IProductDTO> | null>(null);
   const [initialValues, setInitialValues] = useState({
@@ -35,6 +38,11 @@ export const createListController = () => {
   );
 
   useEffect(() => {
+    console.log('productsFromZustand', productsFromZustand);
+    setProducts(productsFromZustand);
+  }, [productsFromZustand]);
+
+  useEffect(() => {
     if (list) {
       setInitialValues({
         name: list?.name || '',
@@ -42,7 +50,7 @@ export const createListController = () => {
     }
     if (list?.products) {
       setProducts(list?.products);
-      GlobalStateService.setProductsSelected(list?.products);
+      setProductsSelected(list?.products);
     }
   }, [list]);
 
@@ -88,7 +96,7 @@ export const createListController = () => {
     await StorageService.removeItem('currentList');
     await StorageService.removeItem('isEditing');
     setProducts([]);
-    GlobalStateService.setProductsSelected([]);
+    setProductsSelected([]);
     setInitialValues({name: ''});
   };
 
@@ -129,7 +137,7 @@ export const createListController = () => {
   const removeProductSelected = (id: number) => {
     const productsFilter = products.filter(product => product.id !== id);
     setProducts(productsFilter);
-    GlobalStateService.setProductsSelected(productsFilter);
+    setProductsSelected(productsFilter);
   };
 
   return {
