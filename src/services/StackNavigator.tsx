@@ -29,7 +29,7 @@ function StackNavigator() {
   const auth = useContext(AuthContext);
 
   return (
-    <Stack.Navigator initialRouteName="Login">
+    <Stack.Navigator>
       {auth?.loading && (
         <Stack.Screen
           name="Loader"

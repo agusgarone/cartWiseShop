@@ -23,6 +23,7 @@ const light = {
   },
   loader: {
     color: '#39bd5c',
+    isLoadingPreferences: '#FFF',
   },
   profileButton: {
     background: '#8e9490',
@@ -140,6 +141,7 @@ const dark = {
   },
   loader: {
     color: '#34c95c',
+    isLoadingPreferences: '#FFF',
   },
   profileButton: {
     background: '#747b76',

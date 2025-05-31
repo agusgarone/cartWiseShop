@@ -4,6 +4,7 @@ import {supabase} from './supabase';
 import {ThemeContext} from './ThemeProvider';
 import {getPreferences} from '../screens/Login/Api/facade';
 import i18n from './i18n';
+import Loader from '../components/Loader';
 
 interface AuthContextType {
   session: any | null;
@@ -24,10 +25,12 @@ const AuthProvider = ({children}: any) => {
       const {data, error} = await supabase.auth.getSession();
       if (error) console.error('❌ Error obteniendo sesión:', error);
       setSession(data?.session ?? null);
-      setLoading(false);
 
-      if (data?.session?.user.id)
+      if (data?.session?.user.id) {
         await loadUserPreferences({uid: data.session.user.id, setMode});
+      }
+
+      setLoading(false);
     };
 
     initSession();
@@ -71,6 +74,10 @@ const AuthProvider = ({children}: any) => {
 
   //   return () => clearInterval(interval);
   // }, [session, lastActiveTime]);
+
+  if (loading) {
+    return <Loader isLoadingPreferences={true} />;
+  }
 
   return (
     <AuthContext.Provider value={{session, loading}}>

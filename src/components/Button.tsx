@@ -36,9 +36,12 @@ const Button = ({children, onPress, isDisabled, type, icon}: IButton) => {
         disabled={isDisabled}>
         {icon && icon}
         <Text
-          style={{
-            color: theme.button.text,
-          }}>
+          style={[
+            {
+              color: theme.button.text,
+            },
+            styles.buttonText,
+          ]}>
           {children}
         </Text>
       </TouchableOpacity>
@@ -57,8 +60,8 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontSize: theme.fontSize.l,
+    fontWeight: '700',
     letterSpacing: 0.25,
-    marginBottom: 1,
   },
 });
 

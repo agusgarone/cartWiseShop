@@ -9,7 +9,7 @@
     "inputPlaceHolder": "List name",
     "button": "Done",
     "emptyText": "No products!",
-    "emptyButton": "Add products",
+    "emptyButton": "Add",
     "buttonAddProduct": "Add product",
     "addNameToTheList": "Please add a name to the list!"
   },

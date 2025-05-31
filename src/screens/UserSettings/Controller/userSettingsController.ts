@@ -1,10 +1,10 @@
 import {useCallback, useContext, useEffect, useState} from 'react';
 import {NavigationContext, useFocusEffect} from '@react-navigation/native';
-import {StorageService} from '../../../storage/asyncStorage';
 import {
   editLanguage,
   editListView,
   editTheme,
+  fetchUserById,
 } from '../../Login/Service/loginService';
 import {User} from '../../../models/types/user';
 import {ThemeContext} from '../../../services/ThemeProvider';
@@ -14,16 +14,16 @@ import {logOutSupabase} from '../../Login/Api/facade';
 export const userSettingsController = () => {
   const navigation = useContext(NavigationContext);
   const {mode, setMode} = useContext(ThemeContext);
-  const [user, setUser] = useState<User>();
+  const [user, setUser] = useState<User | null>(null);
   const [themeApp, setTheme] = useState<'light' | 'dark'>(mode);
-  const [lang, setLang] = useState<string>('es');
+  const [lang, setLang] = useState<string | null>(null);
   const [selectedOption, setSelectedOption] = useState('original');
+  const [loading, setLoading] = useState<boolean>(true);
 
   const fetchData = async (filters?: any) => {
-    const userAuthenticated: User = await StorageService.getItem(
-      'userAuthenticated',
-    );
-    setUser(userAuthenticated);
+    const userData = await fetchUserById();
+    setUser(userData.data);
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -89,35 +89,48 @@ export const userSettingsController = () => {
   };
 
   const handleEditLang = async (lang: string) => {
-    const responseEditLang = await editLanguage(lang);
+    await editLanguage(lang);
   };
 
   const handleEditTheme = async (theme: 'light' | 'dark') => {
-    const responseEditTheme = await editTheme(theme);
+    await editTheme(theme);
     setMode(theme);
   };
 
-  const handleEditListView = async (listView: string) => {
-    setSelectedOption(listView);
-    const responseListView = await editListView(listView);
+  const capitalizeFirstLetter = (text: string) => {
+    if (!text) return '';
+    return text.charAt(0).toUpperCase() + text.slice(1);
   };
 
-  const handleChangeViewList = (
-    // viewType: 'original' | 'separated' | 'sorted',
-    viewType: string,
-  ) => {
-    console.log('viewType', viewType);
-    handleEditListView(viewType);
+  const capitalizeEachWord = (text: string) => {
+    return text
+      .split(' ')
+      .map(word => capitalizeFirstLetter(word))
+      .join(' ');
   };
+
+  // const handleEditListView = async (listView: string) => {
+  //   setSelectedOption(listView);
+  //   await editListView(listView);
+  // };
+
+  // const handleChangeViewList = (
+  //   // viewType: 'original' | 'separated' | 'sorted',
+  //   viewType: string,
+  // ) => {
+  //   console.log('viewType', viewType);
+  //   handleEditListView(viewType);
+  // };
 
   return {
     user,
     themeApp,
     lang,
-    selectedOption,
+    loading,
     logOut,
     handleChangeTheme,
     handleChangeLanguage,
-    handleChangeViewList,
+    capitalizeEachWord,
+    capitalizeFirstLetter,
   };
 };

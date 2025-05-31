@@ -10,21 +10,22 @@ import {
 import theme from '../../common/theme';
 import {userSettingsController} from './Controller/userSettingsController';
 import {Moon, Sun} from 'lucide-react-native';
-import PreviewList from './Components/PreviewList';
 import CountryFlag from 'react-native-country-flag';
 import {ThemeContext} from '../../services/ThemeProvider';
 import {useTranslation} from 'react-i18next';
 import Button from '../../components/Button';
+import Loader from '../../components/Loader';
 
 const UserSettings = () => {
   const {
     themeApp,
     user,
     lang,
-    selectedOption,
+    loading,
     handleChangeTheme,
     handleChangeLanguage,
-    handleChangeViewList,
+    capitalizeEachWord,
+    capitalizeFirstLetter,
     logOut,
   } = userSettingsController();
   const {t} = useTranslation();
@@ -38,73 +39,79 @@ const UserSettings = () => {
             Style.content,
             {backgroundColor: theme.userSettings.backgroundDiv},
           ]}>
-          <View>
-            <View style={Style.containerImage}>
-              {user?.photoURL && (
-                <Image source={{uri: user?.photoURL}} style={Style.image} />
-              )}
-            </View>
-            <View style={Style.infoUser}>
-              <Text
-                style={[
-                  Style.nameGoogle,
-                  {color: theme.userSettings.nameColor},
-                ]}>
-                {user?.displayName}
-              </Text>
-              <Text
-                style={[
-                  Style.byGoogle,
-                  {color: theme.userSettings.descriptionColor},
-                ]}>
-                {t('userSettings.profileCreatedWith')}
-                {` ${user?.providerId.split('.')[0]}`}
-              </Text>
-            </View>
-            <View style={Style.settingsContainer}>
-              <View style={Style.itemSetting}>
-                <Text
-                  style={[
-                    Style.itemSettingText,
-                    {color: theme.userSettings.itemSettingColor},
-                  ]}>
-                  {t('userSettings.language')}
-                </Text>
-                <TouchableOpacity onPress={handleChangeLanguage}>
-                  <CountryFlag
-                    isoCode={lang === 'en' ? 'us' : lang.toLowerCase()}
-                    size={20}
-                    style={{borderRadius: 6}}
-                  />
-                </TouchableOpacity>
-              </View>
-              <View style={Style.itemSetting}>
-                <Text
-                  style={[
-                    Style.itemSettingText,
-                    {color: theme.userSettings.itemSettingColor},
-                  ]}>
-                  {t('userSettings.appTheme')}
-                </Text>
-                <TouchableOpacity onPress={handleChangeTheme}>
-                  {themeApp === 'light' ? (
-                    <Sun color={theme.userSettings.iconColor} />
-                  ) : (
-                    <Moon color={theme.userSettings.iconColor} />
+          {loading ? (
+            <Loader />
+          ) : (
+            <>
+              <View>
+                <View style={Style.containerImage}>
+                  {user?.photoURL && (
+                    <Image source={{uri: user?.photoURL}} style={Style.image} />
                   )}
-                </TouchableOpacity>
+                </View>
+                <View style={Style.infoUser}>
+                  <Text
+                    style={[
+                      Style.nameGoogle,
+                      {color: theme.userSettings.nameColor},
+                    ]}>
+                    {capitalizeEachWord(user?.displayName || '')}
+                  </Text>
+                  <Text
+                    style={[
+                      Style.byGoogle,
+                      {color: theme.userSettings.descriptionColor},
+                    ]}>
+                    {t('userSettings.profileCreatedWith')}
+                    {` ${capitalizeFirstLetter(
+                      user?.providerId.split('.')[0] || '',
+                    )}`}
+                  </Text>
+                </View>
+                <View style={Style.settingsContainer}>
+                  <View style={Style.itemSetting}>
+                    <Text
+                      style={[
+                        Style.itemSettingText,
+                        {color: theme.userSettings.itemSettingColor},
+                      ]}>
+                      {t('userSettings.language')}
+                    </Text>
+                    <TouchableOpacity onPress={() => handleChangeLanguage()}>
+                      {lang && (
+                        <CountryFlag
+                          isoCode={lang === 'en' ? 'us' : lang.toLowerCase()}
+                          size={20}
+                          style={{borderRadius: 6}}
+                        />
+                      )}
+                    </TouchableOpacity>
+                  </View>
+                  <View style={Style.itemSetting}>
+                    <Text
+                      style={[
+                        Style.itemSettingText,
+                        {color: theme.userSettings.itemSettingColor},
+                      ]}>
+                      {t('userSettings.appTheme')}
+                    </Text>
+                    <TouchableOpacity onPress={handleChangeTheme}>
+                      {themeApp === 'light' ? (
+                        <Sun color={theme.userSettings.iconColor} />
+                      ) : (
+                        <Moon color={theme.userSettings.iconColor} />
+                      )}
+                    </TouchableOpacity>
+                  </View>
+                </View>
               </View>
-              {/* <PreviewList
-              handleChangeViewList={handleChangeViewList}
-              selectedOption={selectedOption}
-            /> */}
-            </View>
-          </View>
-          <View>
-            <Button type="primary" onPress={logOut}>
-              {t('userSettings.logOut')}
-            </Button>
-          </View>
+              <View>
+                <Button type="primary" onPress={logOut}>
+                  {t('userSettings.logOut')}
+                </Button>
+              </View>
+            </>
+          )}
         </View>
       </View>
     </SafeAreaView>
