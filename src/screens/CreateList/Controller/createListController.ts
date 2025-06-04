@@ -27,6 +27,7 @@ export const createListController = () => {
   const [initialValues, setInitialValues] = useState({
     name: '',
   });
+  const [loading, setLoading] = useState<boolean>(false);
 
   useFocusEffect(
     useCallback(() => {
@@ -40,7 +41,6 @@ export const createListController = () => {
   );
 
   useEffect(() => {
-    console.log('productsFromZustand', productsFromZustand);
     setProducts(productsFromZustand);
   }, [productsFromZustand]);
 
@@ -105,6 +105,7 @@ export const createListController = () => {
   const getList = async () => {
     const idList: string = await StorageService.getItem('idList');
     if (idList) {
+      setLoading(true);
       await StorageService.setItem('isEditing', true);
       await StorageService.removeItem('idList');
       const responseGetList = await fetchListById(parseInt(idList, 10));
@@ -117,6 +118,7 @@ export const createListController = () => {
             responseGetList.data[0].list_id,
           );
           setList(mapperListSupabaseToDTO(responseGetList.data[0]));
+          setLoading(false);
         }
       }
     }
@@ -144,10 +146,11 @@ export const createListController = () => {
 
   return {
     products,
-    handleFormikSubmit,
-    goToAddProducts,
     initialValues,
     list,
+    loading,
+    goToAddProducts,
+    handleFormikSubmit,
     removeProductSelected,
   };
 };

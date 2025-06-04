@@ -7,11 +7,13 @@ import {Content} from './Content';
 import RenderProduct from './RenderProducts';
 import {IProductDTO} from '../../../models/types/product';
 import {useTranslation} from 'react-i18next';
+import Loader from '../../../components/Loader';
 
 const CreateListForm = ({
-  goToAddProducts,
   products,
   initialValues,
+  loading,
+  goToAddProducts,
   handleFormikSubmit,
   removeProductSelected,
 }: {
@@ -29,6 +31,7 @@ const CreateListForm = ({
   goToAddProducts: (values: {name: string}) => void;
   products: IProductDTO[];
   removeProductSelected: (id: number) => void;
+  loading: boolean;
 }) => {
   const {t} = useTranslation();
   const _renderProducts = ({item}: {item: IProductDTO}) => {
@@ -40,35 +43,39 @@ const CreateListForm = ({
       initialValues={initialValues}
       onSubmit={handleFormikSubmit}
       enableReinitialize>
-      {({handleSubmit, values}) => {
-        return (
-          <View style={styles.form}>
-            <View style={{marginTop: 16}}>
-              <FormikInputValue
-                name="name"
-                placeholder={t('createList.inputPlaceHolder')}
-                onChange={() => null}
-              />
-            </View>
-            <View style={styles.containerResult}>
-              <Content
-                _renderProducts={_renderProducts}
-                goToAddProducts={() => goToAddProducts(values)}
-                products={products}
-              />
-              <View style={styles.containerButton}>
-                <Button
-                  children={t('createList.button')}
-                  isDisabled={false}
-                  type="primary"
-                  onPress={handleSubmit}
-                  key={'Button'}
+      {({handleSubmit, values}) => (
+        <View style={styles.form}>
+          {loading ? (
+            <Loader />
+          ) : (
+            <>
+              <View style={{marginTop: 16, paddingBottom: 12}}>
+                <FormikInputValue
+                  name="name"
+                  placeholder={t('createList.inputPlaceHolder')}
+                  onChange={() => null}
                 />
               </View>
-            </View>
-          </View>
-        );
-      }}
+              <View style={styles.containerResult}>
+                <Content
+                  _renderProducts={_renderProducts}
+                  goToAddProducts={() => goToAddProducts(values)}
+                  products={products}
+                />
+                <View style={styles.containerButton}>
+                  <Button
+                    children={t('createList.button')}
+                    isDisabled={false}
+                    type="primary"
+                    onPress={handleSubmit}
+                    key={'Button'}
+                  />
+                </View>
+              </View>
+            </>
+          )}
+        </View>
+      )}
     </Formik>
   );
 };
@@ -85,9 +92,10 @@ const styles = StyleSheet.create({
     display: 'flex',
   },
   containerButton: {
+    paddingTop: 12,
     width: '100%',
     display: 'flex',
-    marginBottom: 32,
+    marginBottom: 28,
   },
 });
 

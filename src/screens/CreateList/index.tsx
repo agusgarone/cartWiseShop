@@ -6,10 +6,11 @@ import {ThemeContext} from '../../services/ThemeProvider';
 
 const CreateList = () => {
   const {
-    handleFormikSubmit,
     initialValues,
-    goToAddProducts,
     products,
+    loading,
+    goToAddProducts,
+    handleFormikSubmit,
     removeProductSelected,
   } = createListController();
   const {theme} = useContext(ThemeContext);
@@ -24,6 +25,7 @@ const CreateList = () => {
           goToAddProducts={goToAddProducts}
           products={products}
           removeProductSelected={removeProductSelected}
+          loading={loading}
         />
       </View>
     </SafeAreaView>

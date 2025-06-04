@@ -40,7 +40,11 @@ export const Content = ({
           ListFooterComponent={() => {
             if (products && products?.length) {
               return (
-                <View style={{marginTop: 4}}>
+                <View
+                  style={{
+                    marginTop: 4,
+                    paddingBottom: 16,
+                  }}>
                   <Button
                     children={t('createList.buttonAddProduct')}
                     isDisabled={false}
