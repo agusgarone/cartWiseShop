@@ -61,7 +61,7 @@ export const listDetailController = () => {
           text: t('listDetail.accept'),
           onPress: () => {
             handleDeleteList(list.id);
-            navigation?.navigate('MainTabs', {screen: 'Home'});
+            navigation?.goBack();
           },
         },
       ],

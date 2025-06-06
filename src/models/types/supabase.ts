@@ -57,19 +57,19 @@ export type Database = {
           id: number;
           name: string;
           id_category: number;
-          uid_user: string;
+          uid_user: string | null;
         };
         Insert: {
           id?: number;
           name: string;
           id_category: number;
-          uid_user: string;
+          uid_user: string | null;
         };
         Update: {
           id?: number;
           name?: string;
           id_category?: number;
-          uid_user?: string;
+          uid_user: string | null;
         };
         Relationships: [
           {
@@ -78,13 +78,6 @@ export type Database = {
             isOneToOne: false;
             referencedRelation: 'categories';
             referencedColumns: ['id'];
-          },
-          {
-            foreignKeyName: 'products_uid_user_fkey';
-            columns: ['uid_user'];
-            isOneToOne: false;
-            referencedRelation: 'users';
-            referencedColumns: ['uid'];
           },
         ];
       };
@@ -136,7 +129,7 @@ export type Database = {
           name: string;
           id_category: string;
           category_name: string;
-          uid_user: string;
+          uid_user: string | null;
         }>;
       };
       get_lists_with_products_and_categories: {

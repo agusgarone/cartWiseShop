@@ -8,7 +8,7 @@ export const mapperProductSupabaseToDTO = (
     name: string;
     id_category: string;
     category_name: string;
-    uid_user: string;
+    uid_user: string | null;
   }[],
 ): IProductDTO[] => {
   return entry.map(value => {
