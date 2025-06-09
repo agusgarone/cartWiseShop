@@ -1,5 +1,12 @@
 import React, {useContext} from 'react';
-import {FlatList, SafeAreaView, StyleSheet, Text, View} from 'react-native';
+import {
+  FlatList,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import theme from '../../common/theme';
 import RenderProduct from './Components/RenderProducts';
 import Button from '../../components/Button';
@@ -42,7 +49,7 @@ const Products = ({NavMainTabs, NavProduct}: ProductsProps) => {
         <View style={Style.content}>
           <View style={Style.header}>
             <View style={{flexDirection: 'row'}}>
-              {/* <TouchableOpacity
+              <TouchableOpacity
                 style={[
                   Style.action,
                   {backgroundColor: theme.products.buttonFilter.background},
@@ -59,7 +66,7 @@ const Products = ({NavMainTabs, NavProduct}: ProductsProps) => {
                   ]}>
                   Filtros
                 </Text>
-              </TouchableOpacity> */}
+              </TouchableOpacity>
             </View>
           </View>
           <View style={Style.containerList}>
@@ -143,7 +150,7 @@ const Style = StyleSheet.create({
   },
   containerButton: {
     display: 'flex',
-    marginBottom: 32,
+    marginBottom: 16,
   },
   noProducts: {
     marginTop: 10,

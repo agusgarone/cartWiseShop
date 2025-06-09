@@ -1,34 +1,39 @@
 import React, {useContext, useEffect} from 'react';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 import List from '../../../components/List';
 import theme from '../../../common/theme';
 import {Formik} from 'formik';
 import {IListForm} from '../../../models/types/list';
 import RenderProduct from './RenderProducts';
 import {IProductDTO, IProductForm} from '../../../models/types/product';
-import {Trash} from 'lucide-react-native';
 import {User} from '../../../models/types/user';
 import Loader from '../../../components/Loader';
 import {ThemeContext} from '../../../services/ThemeProvider';
+import Button from '../../../components/Button';
+import {useTranslation} from 'react-i18next';
 
 const Content = ({
   id,
   getListByID,
   handleAllSelected,
   handleButtonDelete,
+  navigateToEditList,
   listSelected,
   user,
   loading,
 }: {
   id: string;
   user: User | undefined;
+  listSelected: IListForm<IProductForm> | null;
+  loading: boolean;
   getListByID: (id: string) => Promise<void>;
   handleButtonDelete: (list: IListForm<IProductForm>) => void;
   handleAllSelected: () => void;
-  listSelected: IListForm<IProductForm> | null;
-  loading: boolean;
+  navigateToEditList: (id: string) => Promise<void>;
 }) => {
   const {theme} = useContext(ThemeContext);
+  const {t} = useTranslation();
+
   useEffect(() => {
     getListByID(id);
   }, [id]);
@@ -43,14 +48,6 @@ const Content = ({
             <Text style={[styles.title, {color: theme.listDetail.titleColor}]}>
               {listSelected?.name}
             </Text>
-            <TouchableOpacity
-              style={[
-                styles.button,
-                {backgroundColor: theme.listDetail.button.background},
-              ]}
-              onPress={() => listSelected && handleButtonDelete(listSelected)}>
-              <Trash color={theme.listDetail.button.icon} size={25} />
-            </TouchableOpacity>
           </View>
           <View style={styles.containerList}>
             <Formik
@@ -91,6 +88,26 @@ const Content = ({
                 );
               }}
             </Formik>
+          </View>
+          <View style={styles.buttonsWrapper}>
+            <View style={{flex: 1}}>
+              <Button
+                children={t('listDetail.editButton')}
+                isDisabled={false}
+                type="secondary"
+                onPress={() => navigateToEditList(id)}
+                key={'Button1'}
+              />
+            </View>
+            <View style={{flex: 1}}>
+              <Button
+                children={t('listDetail.deleteButton')}
+                isDisabled={false}
+                type="primary"
+                onPress={() => listSelected && handleButtonDelete(listSelected)}
+                key={'Button2'}
+              />
+            </View>
           </View>
         </View>
       )}
@@ -136,6 +153,14 @@ const styles = StyleSheet.create({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  buttonsWrapper: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    gap: 8,
+    paddingBottom: 28,
+    paddingTop: 16,
   },
 });
 

@@ -3,10 +3,10 @@ import {View, StyleSheet, FlatList} from 'react-native';
 import {FieldArray, Formik} from 'formik';
 import {categories} from '../../../data-mock';
 import RenderProduct from './RenderProduct';
-import theme from '../../../common/theme';
 import {FormikInputValue} from '../../../components/FormikInput';
 import Button from '../../../components/Button';
-import {ICategory} from '../../../models/types/category';
+import {ICategory, ICategoryFilter} from '../../../models/types/category';
+import {useTranslation} from 'react-i18next';
 
 const initialValues = {
   textSearched: '',
@@ -18,9 +18,10 @@ const FilterForm = ({
 }: {
   handleFormikSubmit: (values: {
     textSearched: string;
-    categories: ICategory[];
+    categories: ICategoryFilter[] | ICategory[];
   }) => void;
 }) => {
+  const {t} = useTranslation();
   return (
     <Formik initialValues={initialValues} onSubmit={handleFormikSubmit}>
       {({handleSubmit, values}) => {
@@ -28,7 +29,7 @@ const FilterForm = ({
           <View style={styles.form}>
             <FormikInputValue
               name="textSearched"
-              placeholder={'Buscar categoria'}
+              placeholder={t('filterProducts.inputPlaceholder')}
               onChange={value => null}
             />
             <FieldArray
@@ -47,7 +48,7 @@ const FilterForm = ({
               )}
             />
             <Button
-              children="Agregar"
+              children={t('filterProducts.addButton')}
               isDisabled={false}
               type="primary"
               onPress={handleSubmit}
@@ -68,16 +69,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingTop: 16,
     gap: 32,
-  },
-  filterRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 16,
-  },
-  filterText: {
-    fontSize: 16,
-    color: theme.light.black,
   },
 });
 

@@ -1,20 +1,27 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {StyleSheet, Switch, Text, View} from 'react-native';
-import theme from '../../../common/theme';
 import {useField} from 'formik';
 import {ICategory} from '../../../models/types/category';
+import {ThemeContext} from '../../../services/ThemeProvider';
 
 const RenderProduct = ({item, index}: {index: number; item: ICategory}) => {
+  const {theme} = useContext(ThemeContext);
   const [field, , helpers] = useField(`categories[${index}].isChecked`);
   return (
     <View style={style.view}>
-      <Text style={[style.text]}>{item.name}</Text>
+      <Text
+        style={[style.text, {color: theme.filterProducts.renderProduct.text}]}>
+        {item.name}
+      </Text>
       <Switch
         value={field.value || false}
         onValueChange={newValue => {
           helpers.setValue(newValue);
         }}
-        trackColor={{true: theme.light.primary, false: theme.light.grey}}
+        trackColor={{
+          true: theme.filterProducts.renderProduct.true,
+          false: theme.filterProducts.renderProduct.false,
+        }}
       />
     </View>
   );
@@ -30,7 +37,6 @@ const style = StyleSheet.create({
     alignItems: 'center',
   },
   text: {
-    color: theme.light.grey,
     paddingVertical: 6,
     width: '75%',
   },

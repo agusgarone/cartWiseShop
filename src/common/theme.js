@@ -3,6 +3,8 @@ const light = {
   button: {
     background: '#39bd5c',
     text: '#FFF',
+    backgroundSecondary: '#FFF',
+    textSecondary: '#39bd5c',
   },
   input: {
     color: '#000',
@@ -114,6 +116,15 @@ const light = {
     background: '#FFF',
     titleScreen: '#000000',
   },
+  filterProducts: {
+    background: '#fff',
+    title: '#000',
+    renderProduct: {
+      text: '#8e9490',
+      true: '#39bd5c',
+      false: '#8e9490',
+    },
+  },
 };
 
 const dark = {
@@ -121,6 +132,8 @@ const dark = {
   button: {
     background: '#34c95c',
     text: '#1E1E1E',
+    backgroundSecondary: '#1E1E1E',
+    textSecondary: '#34c95c',
   },
   input: {
     color: '#ffffff',
@@ -232,18 +245,21 @@ const dark = {
     background: '#1E1E1E',
     titleScreen: '#ffffff',
   },
+  filterProducts: {
+    background: '#000',
+    title: '#ffffff',
+    renderProduct: {
+      text: '#747b76',
+      true: '#34c95c',
+      false: '#747b76',
+    },
+  },
 };
 
-// const colors = {
-//   // primaryOpacity: '#39bd5cb3',
 //   primary: #39bd5c , #34c95c
 //   grey: #8e9490, #747b76
 //   white: #FFFFFF, #1E1E1E
 //   black: #000000, #ffffff
-//   // red: '#ff0000',
-//   // redOpacity: '#ff0000b3',
-//   // whiteInput: '#F5F5F5',
-// };
 
 const fontSize = {
   xxs: 8,

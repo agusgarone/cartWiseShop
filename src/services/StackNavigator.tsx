@@ -4,7 +4,7 @@ import AddProducts from '../screens/AddProducts';
 import CreateProduct from '../screens/CreateProduct';
 import {DrawerNavigator} from './DrawerNavigator';
 import Login from '../screens/Login';
-import {useContext, useEffect} from 'react';
+import {useContext} from 'react';
 import {AuthContext} from './AuthProvider';
 import UserSettings from '../screens/UserSettings';
 import Loader from '../components/Loader';

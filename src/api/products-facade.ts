@@ -1,3 +1,4 @@
+import {IFilter} from '../models/types/filter';
 import {IProductSupabase} from '../models/types/product';
 import {supabase} from '../services/supabase';
 
@@ -24,14 +25,11 @@ export const deleteProduct = async (productId: number) => {
   return response;
 };
 
-export const getProducts = async (filters: {
-  idCategory: number;
-  name: string;
-}) => {
+export const getProducts = async (filters: IFilter) => {
   let response = await supabase.rpc('get_products', {
     p_uid_user: await getUserUid(),
-    p_name: filters?.name,
-    p_id_category: filters?.idCategory,
+    p_name: filters?.nameFilter || null,
+    p_id_category: filters?.category || null,
   });
 
   return response;

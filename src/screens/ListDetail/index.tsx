@@ -11,12 +11,13 @@ const ListDetail = ({route}: any) => {
   const {
     user,
     listSelected,
+    showConfetti,
+    loading,
     getListByID,
     handleButtonDelete,
     handleAllSelected,
     setShowConfetti,
-    showConfetti,
-    loading,
+    navigateToEditList,
   } = listDetailController();
 
   return (
@@ -24,12 +25,13 @@ const ListDetail = ({route}: any) => {
       style={[Style.screen, {backgroundColor: theme.backgroundScreen}]}>
       <Content
         id={params?.id}
-        getListByID={getListByID}
-        handleAllSelected={handleAllSelected}
-        handleButtonDelete={handleButtonDelete}
         listSelected={listSelected}
         user={user}
         loading={loading}
+        getListByID={getListByID}
+        handleAllSelected={handleAllSelected}
+        handleButtonDelete={handleButtonDelete}
+        navigateToEditList={navigateToEditList}
       />
       {showConfetti && (
         <ConfettiCannon

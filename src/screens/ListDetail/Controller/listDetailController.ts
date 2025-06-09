@@ -76,6 +76,16 @@ export const listDetailController = () => {
 
   const goHome = () => navigation?.navigate('MainDrawer');
 
+  const navigateToEditList = async (id: string) => {
+    await StorageService.setItem('idList', id);
+    navigation?.navigate('MainDrawer', {
+      screen: 'MainTabs',
+      params: {
+        screen: 'CreateList',
+      },
+    });
+  };
+
   return {
     user,
     listSelected,
@@ -83,6 +93,7 @@ export const listDetailController = () => {
     handleButtonDelete,
     handleAllSelected,
     setShowConfetti,
+    navigateToEditList,
     showConfetti,
     loading,
   };

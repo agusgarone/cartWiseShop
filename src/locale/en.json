@@ -9,7 +9,7 @@
     "inputPlaceHolder": "List name",
     "button": "Done",
     "emptyText": "No products!",
-    "emptyButton": "Add",
+    "emptyButton": "Add product",
     "buttonAddProduct": "Add product",
     "addNameToTheList": "Please add a name to the list!"
   },
@@ -35,17 +35,19 @@
     "atention": "Attention!",
     "youGoingToDeleteThelistWithName": "You are going to delete the list named:",
     "accept": "Accept",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "editButton": "Edit List",
+    "deleteButton": "Delete"
   },
   "login": {
     "nameApp": "CartWiseShop",
     "signIn": {
-      "button": "Sign up with Google",
+      "button": "Sign up",
       "haveAnAccount": "Already have an account?",
       "logIn": "Log in"
     },
     "logIn": {
-      "button": "Log in with Google",
+      "button": "Log in",
       "dontHaveAccount": "Don't have an account?",
       "logIn": "Sign up"
     }
@@ -65,5 +67,10 @@
     "language": "Language",
     "appTheme": "App theme",
     "logOut": "Logout"
+  },
+  "filterProducts": {
+    "title": "Filters",
+    "inputPlaceholder": "Search product",
+    "addButton": "Add filter"
   }
 }

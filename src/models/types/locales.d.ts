@@ -69,6 +69,11 @@ declare module 'react-i18next' {
         language: string;
         appTheme: string;
       };
+      filterProducts: {
+        title: string;
+        inputPlaceholder: string;
+        addButton: string;
+      };
     };
   }
 }

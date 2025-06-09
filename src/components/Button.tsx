@@ -22,7 +22,12 @@ const Button = ({children, onPress, isDisabled, type, icon}: IButton) => {
   const {theme} = useContext(ThemeContext);
   const buttonStyles: StyleProp<ViewStyle> = [
     {
-      backgroundColor: theme.button.background,
+      backgroundColor:
+        type === 'primary'
+          ? theme.button.background
+          : theme.button.backgroundSecondary,
+      borderWidth: type === 'secondary' ? 1 : 0,
+      borderColor: theme.button.background,
     },
     icon && {display: 'flex', flexDirection: 'row', gap: 10},
     styles.button,
@@ -38,7 +43,10 @@ const Button = ({children, onPress, isDisabled, type, icon}: IButton) => {
         <Text
           style={[
             {
-              color: theme.button.text,
+              color:
+                type === 'primary'
+                  ? theme.button.text
+                  : theme.button.textSecondary,
             },
             styles.buttonText,
           ]}>

@@ -35,17 +35,19 @@
     "atention": "Attenzione!",
     "youGoingToDeleteThelistWithName": "Stai per eliminare la lista chiamata:",
     "accept": "Accetta",
-    "cancel": "Annulla"
+    "cancel": "Annulla",
+    "editButton": "Modifica elenco",
+    "deleteButton": "Eliminare"
   },
   "login": {
     "nameApp": "CartWiseShop",
     "signIn": {
-      "button": "Registrati con Google",
+      "button": "Registrati",
       "haveAnAccount": "Hai già un account?",
       "logIn": "Accedi"
     },
     "logIn": {
-      "button": "Accedi con Google",
+      "button": "Accedi",
       "dontHaveAccount": "Non hai un account?",
       "logIn": "Registrati"
     }
@@ -65,5 +67,10 @@
     "language": "Lingua",
     "appTheme": "Tema dell'app",
     "logOut": "disconnettersi"
+  },
+  "filterProducts": {
+    "title": "Filtri",
+    "inputPlaceholder": "Cerca il prodotto",
+    "addButton": "Aggiungi"
   }
 }
