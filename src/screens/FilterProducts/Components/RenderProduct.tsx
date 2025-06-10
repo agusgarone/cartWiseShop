@@ -4,9 +4,26 @@ import {useField} from 'formik';
 import {ICategory} from '../../../models/types/category';
 import {ThemeContext} from '../../../services/ThemeProvider';
 
-const RenderProduct = ({item, index}: {index: number; item: ICategory}) => {
+const RenderProduct = ({
+  item,
+  index,
+  categories,
+  setFieldValue,
+}: {
+  index: number;
+  item: ICategory;
+  setFieldValue: (field: string, value: any, shouldValidate?: boolean) => void;
+  categories: ICategory[];
+}) => {
   const {theme} = useContext(ThemeContext);
   const [field, , helpers] = useField(`categories[${index}].isChecked`);
+
+  const handleSwitch = () => {
+    categories.forEach((_, i) => {
+      setFieldValue(`categories[${i}].isChecked`, i === index);
+    });
+  };
+
   return (
     <View style={style.view}>
       <Text
@@ -15,9 +32,7 @@ const RenderProduct = ({item, index}: {index: number; item: ICategory}) => {
       </Text>
       <Switch
         value={field.value || false}
-        onValueChange={newValue => {
-          helpers.setValue(newValue);
-        }}
+        onValueChange={handleSwitch}
         trackColor={{
           true: theme.filterProducts.renderProduct.true,
           false: theme.filterProducts.renderProduct.false,

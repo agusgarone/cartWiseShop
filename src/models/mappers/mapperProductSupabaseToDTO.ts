@@ -1,7 +1,5 @@
 import {IProductDTO} from '../types/product';
 
-// * Hay que revisar el tema de category en el objeto
-
 export const mapperProductSupabaseToDTO = (
   entry: {
     id: string;
@@ -19,6 +17,7 @@ export const mapperProductSupabaseToDTO = (
         id: parseInt(value.id_category, 10),
         name: value.category_name,
       },
+      default: !value.uid_user,
     };
     return prodDTO;
   });

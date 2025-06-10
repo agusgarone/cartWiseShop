@@ -24,7 +24,7 @@ const FilterForm = ({
   const {t} = useTranslation();
   return (
     <Formik initialValues={initialValues} onSubmit={handleFormikSubmit}>
-      {({handleSubmit, values}) => {
+      {({handleSubmit, values, setFieldValue}) => {
         return (
           <View style={styles.form}>
             <FormikInputValue
@@ -38,7 +38,12 @@ const FilterForm = ({
                 <FlatList
                   data={values.categories}
                   renderItem={({item, index}) => (
-                    <RenderProduct item={item} index={index} />
+                    <RenderProduct
+                      item={item}
+                      index={index}
+                      categories={categories}
+                      setFieldValue={setFieldValue}
+                    />
                   )}
                   style={{
                     paddingVertical: 5,

@@ -34,6 +34,7 @@ export const mapperListsSupabaseToDTO = (
             },
             id: parseInt(item.id, 10),
             name: item.name,
+            default: false,
           };
           return product;
         }) || [],

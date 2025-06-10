@@ -50,7 +50,16 @@ export const productsController = () => {
     }, [fetchParams]),
   );
 
-  const DialogDeleteProduct = (product: IProductDTO) =>
+  const handleDelete = async (product: IProductDTO) => {
+    const responseRemoveProduct = await removeProduct(product.id);
+    if (!responseRemoveProduct.error) {
+      fetchData();
+    }
+  };
+
+  const goToCreateProduct = () => navigation?.navigate('CreateProduct');
+
+  const handleDeleteProduct = (product: IProductDTO, onConfirm: () => void) => {
     Alert.alert(
       t('products.atention'),
       `${t('products.youGoingToDeleteTheProductWithName')} ${product.name}`,
@@ -62,22 +71,14 @@ export const productsController = () => {
         },
         {
           text: t('products.accept'),
-          onPress: () => handleDelete(product),
+          onPress: async () => {
+            onConfirm();
+            await handleDelete(product);
+          },
         },
       ],
     );
-
-  const handleDelete = async (product: IProductDTO) => {
-    const responseRemoveProduct = await removeProduct(product.id);
-    if (!responseRemoveProduct.error) {
-      fetchData();
-    }
   };
-
-  const goToCreateProduct = () => navigation?.navigate('CreateProduct');
-
-  const handleDeleteProduct = (product: IProductDTO) =>
-    DialogDeleteProduct(product);
 
   return {
     allProducts,

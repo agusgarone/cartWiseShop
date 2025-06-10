@@ -10,6 +10,7 @@ export interface IProductDTO {
   id: number;
   name: string;
   category: ICategory;
+  default: boolean;
 }
 
 export interface IProductForm extends IProductDTO {

@@ -5,6 +5,7 @@ import {Keyboard} from 'react-native';
 import {fetchProducts} from '../../../services/Product';
 import {IProductDTO} from '../../../models/types/product';
 import {mapperProductSupabaseToDTO} from '../../../models/mappers/mapperProductSupabaseToDTO';
+import {IFilter} from '../../../models/types/filter';
 
 export const addProductsController = () => {
   const navigation = useContext(NavigationContext);
@@ -52,12 +53,11 @@ export const addProductsController = () => {
 
   const loadProducts = async () => {
     setLoading(true);
-    const filters = undefined;
+    const filters: IFilter = {category: null, nameFilter: null};
     const responseGetAllProducts = await fetchProducts(filters);
     if (responseGetAllProducts.error) {
       console.log(responseGetAllProducts.error);
     } else {
-      console.log('responseGetAllProducts', responseGetAllProducts.data);
       setAllProducts(mapperProductSupabaseToDTO(responseGetAllProducts.data));
       setValuesSearched(
         mapperProductSupabaseToDTO(responseGetAllProducts.data),

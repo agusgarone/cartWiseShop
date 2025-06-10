@@ -8,7 +8,6 @@ import {
   View,
 } from 'react-native';
 import theme from '../../common/theme';
-import RenderProduct from './Components/RenderProducts';
 import Button from '../../components/Button';
 import {productsController} from './Controller/productsController';
 import {
@@ -19,6 +18,7 @@ import {IProductDTO} from '../../models/types/product';
 import Loader from '../../components/Loader';
 import {ThemeContext} from '../../services/ThemeProvider';
 import {useTranslation} from 'react-i18next';
+import SwipeToDeleteItem from './Components/AnimatedRenderItem';
 
 type ProductsProps = {
   NavMainTabs?: DrawerNavigationProp<any, 'MainTabs', undefined>;
@@ -34,10 +34,10 @@ const Products = ({NavMainTabs, NavProduct}: ProductsProps) => {
 
   const _renderProducts = ({item}: {item: IProductDTO}) => {
     return (
-      <RenderProduct
+      <SwipeToDeleteItem
         item={item}
-        isSelected={false}
-        onPress={() => handleDeleteProduct(item)}
+        onDismiss={() => null}
+        onPressTrash={onConfirm => handleDeleteProduct(item, onConfirm)}
       />
     );
   };
