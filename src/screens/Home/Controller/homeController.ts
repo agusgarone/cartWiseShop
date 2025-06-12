@@ -6,11 +6,12 @@ import {StorageService} from '../../../storage/asyncStorage';
 import {IProductDTO} from '../../../models/types/product';
 import {mapperListsSupabaseToDTO} from '../../../models/mappers/mapperListsSupabaseToDTO';
 import {User} from '../../../models/types/user';
+import {fetchUserById} from '../../Login/Service/loginService';
 
 export const homeController = () => {
   const [list, setList] = useState<IListDTO<IProductDTO>[]>([]);
   const navigation = useContext(NavigationContext);
-  const [user, setUser] = useState<User>();
+  const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(false);
 
   const navigateToListDetail = (id: string) => {
@@ -36,15 +37,13 @@ export const homeController = () => {
 
   const loadList = async () => {
     setLoading(true);
-    const userAuthenticated: User = await StorageService.getItem(
-      'userAuthenticated',
-    );
+    const userData = await fetchUserById();
     const responseFetchList = await fetchLists();
     if (responseFetchList.error) {
       console.log(responseFetchList.error);
     } else {
       setList(mapperListsSupabaseToDTO(responseFetchList.data));
-      setUser(userAuthenticated);
+      setUser(userData.data);
       setLoading(false);
     }
   };
