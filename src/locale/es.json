@@ -36,8 +36,8 @@
     "youGoingToDeleteThelistWithName": "Va a eliminar la lista con nombre:",
     "accept": "Aceptar",
     "cancel": "Cancelar",
-    "editButton": "Edit List",
-    "deleteButton": "Delete"
+    "editButton": "Editar",
+    "deleteButton": "Eliminar"
   },
   "login": {
     "nameApp": "CartWiseShop",
