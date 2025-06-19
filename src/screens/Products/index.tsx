@@ -1,13 +1,5 @@
 import React, {useContext} from 'react';
-import {
-  FlatList,
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import theme from '../../common/theme';
+import {FlatList, SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import Button from '../../components/Button';
 import {productsController} from './Controller/productsController';
 import {
@@ -19,6 +11,7 @@ import Loader from '../../components/Loader';
 import {ThemeContext} from '../../services/ThemeProvider';
 import {useTranslation} from 'react-i18next';
 import SwipeToDeleteItem from './Components/AnimatedRenderItem';
+import {FilterButton} from '../../components/FilterButton';
 
 type ProductsProps = {
   NavMainTabs?: DrawerNavigationProp<any, 'MainTabs', undefined>;
@@ -49,24 +42,13 @@ const Products = ({NavMainTabs, NavProduct}: ProductsProps) => {
         <View style={Style.content}>
           <View style={Style.header}>
             <View style={{flexDirection: 'row'}}>
-              <TouchableOpacity
-                style={[
-                  Style.action,
-                  {backgroundColor: theme.products.buttonFilter.background},
-                ]}
+              <FilterButton
                 onPress={() =>
                   NavProduct?.navigation
                     ? NavProduct.navigation.openDrawer()
                     : NavMainTabs?.openDrawer()
-                }>
-                <Text
-                  style={[
-                    Style.buttonText,
-                    {color: theme.products.buttonFilter.color},
-                  ]}>
-                  Filtros
-                </Text>
-              </TouchableOpacity>
+                }
+              />
             </View>
           </View>
           <View style={Style.containerList}>
@@ -130,18 +112,6 @@ const Style = StyleSheet.create({
     justifyContent: 'flex-end',
     alignItems: 'center',
     marginBottom: 16,
-  },
-  action: {
-    padding: 10,
-    width: 80,
-    borderRadius: 16,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  buttonText: {
-    fontSize: theme.fontSize.m,
-    fontWeight: '600',
   },
   containerList: {
     flex: 9,
