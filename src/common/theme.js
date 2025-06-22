@@ -119,6 +119,8 @@ const light = {
   filterProducts: {
     background: '#fff',
     title: '#000',
+    subtitle: '#000',
+    sortIcon: '#8e9490',
     renderProduct: {
       text: '#8e9490',
       true: '#39bd5c',
@@ -248,6 +250,8 @@ const dark = {
   filterProducts: {
     background: '#000',
     title: '#ffffff',
+    subtitle: '#ffffff',
+    sortIcon: '#747b76',
     renderProduct: {
       text: '#747b76',
       true: '#34c95c',

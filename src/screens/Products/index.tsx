@@ -2,28 +2,27 @@ import React, {useContext} from 'react';
 import {FlatList, SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import Button from '../../components/Button';
 import {productsController} from './Controller/productsController';
-import {
-  DrawerNavigationProp,
-  DrawerScreenProps,
-} from '@react-navigation/drawer';
 import {IProductDTO} from '../../models/types/product';
 import Loader from '../../components/Loader';
 import {ThemeContext} from '../../services/ThemeProvider';
 import {useTranslation} from 'react-i18next';
 import SwipeToDeleteItem from './Components/AnimatedRenderItem';
 import {FilterButton} from '../../components/FilterButton';
+import {Drawer} from 'react-native-drawer-layout';
+import {CustomDrawerContent} from '../FilterProducts';
 
-type ProductsProps = {
-  NavMainTabs?: DrawerNavigationProp<any, 'MainTabs', undefined>;
-  NavProduct?: DrawerScreenProps<any, 'ProductsDrawer'>;
-};
-
-const Products = ({NavMainTabs, NavProduct}: ProductsProps) => {
+const Products = () => {
   const {t} = useTranslation();
   const {theme} = useContext(ThemeContext);
 
-  const {allProducts, goToCreateProduct, handleDeleteProduct, loading} =
-    productsController();
+  const {
+    allProducts,
+    goToCreateProduct,
+    handleDeleteProduct,
+    loading,
+    setOpen,
+    open,
+  } = productsController();
 
   const _renderProducts = ({item}: {item: IProductDTO}) => {
     return (
@@ -38,56 +37,65 @@ const Products = ({NavMainTabs, NavProduct}: ProductsProps) => {
   return (
     <SafeAreaView
       style={[Style.screen, {backgroundColor: theme.backgroundScreen}]}>
-      <View style={Style.selectList}>
-        <View style={Style.content}>
-          <View style={Style.header}>
-            <View style={{flexDirection: 'row'}}>
-              <FilterButton
-                onPress={() =>
-                  NavProduct?.navigation
-                    ? NavProduct.navigation.openDrawer()
-                    : NavMainTabs?.openDrawer()
-                }
+      <Drawer
+        open={open}
+        onOpen={() => setOpen(true)}
+        onClose={() => setOpen(false)}
+        drawerStyle={{width: 300}}
+        renderDrawerContent={() => {
+          return (
+            <CustomDrawerContent
+              filterTo="products"
+              closeDrawer={() => setOpen(false)}
+              productsCategories={[]}
+            />
+          );
+        }}>
+        <View style={Style.selectList}>
+          <View style={Style.content}>
+            <View style={Style.header}>
+              <View style={{flexDirection: 'row'}}>
+                <FilterButton onPress={() => setOpen(true)} />
+              </View>
+            </View>
+            <View style={Style.containerList}>
+              {loading ? (
+                <Loader />
+              ) : (
+                <FlatList
+                  style={{paddingVertical: 5}}
+                  data={allProducts}
+                  renderItem={_renderProducts}
+                  ListEmptyComponent={() => {
+                    if (loading) {
+                      return null;
+                    }
+                    return (
+                      <View style={Style.noProducts}>
+                        <Text style={{color: theme.products.color}}>
+                          {t('products.emptyText')}
+                        </Text>
+                      </View>
+                    );
+                  }}
+                  ListFooterComponent={() => (
+                    <View style={Style.marginListFooter}></View>
+                  )}
+                />
+              )}
+            </View>
+            <View style={Style.containerButton}>
+              <Button
+                children={t('products.button')}
+                isDisabled={false}
+                type="primary"
+                onPress={goToCreateProduct}
+                key={'Button'}
               />
             </View>
           </View>
-          <View style={Style.containerList}>
-            {loading ? (
-              <Loader />
-            ) : (
-              <FlatList
-                style={{paddingVertical: 5}}
-                data={allProducts}
-                renderItem={_renderProducts}
-                ListEmptyComponent={() => {
-                  if (loading) {
-                    return null;
-                  }
-                  return (
-                    <View style={Style.noProducts}>
-                      <Text style={{color: theme.products.color}}>
-                        {t('products.emptyText')}
-                      </Text>
-                    </View>
-                  );
-                }}
-                ListFooterComponent={() => (
-                  <View style={Style.marginListFooter}></View>
-                )}
-              />
-            )}
-          </View>
-          <View style={Style.containerButton}>
-            <Button
-              children={t('products.button')}
-              isDisabled={false}
-              type="primary"
-              onPress={goToCreateProduct}
-              key={'Button'}
-            />
-          </View>
         </View>
-      </View>
+      </Drawer>
     </SafeAreaView>
   );
 };

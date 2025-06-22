@@ -71,6 +71,8 @@
   "filterProducts": {
     "title": "Filters",
     "inputPlaceholder": "Search product",
-    "addButton": "Add filter"
+    "addButton": "Add filter",
+    "categories": "Categories",
+    "sort": "Sort"
   }
 }

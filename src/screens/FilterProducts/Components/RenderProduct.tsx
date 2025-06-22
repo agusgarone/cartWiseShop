@@ -1,7 +1,7 @@
 import React, {useContext} from 'react';
 import {StyleSheet, Switch, Text, View} from 'react-native';
 import {useField} from 'formik';
-import {ICategory} from '../../../models/types/category';
+import {ICategoryFilter} from '../../../models/types/category';
 import {ThemeContext} from '../../../services/ThemeProvider';
 
 const RenderProduct = ({
@@ -11,16 +11,20 @@ const RenderProduct = ({
   setFieldValue,
 }: {
   index: number;
-  item: ICategory;
+  item: ICategoryFilter;
   setFieldValue: (field: string, value: any, shouldValidate?: boolean) => void;
-  categories: ICategory[];
+  categories: ICategoryFilter[];
 }) => {
   const {theme} = useContext(ThemeContext);
   const [field, , helpers] = useField(`categories[${index}].isChecked`);
 
   const handleSwitch = () => {
     categories.forEach((_, i) => {
-      setFieldValue(`categories[${i}].isChecked`, i === index);
+      if (i === index && item.isChecked) {
+        setFieldValue(`categories[${i}].isChecked`, false);
+      } else {
+        setFieldValue(`categories[${i}].isChecked`, i === index);
+      }
     });
   };
 

@@ -1,7 +1,8 @@
 import {useContext} from 'react';
-import {StyleSheet, Text, TouchableOpacity} from 'react-native';
+import {StyleSheet, TouchableOpacity} from 'react-native';
 import {ThemeContext} from '../services/ThemeProvider';
 import theme from '../common/theme';
+import {SlidersHorizontal} from 'lucide-react-native';
 
 export const FilterButton = ({onPress}: {onPress: () => void}) => {
   const {theme} = useContext(ThemeContext);
@@ -13,10 +14,7 @@ export const FilterButton = ({onPress}: {onPress: () => void}) => {
         {backgroundColor: theme.products.buttonFilter.background},
       ]}
       onPress={onPress}>
-      <Text
-        style={[Style.buttonText, {color: theme.products.buttonFilter.color}]}>
-        Filtros
-      </Text>
+      <SlidersHorizontal size={22} color="white" />
     </TouchableOpacity>
   );
 };
@@ -24,7 +22,7 @@ export const FilterButton = ({onPress}: {onPress: () => void}) => {
 const Style = StyleSheet.create({
   action: {
     padding: 10,
-    width: 80,
+    width: 50,
     borderRadius: 16,
     display: 'flex',
     alignItems: 'center',
