@@ -5,7 +5,7 @@ import {Keyboard} from 'react-native';
 import {fetchProducts} from '../../../services/Product';
 import {IProductDTO} from '../../../models/types/product';
 import {mapperProductSupabaseToDTO} from '../../../models/mappers/mapperProductSupabaseToDTO';
-import {IFilter} from '../../../models/types/filter';
+import {IFilterProducts} from '../../../models/types/filter';
 
 export const addProductsController = () => {
   const navigation = useContext(NavigationContext);
@@ -53,7 +53,11 @@ export const addProductsController = () => {
 
   const loadProducts = async () => {
     setLoading(true);
-    const filters: IFilter = {category: null, nameFilter: null};
+    const filters: IFilterProducts = {
+      category: null,
+      nameFilter: null,
+      orderAsc: true,
+    };
     const responseGetAllProducts = await fetchProducts(filters);
     if (responseGetAllProducts.error) {
       console.log(responseGetAllProducts.error);

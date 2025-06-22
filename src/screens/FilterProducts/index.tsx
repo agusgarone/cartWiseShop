@@ -1,17 +1,25 @@
-import {DrawerContentComponentProps} from '@react-navigation/drawer';
 import React, {useContext} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
-import FilterForm from './Components/Form';
+import FilterFormProducts from './Components/FormProducts';
 import {useTranslation} from 'react-i18next';
 import {ThemeContext} from '../../services/ThemeProvider';
 import {filterProductService} from './Controller';
+import FilterFormDetail from './Components/FormListDetail';
+import {ICategoryFilter} from '../../models/types/category';
 
-export default function CustomDrawerContent(
-  props: DrawerContentComponentProps,
-) {
+export const CustomDrawerContent = ({
+  filterTo,
+  closeDrawer,
+  productsCategories,
+}: {
+  filterTo: 'products' | 'detail';
+  closeDrawer: () => void;
+  productsCategories: ICategoryFilter[];
+}) => {
   const {t} = useTranslation();
   const {theme} = useContext(ThemeContext);
-  const {applyFilters} = filterProductService(props);
+  const {applyFiltersProducts, applyFiltersListDetail, categories} =
+    filterProductService();
 
   return (
     <View
@@ -22,10 +30,22 @@ export default function CustomDrawerContent(
       <Text style={[styles.title, {color: theme.filterProducts.title}]}>
         {t('filterProducts.title')}
       </Text>
-      <FilterForm handleFormikSubmit={applyFilters} />
+      {filterTo === 'products' ? (
+        <FilterFormProducts
+          categories={categories}
+          handleFormikSubmit={applyFiltersProducts}
+          closeDrawer={closeDrawer}
+        />
+      ) : (
+        <FilterFormDetail
+          categories={productsCategories}
+          handleFormikSubmit={applyFiltersListDetail}
+          closeDrawer={closeDrawer}
+        />
+      )}
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {

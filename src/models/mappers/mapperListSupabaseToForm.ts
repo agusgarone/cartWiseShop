@@ -11,7 +11,7 @@ export const mapperListSupabaseToForm = (
     product_data: Array<{
       id: string;
       name: string;
-      id_category: string;
+      id_category: number;
       category: string;
     }> | null;
   } | null,
@@ -25,9 +25,10 @@ export const mapperListSupabaseToForm = (
         entry.product_data?.map(item => {
           const product: IProductForm = {
             category: {
-              id: parseInt(item.id_category, 10),
+              id: item.id_category,
               name: item.category,
             },
+            default: !entry.uid_user,
             id: parseInt(item.id, 10),
             name: item.name,
             isChecked: false,

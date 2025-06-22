@@ -6,37 +6,29 @@ import {Formik} from 'formik';
 import {IListForm} from '../../../models/types/list';
 import RenderProduct from './RenderProducts';
 import {IProductDTO, IProductForm} from '../../../models/types/product';
-import {User} from '../../../models/types/user';
 import Loader from '../../../components/Loader';
 import {ThemeContext} from '../../../services/ThemeProvider';
 import Button from '../../../components/Button';
 import {useTranslation} from 'react-i18next';
+import {FilterButton} from '../../../components/FilterButton';
 
 const Content = ({
-  id,
-  getListByID,
   handleAllSelected,
   handleButtonDelete,
   navigateToEditList,
+  setOpen,
   listSelected,
-  user,
   loading,
 }: {
-  id: string;
-  user: User | undefined;
   listSelected: IListForm<IProductForm> | null;
   loading: boolean;
-  getListByID: (id: string) => Promise<void>;
   handleButtonDelete: (list: IListForm<IProductForm>) => void;
   handleAllSelected: () => void;
   navigateToEditList: (id: string) => Promise<void>;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const {theme} = useContext(ThemeContext);
   const {t} = useTranslation();
-
-  useEffect(() => {
-    getListByID(id);
-  }, [id]);
 
   return (
     <View style={styles.centeredView}>
@@ -48,6 +40,7 @@ const Content = ({
             <Text style={[styles.title, {color: theme.listDetail.titleColor}]}>
               {listSelected?.name}
             </Text>
+            <FilterButton onPress={() => setOpen(true)} />
           </View>
           <View style={styles.containerList}>
             <Formik
@@ -69,17 +62,6 @@ const Content = ({
                     .map(p => p.isChecked)
                     .join(','),
                 ]);
-
-                // if (user && user.listView === 'separated') {
-                //   return (
-                //     <Separated
-                //       data={mapProductsArrayToObject(
-                //         Object.values(values.products),
-                //       )}
-                //       render={_renderProducts}
-                //     />
-                //   );
-                // }
                 return (
                   <List
                     data={Object.values(values.products)}
@@ -95,7 +77,7 @@ const Content = ({
                 children={t('listDetail.editButton')}
                 isDisabled={false}
                 type="secondary"
-                onPress={() => navigateToEditList(id)}
+                onPress={() => navigateToEditList}
                 key={'Button1'}
               />
             </View>

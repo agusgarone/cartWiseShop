@@ -123,6 +123,7 @@ export type Database = {
           p_uid_user: string;
           p_name?: string | null;
           p_id_category?: number | null;
+          p_order_asc: boolean;
         };
         Returns: Array<{
           id: string;
@@ -163,7 +164,7 @@ export type Database = {
               product_data: Array<{
                 id: string;
                 name: string;
-                id_category: string;
+                id_category: number;
                 category: string;
               }> | null;
             }[]

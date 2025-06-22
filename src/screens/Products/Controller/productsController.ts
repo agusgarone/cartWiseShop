@@ -6,7 +6,7 @@ import {fetchProducts, removeProduct} from '../../../services/Product';
 import {IProductDTO} from '../../../models/types/product';
 import {mapperProductSupabaseToDTO} from '../../../models/mappers/mapperProductSupabaseToDTO';
 import {useTranslation} from 'react-i18next';
-import {IFilter} from '../../../models/types/filter';
+import {IFilterProducts} from '../../../models/types/filter';
 
 export const productsController = () => {
   const {t} = useTranslation();
@@ -14,16 +14,20 @@ export const productsController = () => {
   const products: IProductDTO[] = globalSessionState(
     state => state.productsSelected,
   );
-  const filters: IFilter = globalSessionState(state => state.filters);
+  const filters: IFilterProducts = globalSessionState(
+    state => state.filtersProducts,
+  );
 
   const [allProducts, setAllProducts] = useState<IProductDTO[]>(products);
   const [loading, setLoading] = useState(false);
+  const [open, setOpen] = useState(false);
 
-  const fetchData = async (filters?: IFilter) => {
+  const fetchData = async (filters?: IFilterProducts) => {
     setLoading(true);
     const responseGetAllProducts = await fetchProducts({
       nameFilter: filters?.nameFilter || null,
       category: filters?.category || null,
+      orderAsc: filters?.orderAsc === undefined ? true : filters.orderAsc,
     });
     if (responseGetAllProducts.error) {
       console.log(responseGetAllProducts.error);
@@ -37,6 +41,7 @@ export const productsController = () => {
     return {
       nameFilter: filters?.nameFilter || null,
       category: filters?.category || null,
+      orderAsc: filters.orderAsc,
     };
   }, [filters]);
 
@@ -85,5 +90,7 @@ export const productsController = () => {
     goToCreateProduct,
     handleDeleteProduct,
     loading,
+    open,
+    setOpen,
   };
 };

@@ -73,7 +73,7 @@ const BottomTabs = ({navigation}: DrawerNavigation) => {
           title: t('products.tab'),
           tabBarActiveTintColor: theme.tab.activeTabColor,
         }}>
-        {props => <Products NavMainTabs={navigation} />}
+        {props => <Products />}
       </Tab.Screen>
     </Tab.Navigator>
   );
