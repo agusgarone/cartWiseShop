@@ -25,10 +25,14 @@ export const deleteList = async (listId: number) => {
   return response;
 };
 
-export const getListById = async (listId: number) => {
+export const getListById = async (data: {
+  listId: number;
+  categories: number[] | null;
+}) => {
   const response = await supabase.rpc('get_list_by_id', {
-    p_list_id: listId,
+    p_list_id: data.listId,
     p_uid_user: await getUserUid(),
+    p_cat_ids: data.categories,
   });
 
   return response;

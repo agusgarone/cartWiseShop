@@ -17,8 +17,11 @@ export const removeList = async (listId: number) => {
   return responseDeleteList;
 };
 
-export const fetchListById = async (listId: number) => {
-  const responsefetchListById = await getListById(listId);
+export const fetchListById = async (data: {
+  listId: number;
+  categories: number[] | null;
+}) => {
+  const responsefetchListById = await getListById(data);
   return responsefetchListById;
 };
 

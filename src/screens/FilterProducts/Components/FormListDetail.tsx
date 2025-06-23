@@ -1,5 +1,12 @@
 import React, {useContext} from 'react';
-import {View, StyleSheet, FlatList, Text, TouchableOpacity} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  FlatList,
+  Text,
+  TouchableOpacity,
+  Switch,
+} from 'react-native';
 import {FieldArray, Formik} from 'formik';
 import RenderProduct from './RenderProduct';
 import Button from '../../../components/Button';
@@ -50,16 +57,18 @@ const FilterFormDetail = ({
                   styles.subtitle,
                   {color: theme.filterProducts.subtitle},
                 ]}>
-                Productos por categorias:{' '}
+                Agrupar por categoria:{' '}
               </Text>
-              <TouchableOpacity
-                onPress={() => setFieldValue('orderAsc', !values.orderAsc)}>
-                {values.orderAsc ? (
-                  <ArrowUpAZ color={theme.filterProducts.sortIcon} />
-                ) : (
-                  <ArrowDownAZ color={theme.filterProducts.sortIcon} />
-                )}
-              </TouchableOpacity>
+              <Switch
+                value={values.splitByCategories}
+                onValueChange={() => {
+                  setFieldValue('splitByCategories', !values.splitByCategories);
+                }}
+                trackColor={{
+                  true: theme.filterProducts.renderProduct.true,
+                  false: theme.filterProducts.renderProduct.false,
+                }}
+              />
             </View>
             <View
               style={{
@@ -102,6 +111,7 @@ const FilterFormDetail = ({
                         index={index}
                         categories={categories}
                         setFieldValue={setFieldValue}
+                        filterTo="detail"
                       />
                     )}
                     style={{

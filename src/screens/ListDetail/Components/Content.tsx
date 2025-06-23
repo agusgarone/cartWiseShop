@@ -1,11 +1,9 @@
 import React, {useContext, useEffect} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
-import List from '../../../components/List';
+import {FlatList, ScrollView, StyleSheet, Text, View} from 'react-native';
 import theme from '../../../common/theme';
 import {Formik} from 'formik';
-import {IListForm} from '../../../models/types/list';
+import {IListFormPrueba, ITab} from '../../../models/types/list';
 import RenderProduct from './RenderProducts';
-import {IProductDTO, IProductForm} from '../../../models/types/product';
 import Loader from '../../../components/Loader';
 import {ThemeContext} from '../../../services/ThemeProvider';
 import Button from '../../../components/Button';
@@ -19,12 +17,14 @@ const Content = ({
   setOpen,
   listSelected,
   loading,
+  showWithCategories,
 }: {
-  listSelected: IListForm<IProductForm> | null;
+  showWithCategories: boolean;
+  listSelected: IListFormPrueba<ITab>;
   loading: boolean;
-  handleButtonDelete: (list: IListForm<IProductForm>) => void;
+  handleButtonDelete: (list: IListFormPrueba<ITab>) => void;
   handleAllSelected: () => void;
-  navigateToEditList: (id: string) => Promise<void>;
+  navigateToEditList: () => Promise<void>;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const {theme} = useContext(ThemeContext);
@@ -46,28 +46,24 @@ const Content = ({
             <Formik
               enableReinitialize
               initialValues={{
-                products: listSelected?.products || [],
+                data: listSelected.data,
               }}
               onSubmit={values => console.log(values)}>
-              {({values}) => {
+              {({values, getFieldHelpers}) => {
                 useEffect(() => {
-                  const allSelected = Object.values(values.products).every(
-                    product => product.isChecked,
+                  const allSelected = values.data.every(tab =>
+                    tab.products.every(product => product.isChecked === true),
                   );
-                  if (allSelected && Object.keys(values.products).length > 0) {
+                  console.log('allSelected');
+                  // JSON.stringify(values.data)
+                  if (allSelected) {
                     handleAllSelected();
                   }
-                }, [
-                  Object.values(values.products)
-                    .map(p => p.isChecked)
-                    .join(','),
-                ]);
-                return (
-                  <List
-                    data={Object.values(values.products)}
-                    render={_renderProducts}
-                  />
-                );
+                }, [values]);
+                if (showWithCategories) {
+                  return <ShowProductsWithCategories values={values} />;
+                }
+                return <ShowOnlyProducts values={values} />;
               }}
             </Formik>
           </View>
@@ -77,7 +73,7 @@ const Content = ({
                 children={t('listDetail.editButton')}
                 isDisabled={false}
                 type="secondary"
-                onPress={() => navigateToEditList}
+                onPress={navigateToEditList}
                 key={'Button1'}
               />
             </View>
@@ -97,8 +93,70 @@ const Content = ({
   );
 };
 
-const _renderProducts = ({item, index}: {item: IProductDTO; index: number}) => {
-  return <RenderProduct item={item} index={index} key={`${item.id}${index}`} />;
+const ShowProductsWithCategories = ({
+  values,
+}: {
+  values: {
+    data: ITab[];
+  };
+}) => {
+  return (
+    <ScrollView>
+      {values.data.map((tab, indexTab) => (
+        <View key={indexTab}>
+          <View style={{padding: 16}}>
+            <Text
+              style={{
+                fontSize: 20,
+                fontWeight: 700,
+                color: '#000',
+              }}>
+              {tab.categoria}
+            </Text>
+          </View>
+          {tab.products.map((prod, indexProd) => {
+            return (
+              <RenderProduct
+                item={prod}
+                indexTab={indexTab}
+                indexProd={indexProd}
+                key={`${prod.id}${indexProd}`}
+              />
+            );
+          })}
+        </View>
+      ))}
+    </ScrollView>
+  );
+};
+
+const ShowOnlyProducts = ({
+  values,
+}: {
+  values: {
+    data: ITab[];
+  };
+}) => {
+  return (
+    <FlatList
+      data={values.data[0].products}
+      renderItem={({item, index}) => (
+        <RenderProduct
+          item={item}
+          indexTab={0}
+          indexProd={index}
+          key={`${item.id}${index}`}
+        />
+      )}
+      style={{paddingVertical: 5}}
+      ListFooterComponent={() => (
+        <View
+          style={{
+            marginVertical: 20,
+          }}></View>
+      )}
+    />
+  );
 };
 
 const styles = StyleSheet.create({

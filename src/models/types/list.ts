@@ -1,3 +1,5 @@
+import {IProductForm} from './product';
+
 export interface IListSupabase {
   id: number;
   created_at: string;
@@ -17,4 +19,16 @@ export interface IListForm<T> {
   created_at: string;
   name: string;
   products: Record<number, T>;
+}
+
+export interface IListFormPrueba<T> {
+  id: number;
+  created_at: string;
+  name: string;
+  data: T[];
+}
+
+export interface ITab {
+  categoria: string;
+  products: IProductForm[];
 }

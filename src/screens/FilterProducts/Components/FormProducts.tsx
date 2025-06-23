@@ -86,6 +86,7 @@ const FilterFormProducts = ({
                         index={index}
                         categories={categories}
                         setFieldValue={setFieldValue}
+                        filterTo="products"
                       />
                     )}
                     style={{

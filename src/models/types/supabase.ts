@@ -154,6 +154,7 @@ export type Database = {
         Args: {
           p_list_id: number;
           p_uid_user: string;
+          p_cat_ids: number[] | null;
         };
         Returns:
           | {

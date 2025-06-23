@@ -8,24 +8,30 @@ const RenderProduct = ({
   item,
   index,
   categories,
+  filterTo,
   setFieldValue,
 }: {
   index: number;
   item: ICategoryFilter;
   setFieldValue: (field: string, value: any, shouldValidate?: boolean) => void;
   categories: ICategoryFilter[];
+  filterTo: 'products' | 'detail';
 }) => {
   const {theme} = useContext(ThemeContext);
   const [field, , helpers] = useField(`categories[${index}].isChecked`);
 
   const handleSwitch = () => {
-    categories.forEach((_, i) => {
-      if (i === index && item.isChecked) {
-        setFieldValue(`categories[${i}].isChecked`, false);
-      } else {
-        setFieldValue(`categories[${i}].isChecked`, i === index);
-      }
-    });
+    if (filterTo === 'products') {
+      categories.forEach((_, i) => {
+        if (i === index && item.isChecked) {
+          setFieldValue(`categories[${i}].isChecked`, false);
+        } else {
+          setFieldValue(`categories[${i}].isChecked`, i === index);
+        }
+      });
+    } else {
+      helpers.setValue(!item.isChecked);
+    }
   };
 
   return (

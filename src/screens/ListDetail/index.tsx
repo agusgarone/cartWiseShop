@@ -11,11 +11,12 @@ const ListDetail = ({route}: any) => {
   const {theme} = useContext(ThemeContext);
   const {key, name, params} = route;
   const {
-    listSelected,
+    listSelectedFormatted,
     showConfetti,
     loading,
     open,
     categories,
+    showWithCategories,
     handleButtonDelete,
     handleAllSelected,
     setShowConfetti,
@@ -40,14 +41,17 @@ const ListDetail = ({route}: any) => {
             />
           );
         }}>
-        <Content
-          listSelected={listSelected}
-          loading={loading}
-          handleAllSelected={handleAllSelected}
-          handleButtonDelete={handleButtonDelete}
-          navigateToEditList={navigateToEditList}
-          setOpen={setOpen}
-        />
+        {listSelectedFormatted && (
+          <Content
+            listSelected={listSelectedFormatted}
+            loading={loading}
+            showWithCategories={showWithCategories}
+            handleAllSelected={handleAllSelected}
+            handleButtonDelete={handleButtonDelete}
+            navigateToEditList={navigateToEditList}
+            setOpen={setOpen}
+          />
+        )}
         {showConfetti && (
           <ConfettiCannon
             count={200}

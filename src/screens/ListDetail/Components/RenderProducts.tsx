@@ -2,11 +2,21 @@ import React, {useContext} from 'react';
 import {StyleSheet, Text, TouchableOpacity} from 'react-native';
 import {useField} from 'formik';
 import CheckBox from '@react-native-community/checkbox';
-import {IProductDTO} from '../../../models/types/product';
+import {IProductForm} from '../../../models/types/product';
 import {ThemeContext} from '../../../services/ThemeProvider';
 
-const RenderProduct = ({item, index}: {index: number; item: IProductDTO}) => {
-  const [field, , helpers] = useField(`products.${index}.isChecked`);
+const RenderProduct = ({
+  item,
+  indexTab,
+  indexProd,
+}: {
+  indexTab: number;
+  indexProd: number;
+  item: IProductForm;
+}) => {
+  const [field, , helpers] = useField(
+    `data${indexTab}.products.${indexProd}.isChecked`,
+  );
   const {theme} = useContext(ThemeContext);
   return (
     <TouchableOpacity

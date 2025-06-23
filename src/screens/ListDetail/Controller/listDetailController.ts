@@ -4,7 +4,7 @@ import {StorageService} from '../../../storage/asyncStorage';
 import {Alert} from 'react-native';
 import {fetchListById, removeList} from '../../../services/List';
 import {IProductForm} from '../../../models/types/product';
-import {IListForm} from '../../../models/types/list';
+import {IListDTO, IListFormPrueba, ITab} from '../../../models/types/list';
 import {mapperListSupabaseToForm} from '../../../models/mappers/mapperListSupabaseToForm';
 import {useTranslation} from 'react-i18next';
 import {IFilterListDetail} from '../../../models/types/filter';
@@ -18,8 +18,9 @@ export const listDetailController = (id: string) => {
     state => state.filtersListDetail,
   );
 
-  const [listSelected, setListSelected] =
-    useState<IListForm<IProductForm> | null>(null);
+  const [listSelected, setListSelected] = useState<IListDTO<IProductForm>>();
+  const [listSelectedFormatted, setListSelectedFormatted] =
+    useState<IListFormPrueba<ITab>>();
   const navigation = useContext(NavigationContext);
   const [showConfetti, setShowConfetti] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -36,15 +37,17 @@ export const listDetailController = (id: string) => {
 
   const getListByID = async (id: string) => {
     setLoading(true);
-    const responseFetchListById = await fetchListById(parseInt(id, 10));
+    const responseFetchListById = await fetchListById({
+      listId: parseInt(id, 10),
+      categories: fetchParams.categories,
+    });
     if (responseFetchListById.error) {
       console.log(responseFetchListById.error);
       Alert.alert(t('listDetail.theListDoesntExist'));
       goHome();
     } else {
-      if (responseFetchListById.data) {
+      if (responseFetchListById.data && responseFetchListById.data[0]) {
         getCategoriesByProducts(responseFetchListById.data[0].product_data);
-        sortProducts(responseFetchListById.data[0]);
         setListSelected(
           mapperListSupabaseToForm(responseFetchListById.data[0]),
         );
@@ -63,6 +66,72 @@ export const listDetailController = (id: string) => {
     }, [fetchParams, id]),
   );
 
+  const parseData = (list: IListDTO<IProductForm>) => {
+    if (list) {
+      const newFormatArrayList: IListFormPrueba<ITab> = {
+        id: list?.id,
+        created_at: list?.created_at,
+        name: list?.name,
+        data: [],
+      };
+      if (!filters.splitByCategories) {
+        const tab: ITab = {
+          categoria: 'default',
+          products: list.products,
+        };
+        newFormatArrayList.data = [tab];
+      } else {
+        const tabs: ITab[] = categories.map(i => {
+          const tab: ITab = {
+            categoria: i.name,
+            products: [],
+          };
+          return tab;
+        });
+
+        tabs.forEach(tab => {
+          list.products?.forEach(prod => {
+            if (prod.category.name === tab.categoria) {
+              tab.products.push(prod);
+            }
+          });
+        });
+        newFormatArrayList.data = tabs;
+        sortCategories(newFormatArrayList);
+      }
+      newFormatArrayList.data.forEach(tab => {
+        sortProducts(tab.products);
+      });
+      setListSelectedFormatted(newFormatArrayList);
+    }
+  };
+
+  const sortProducts = (products: IProductForm[]) => {
+    const productsValue = products;
+    const isAsc = filters?.orderAsc ?? true;
+    productsValue?.sort((a, b) =>
+      isAsc ? a.name.localeCompare(b.name) : b.name.localeCompare(a.name),
+    );
+    return productsValue;
+  };
+
+  const sortCategories = (list: IListFormPrueba<ITab>) => {
+    const listValue = list;
+    const isAsc = filters?.orderAsc ?? true;
+    listValue?.data.sort((a, b) =>
+      isAsc
+        ? a.categoria.localeCompare(b.categoria)
+        : b.categoria.localeCompare(a.categoria),
+    );
+    return listValue;
+  };
+
+  useMemo(() => {
+    if (listSelected) {
+      parseData(listSelected);
+    }
+  }, [categories, listSelected]);
+
   const handleDeleteList = async (listId: number) => {
     const responseRemoveList = await removeList(listId);
     if (responseRemoveList.error) {
@@ -70,7 +139,7 @@ export const listDetailController = (id: string) => {
     }
   };
 
-  const DialogDeleteList = (list: IListForm<IProductForm>) =>
+  const DialogDeleteList = (list: IListFormPrueba<ITab>) =>
     Alert.alert(
       t('listDetail.atention'),
       `${t('listDetail.youGoingToDeleteThelistWithName')} ${list.name}`,
@@ -94,7 +163,7 @@ export const listDetailController = (id: string) => {
     setShowConfetti(true);
   };
 
-  const handleButtonDelete = (list: IListForm<IProductForm>) =>
+  const handleButtonDelete = (list: IListFormPrueba<ITab>) =>
     DialogDeleteList(list);
 
   const goHome = () => navigation?.navigate('MainDrawer');
@@ -107,27 +176,6 @@ export const listDetailController = (id: string) => {
         screen: 'CreateList',
       },
     });
-  };
-
-  const sortProducts = (
-    list: {
-      list_id: number;
-      list_name: string;
-      created_at: string;
-      uid_user: string;
-      product_data: Array<{
-        id: string;
-        name: string;
-        id_category: number;
-        category: string;
-      }> | null;
-    } | null,
-  ) => {
-    const listValue = list;
-    const isAsc = filters?.orderAsc ?? true;
-    listValue?.product_data?.sort((a, b) =>
-      isAsc ? a.name.localeCompare(b.name) : b.name.localeCompare(a.name),
-    );
   };
 
   const getCategoriesByProducts = (
@@ -158,10 +206,11 @@ export const listDetailController = (id: string) => {
     setShowConfetti,
     navigateToEditList,
     setOpen,
-    listSelected,
+    listSelectedFormatted,
     showConfetti,
     loading,
     open,
     categories,
+    showWithCategories: filters.splitByCategories,
   };
 };
