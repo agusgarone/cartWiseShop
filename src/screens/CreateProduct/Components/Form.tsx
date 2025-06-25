@@ -5,12 +5,12 @@ import {FormikInputValue} from '../../../components/FormikInput';
 import Button from '../../../components/Button';
 import {createProductController} from '../Controller/createProductController';
 import {FormikSelectValue} from '../../../components/FormikSelect';
-import {categories} from '../../../data-mock';
 import {useTranslation} from 'react-i18next';
 
 const CreateProductForm = () => {
   const {t} = useTranslation();
-  const {handleFormikSubmit, initialValues} = createProductController();
+  const {handleFormikSubmit, initialValues, categories} =
+    createProductController();
 
   return (
     <Formik
