@@ -18,13 +18,6 @@ export interface IListForm<T> {
   id: number;
   created_at: string;
   name: string;
-  products: Record<number, T>;
-}
-
-export interface IListFormPrueba<T> {
-  id: number;
-  created_at: string;
-  name: string;
   data: T[];
 }
 

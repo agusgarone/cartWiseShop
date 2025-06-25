@@ -2,7 +2,7 @@ import React, {useContext, useEffect} from 'react';
 import {FlatList, ScrollView, StyleSheet, Text, View} from 'react-native';
 import theme from '../../../common/theme';
 import {Formik} from 'formik';
-import {IListFormPrueba, ITab} from '../../../models/types/list';
+import {IListForm, ITab} from '../../../models/types/list';
 import RenderProduct from './RenderProducts';
 import Loader from '../../../components/Loader';
 import {ThemeContext} from '../../../services/ThemeProvider';
@@ -20,9 +20,9 @@ const Content = ({
   showWithCategories,
 }: {
   showWithCategories: boolean;
-  listSelected: IListFormPrueba<ITab>;
+  listSelected: IListForm<ITab>;
   loading: boolean;
-  handleButtonDelete: (list: IListFormPrueba<ITab>) => void;
+  handleButtonDelete: (list: IListForm<ITab>) => void;
   handleAllSelected: () => void;
   navigateToEditList: () => Promise<void>;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -54,7 +54,7 @@ const Content = ({
                   const allSelected = values.data.every(tab =>
                     tab.products.every(product => product.isChecked === true),
                   );
-                  console.log('allSelected');
+                  // console.log('allSelected');
                   // JSON.stringify(values.data)
                   if (allSelected) {
                     handleAllSelected();

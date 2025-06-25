@@ -57,7 +57,7 @@ const FilterFormDetail = ({
                   styles.subtitle,
                   {color: theme.filterProducts.subtitle},
                 ]}>
-                Agrupar por categoria:{' '}
+                {t('filterProducts.groupByCategory')}:{' '}
               </Text>
               <Switch
                 value={values.splitByCategories}

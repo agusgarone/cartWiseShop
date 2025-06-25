@@ -72,6 +72,7 @@
     "title": "Filtros",
     "inputPlaceholder": "Buscar producto",
     "addButton": "Agregar",
+    "groupByCategory": "Agrupar por categoria",
     "categories": "Categorias",
     "sort": "Ordenamiento"
   }

@@ -4,7 +4,7 @@ import {StorageService} from '../../../storage/asyncStorage';
 import {Alert} from 'react-native';
 import {fetchListById, removeList} from '../../../services/List';
 import {IProductForm} from '../../../models/types/product';
-import {IListDTO, IListFormPrueba, ITab} from '../../../models/types/list';
+import {IListDTO, IListForm, ITab} from '../../../models/types/list';
 import {mapperListSupabaseToForm} from '../../../models/mappers/mapperListSupabaseToForm';
 import {useTranslation} from 'react-i18next';
 import {IFilterListDetail} from '../../../models/types/filter';
@@ -20,12 +20,15 @@ export const listDetailController = (id: string) => {
 
   const [listSelected, setListSelected] = useState<IListDTO<IProductForm>>();
   const [listSelectedFormatted, setListSelectedFormatted] =
-    useState<IListFormPrueba<ITab>>();
+    useState<IListForm<ITab>>();
   const navigation = useContext(NavigationContext);
   const [showConfetti, setShowConfetti] = useState(false);
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
-  const [categories, setCategories] = useState<ICategoryFilter[]>([]);
+  const [categories, setCategories] = useState<ICategoryFilter[] | null>(null);
+  const [categoriesFilter, setCategoriesFilter] = useState<
+    ICategoryFilter[] | null
+  >(null);
 
   const fetchParams = useMemo(() => {
     return {
@@ -35,7 +38,7 @@ export const listDetailController = (id: string) => {
     };
   }, [filters]);
 
-  const getListByID = async (id: string) => {
+  const getListByID = async () => {
     setLoading(true);
     const responseFetchListById = await fetchListById({
       listId: parseInt(id, 10),
@@ -47,7 +50,19 @@ export const listDetailController = (id: string) => {
       goHome();
     } else {
       if (responseFetchListById.data && responseFetchListById.data[0]) {
-        getCategoriesByProducts(responseFetchListById.data[0].product_data);
+        if (!categoriesFilter) {
+          setCategoriesFilter(
+            getCategoriesByProducts(responseFetchListById.data[0].product_data),
+          );
+        }
+        console.log(
+          JSON.stringify(
+            mapperListSupabaseToForm(responseFetchListById.data[0]),
+          ),
+        );
+        setCategories(
+          getCategoriesByProducts(responseFetchListById.data[0].product_data),
+        );
         setListSelected(
           mapperListSupabaseToForm(responseFetchListById.data[0]),
         );
@@ -58,7 +73,7 @@ export const listDetailController = (id: string) => {
 
   useFocusEffect(
     useCallback(() => {
-      getListByID(id);
+      getListByID();
 
       return () => {
         console.log('🔄 Cleanup: Se desmonta el listener');
@@ -66,18 +81,18 @@ export const listDetailController = (id: string) => {
     }, [fetchParams, id]),
   );
 
-  const parseData = (list: IListDTO<IProductForm>) => {
-    if (list) {
-      const newFormatArrayList: IListFormPrueba<ITab> = {
-        id: list?.id,
-        created_at: list?.created_at,
-        name: list?.name,
+  const parseData = () => {
+    if (listSelected && categories) {
+      const newFormatArrayList: IListForm<ITab> = {
+        id: listSelected?.id,
+        created_at: listSelected?.created_at,
+        name: listSelected?.name,
         data: [],
       };
       if (!filters.splitByCategories) {
         const tab: ITab = {
           categoria: 'default',
-          products: list.products,
+          products: listSelected.products,
         };
         newFormatArrayList.data = [tab];
       } else {
@@ -90,7 +105,7 @@ export const listDetailController = (id: string) => {
         });
 
         tabs.forEach(tab => {
-          list.products?.forEach(prod => {
+          listSelected.products?.forEach(prod => {
             if (prod.category.name === tab.categoria) {
               tab.products.push(prod);
             }
@@ -102,6 +117,7 @@ export const listDetailController = (id: string) => {
       newFormatArrayList.data.forEach(tab => {
         sortProducts(tab.products);
       });
+      console.log(JSON.stringify(newFormatArrayList));
       setListSelectedFormatted(newFormatArrayList);
     }
   };
@@ -115,7 +131,7 @@ export const listDetailController = (id: string) => {
     return productsValue;
   };
 
-  const sortCategories = (list: IListFormPrueba<ITab>) => {
+  const sortCategories = (list: IListForm<ITab>) => {
     const listValue = list;
     const isAsc = filters?.orderAsc ?? true;
     listValue?.data.sort((a, b) =>
@@ -127,8 +143,8 @@ export const listDetailController = (id: string) => {
   };
 
   useMemo(() => {
-    if (listSelected) {
-      parseData(listSelected);
+    if (listSelected && categories) {
+      parseData();
     }
   }, [categories, listSelected]);
 
@@ -139,7 +155,7 @@ export const listDetailController = (id: string) => {
     }
   };
 
-  const DialogDeleteList = (list: IListFormPrueba<ITab>) =>
+  const DialogDeleteList = (list: IListForm<ITab>) =>
     Alert.alert(
       t('listDetail.atention'),
       `${t('listDetail.youGoingToDeleteThelistWithName')} ${list.name}`,
@@ -163,8 +179,7 @@ export const listDetailController = (id: string) => {
     setShowConfetti(true);
   };
 
-  const handleButtonDelete = (list: IListFormPrueba<ITab>) =>
-    DialogDeleteList(list);
+  const handleButtonDelete = (list: IListForm<ITab>) => DialogDeleteList(list);
 
   const goHome = () => navigation?.navigate('MainDrawer');
 
@@ -197,7 +212,7 @@ export const listDetailController = (id: string) => {
         });
       }
     });
-    setCategories(categories);
+    return categories;
   };
 
   return {
@@ -210,7 +225,7 @@ export const listDetailController = (id: string) => {
     showConfetti,
     loading,
     open,
-    categories,
+    categoriesFilter,
     showWithCategories: filters.splitByCategories,
   };
 };

@@ -15,7 +15,7 @@ const ListDetail = ({route}: any) => {
     showConfetti,
     loading,
     open,
-    categories,
+    categoriesFilter,
     showWithCategories,
     handleButtonDelete,
     handleAllSelected,
@@ -37,7 +37,7 @@ const ListDetail = ({route}: any) => {
             <CustomDrawerContent
               filterTo="detail"
               closeDrawer={() => setOpen(false)}
-              productsCategories={categories}
+              productsCategories={categoriesFilter}
             />
           );
         }}>

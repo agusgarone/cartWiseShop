@@ -14,7 +14,7 @@ export const CustomDrawerContent = ({
 }: {
   filterTo: 'products' | 'detail';
   closeDrawer: () => void;
-  productsCategories: ICategoryFilter[];
+  productsCategories: ICategoryFilter[] | null;
 }) => {
   const {t} = useTranslation();
   const {theme} = useContext(ThemeContext);
@@ -30,16 +30,16 @@ export const CustomDrawerContent = ({
       <Text style={[styles.title, {color: theme.filterProducts.title}]}>
         {t('filterProducts.title')}
       </Text>
-      {filterTo === 'products' ? (
-        <FilterFormProducts
-          categories={categories}
-          handleFormikSubmit={applyFiltersProducts}
-          closeDrawer={closeDrawer}
-        />
-      ) : (
+      {filterTo === 'detail' && productsCategories ? (
         <FilterFormDetail
           categories={productsCategories}
           handleFormikSubmit={applyFiltersListDetail}
+          closeDrawer={closeDrawer}
+        />
+      ) : (
+        <FilterFormProducts
+          categories={categories}
+          handleFormikSubmit={applyFiltersProducts}
           closeDrawer={closeDrawer}
         />
       )}
