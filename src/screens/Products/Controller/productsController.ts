@@ -7,6 +7,9 @@ import {IProductDTO} from '../../../models/types/product';
 import {mapperProductSupabaseToDTO} from '../../../models/mappers/mapperProductSupabaseToDTO';
 import {useTranslation} from 'react-i18next';
 import {IFilterProducts} from '../../../models/types/filter';
+import {ICategoryFilter} from '../../../models/types/category';
+import {fetchCategories} from '../../../services/Category';
+import {mapperCategorySupabaseToFilter} from '../../../models/mappers/mapperCategorySupabaseToFilter';
 
 export const productsController = () => {
   const {t} = useTranslation();
@@ -19,6 +22,7 @@ export const productsController = () => {
   );
 
   const [allProducts, setAllProducts] = useState<IProductDTO[]>(products);
+  const [categories, setCategories] = useState<ICategoryFilter[]>([]);
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
 
@@ -37,6 +41,17 @@ export const productsController = () => {
     setLoading(false);
   };
 
+  const getCategories = async () => {
+    const responseGetAllCategories = await fetchCategories();
+    if (responseGetAllCategories.error) {
+      console.log(responseGetAllCategories.error);
+    } else {
+      setCategories(
+        mapperCategorySupabaseToFilter(responseGetAllCategories.data),
+      );
+    }
+  };
+
   const fetchParams = useMemo(() => {
     return {
       nameFilter: filters?.nameFilter || null,
@@ -48,6 +63,7 @@ export const productsController = () => {
   useFocusEffect(
     useCallback(() => {
       fetchData(fetchParams);
+      getCategories();
 
       return () => {
         console.log('🔄 Cleanup: Se desmonta el listener');
@@ -87,10 +103,11 @@ export const productsController = () => {
 
   return {
     allProducts,
-    goToCreateProduct,
-    handleDeleteProduct,
     loading,
     open,
+    categories,
     setOpen,
+    handleDeleteProduct,
+    goToCreateProduct,
   };
 };

@@ -1,8 +1,5 @@
-import {useMemo, useState} from 'react';
 import {ICategory, ICategoryFilter} from '../../../models/types/category';
-import {fetchCategories} from '../../../services/Category';
 import {globalSessionState} from '../../../services/globalStates';
-import {mapperCategorySupabaseToFilter} from '../../../models/mappers/mapperCategorySupabaseToFilter';
 
 export const filterProductService = () => {
   const setFilterProducts = globalSessionState(
@@ -11,22 +8,6 @@ export const filterProductService = () => {
   const setFilterListDetail = globalSessionState(
     state => state.setFiltersListDetail,
   );
-  const [categories, setCategories] = useState<ICategoryFilter[]>([]);
-
-  const fetchData = async () => {
-    const responseGetAllCategories = await fetchCategories();
-    if (responseGetAllCategories.error) {
-      console.log(responseGetAllCategories.error);
-    } else {
-      setCategories(
-        mapperCategorySupabaseToFilter(responseGetAllCategories.data),
-      );
-    }
-  };
-
-  useMemo(() => {
-    fetchData();
-  }, []);
 
   const applyFiltersProducts = (values: {
     textSearched: string;
@@ -67,6 +48,5 @@ export const filterProductService = () => {
   return {
     applyFiltersProducts,
     applyFiltersListDetail,
-    categories,
   };
 };

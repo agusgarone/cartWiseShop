@@ -9,7 +9,7 @@ import {useTranslation} from 'react-i18next';
 import SwipeToDeleteItem from './Components/AnimatedRenderItem';
 import {FilterButton} from '../../components/FilterButton';
 import {Drawer} from 'react-native-drawer-layout';
-import {CustomDrawerContent} from '../FilterProducts';
+import {CustomDrawerContent} from '../Filters';
 
 const Products = () => {
   const {t} = useTranslation();
@@ -22,6 +22,7 @@ const Products = () => {
     loading,
     setOpen,
     open,
+    categories,
   } = productsController();
 
   const _renderProducts = ({item}: {item: IProductDTO}) => {
@@ -48,6 +49,7 @@ const Products = () => {
               filterTo="products"
               closeDrawer={() => setOpen(false)}
               productsCategories={[]}
+              categories={categories}
             />
           );
         }}>

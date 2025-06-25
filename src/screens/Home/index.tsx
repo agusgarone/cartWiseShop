@@ -1,11 +1,8 @@
 import React, {useContext} from 'react';
-import {SafeAreaView, StyleSheet, Text, View} from 'react-native';
+import {FlatList, SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import Header from '../../components/Header';
-import List from '../../components/List';
 import RenderList from './Components/RenderList';
-import {IListDTO} from '../../models/types/list';
 import {homeController} from './Controller/homeController';
-import {IProductDTO} from '../../models/types/product';
 import ProfileButton from '../../components/ProfileButton';
 import Loader from '../../components/Loader';
 import {ThemeContext} from '../../services/ThemeProvider';
@@ -22,16 +19,6 @@ const Home = () => {
   } = homeController();
   const {t} = useTranslation();
   const {theme} = useContext(ThemeContext);
-
-  const _renderList = ({item}: {item: IListDTO<IProductDTO>}) => {
-    return (
-      <RenderList
-        item={item}
-        navigateToListDetail={navigateToListDetail}
-        navigateToEditList={navigateToEditList}
-      />
-    );
-  };
 
   return (
     <SafeAreaView
@@ -51,7 +38,27 @@ const Home = () => {
           key={'Header'}
         />
         <View style={Style.content}>
-          {loading ? <Loader /> : <List data={list} render={_renderList} />}
+          {loading ? (
+            <Loader />
+          ) : (
+            <FlatList
+              data={list}
+              renderItem={({item}) => (
+                <RenderList
+                  item={item}
+                  navigateToListDetail={navigateToListDetail}
+                  navigateToEditList={navigateToEditList}
+                />
+              )}
+              style={{paddingVertical: 5}}
+              ListFooterComponent={() => (
+                <View
+                  style={{
+                    marginVertical: 20,
+                  }}></View>
+              )}
+            />
+          )}
         </View>
       </View>
     </SafeAreaView>

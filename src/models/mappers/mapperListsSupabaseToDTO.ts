@@ -2,8 +2,6 @@ import moment from 'moment';
 import {IListDTO} from '../types/list';
 import {IProductDTO} from '../types/product';
 
-// * Hay que revisar el tema de products en el objeto
-
 export const mapperListsSupabaseToDTO = (
   entry: {
     list_id: string;

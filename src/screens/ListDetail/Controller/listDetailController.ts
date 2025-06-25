@@ -55,11 +55,6 @@ export const listDetailController = (id: string) => {
             getCategoriesByProducts(responseFetchListById.data[0].product_data),
           );
         }
-        console.log(
-          JSON.stringify(
-            mapperListSupabaseToForm(responseFetchListById.data[0]),
-          ),
-        );
         setCategories(
           getCategoriesByProducts(responseFetchListById.data[0].product_data),
         );

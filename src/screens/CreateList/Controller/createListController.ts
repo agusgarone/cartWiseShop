@@ -108,7 +108,10 @@ export const createListController = () => {
       setLoading(true);
       await StorageService.setItem('isEditing', true);
       await StorageService.removeItem('idList');
-      const responseGetList = await fetchListById(parseInt(idList, 10));
+      const responseGetList = await fetchListById({
+        listId: parseInt(idList, 10),
+        categories: null,
+      });
       if (responseGetList.error) {
         console.log(responseGetList.error);
       } else {

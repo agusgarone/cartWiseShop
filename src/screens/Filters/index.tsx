@@ -11,15 +11,16 @@ export const CustomDrawerContent = ({
   filterTo,
   closeDrawer,
   productsCategories,
+  categories,
 }: {
   filterTo: 'products' | 'detail';
   closeDrawer: () => void;
   productsCategories: ICategoryFilter[] | null;
+  categories: ICategoryFilter[];
 }) => {
   const {t} = useTranslation();
   const {theme} = useContext(ThemeContext);
-  const {applyFiltersProducts, applyFiltersListDetail, categories} =
-    filterProductService();
+  const {applyFiltersProducts, applyFiltersListDetail} = filterProductService();
 
   return (
     <View
@@ -36,13 +37,14 @@ export const CustomDrawerContent = ({
           handleFormikSubmit={applyFiltersListDetail}
           closeDrawer={closeDrawer}
         />
-      ) : (
+      ) : null}
+      {filterTo === 'products' && categories ? (
         <FilterFormProducts
           categories={categories}
           handleFormikSubmit={applyFiltersProducts}
           closeDrawer={closeDrawer}
         />
-      )}
+      ) : null}
     </View>
   );
 };

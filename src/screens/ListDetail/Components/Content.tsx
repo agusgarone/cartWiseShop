@@ -1,7 +1,7 @@
-import React, {useContext, useEffect} from 'react';
+import React, {useContext, useEffect, useMemo, useRef} from 'react';
 import {FlatList, ScrollView, StyleSheet, Text, View} from 'react-native';
 import theme from '../../../common/theme';
-import {Formik} from 'formik';
+import {Formik, useFormikContext} from 'formik';
 import {IListForm, ITab} from '../../../models/types/list';
 import RenderProduct from './RenderProducts';
 import Loader from '../../../components/Loader';
@@ -49,22 +49,17 @@ const Content = ({
                 data: listSelected.data,
               }}
               onSubmit={values => console.log(values)}>
-              {({values, getFieldHelpers}) => {
-                useEffect(() => {
-                  const allSelected = values.data.every(tab =>
-                    tab.products.every(product => product.isChecked === true),
-                  );
-                  // console.log('allSelected');
-                  // JSON.stringify(values.data)
-                  if (allSelected) {
-                    handleAllSelected();
-                  }
-                }, [values]);
-                if (showWithCategories) {
-                  return <ShowProductsWithCategories values={values} />;
-                }
-                return <ShowOnlyProducts values={values} />;
-              }}
+              {({values}) => (
+                <>
+                  <AllSelectedWatcher onAllSelected={handleAllSelected} />
+
+                  {showWithCategories ? (
+                    <ShowProductsWithCategories values={values} />
+                  ) : (
+                    <ShowOnlyProducts values={values} />
+                  )}
+                </>
+              )}
             </Formik>
           </View>
           <View style={styles.buttonsWrapper}>
@@ -91,6 +86,30 @@ const Content = ({
       )}
     </View>
   );
+};
+
+const AllSelectedWatcher = ({onAllSelected}: {onAllSelected: () => void}) => {
+  const {values} = useFormikContext<{data: ITab[]}>();
+  const alreadyExecuted = useRef(false);
+
+  const allSelected = useMemo(() => {
+    return values.data.every(tab =>
+      tab.products.every(prod => prod.isChecked === true),
+    );
+  }, [values.data]);
+
+  useEffect(() => {
+    if (allSelected && !alreadyExecuted.current) {
+      alreadyExecuted.current = true;
+      onAllSelected();
+    }
+
+    if (!allSelected) {
+      alreadyExecuted.current = false;
+    }
+  }, [allSelected, onAllSelected]);
+
+  return null;
 };
 
 const ShowProductsWithCategories = ({

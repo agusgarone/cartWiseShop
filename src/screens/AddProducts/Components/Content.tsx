@@ -1,8 +1,7 @@
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
+import {FlatList, StyleSheet, View} from 'react-native';
 import BottomSheetForm from './Form';
 import Button from '../../../components/Button';
-import List from '../../../components/List';
 import RenderProduct from './RenderProducts';
 import {globalSessionState} from '../../../services/globalStates';
 import {IProductDTO} from '../../../models/types/product';
@@ -36,14 +35,22 @@ const Content = ({
           {loading ? (
             <Loader />
           ) : (
-            <List
+            <FlatList
               data={valuesSearched}
-              render={({item}) => (
+              renderItem={({item, index}) => (
                 <RenderProductWrapper
                   item={item}
-                  productsSelected={productsSelected}
                   onPress={onPress}
+                  productsSelected={productsSelected}
+                  key={`${index}`}
                 />
+              )}
+              style={{paddingVertical: 5}}
+              ListFooterComponent={() => (
+                <View
+                  style={{
+                    marginVertical: 20,
+                  }}></View>
               )}
             />
           )}

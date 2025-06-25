@@ -15,7 +15,7 @@ const RenderProduct = ({
   item: IProductForm;
 }) => {
   const [field, , helpers] = useField(
-    `data${indexTab}.products.${indexProd}.isChecked`,
+    `data.${indexTab}.products.${indexProd}.isChecked`,
   );
   const {theme} = useContext(ThemeContext);
   return (

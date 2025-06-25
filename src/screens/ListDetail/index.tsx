@@ -5,7 +5,7 @@ import {listDetailController} from './Controller/listDetailController';
 import ConfettiCannon from 'react-native-confetti-cannon';
 import {ThemeContext} from '../../services/ThemeProvider';
 import {Drawer} from 'react-native-drawer-layout';
-import {CustomDrawerContent} from '../FilterProducts';
+import {CustomDrawerContent} from '../Filters';
 
 const ListDetail = ({route}: any) => {
   const {theme} = useContext(ThemeContext);
@@ -38,6 +38,7 @@ const ListDetail = ({route}: any) => {
               filterTo="detail"
               closeDrawer={() => setOpen(false)}
               productsCategories={categoriesFilter}
+              categories={[]}
             />
           );
         }}>
@@ -57,7 +58,7 @@ const ListDetail = ({route}: any) => {
             count={200}
             origin={{x: -10, y: 0}}
             fadeOut={true}
-            explosionSpeed={350}
+            explosionSpeed={650}
             fallSpeed={3000}
             onAnimationEnd={() => setShowConfetti(false)}
           />

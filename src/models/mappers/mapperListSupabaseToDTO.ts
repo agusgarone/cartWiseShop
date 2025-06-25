@@ -13,7 +13,7 @@ export const mapperListSupabaseToDTO = (
     product_data: Array<{
       id: string;
       name: string;
-      id_category: string;
+      id_category: number;
       category: string;
     }> | null;
   } | null,
@@ -27,11 +27,12 @@ export const mapperListSupabaseToDTO = (
         entry.product_data?.map(item => {
           const product: IProductDTO = {
             category: {
-              id: parseInt(item.id_category, 10),
+              id: item.id_category,
               name: item.category,
             },
             id: parseInt(item.id, 10),
             name: item.name,
+            default: !entry.uid_user,
           };
           return product;
         }) || [],

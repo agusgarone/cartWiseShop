@@ -17,7 +17,6 @@ export const userSettingsController = () => {
   const [user, setUser] = useState<User | null>(null);
   const [themeApp, setTheme] = useState<'light' | 'dark'>(mode);
   const [lang, setLang] = useState<string | null>(null);
-  const [selectedOption, setSelectedOption] = useState('original');
   const [loading, setLoading] = useState<boolean>(true);
 
   const fetchData = async (filters?: any) => {
@@ -30,7 +29,6 @@ export const userSettingsController = () => {
     if (user) {
       setTheme(user.theme as 'light' | 'dark');
       setLang(user.language);
-      setSelectedOption(user.listView);
     }
   }, [user]);
 
@@ -108,19 +106,6 @@ export const userSettingsController = () => {
       .map(word => capitalizeFirstLetter(word))
       .join(' ');
   };
-
-  // const handleEditListView = async (listView: string) => {
-  //   setSelectedOption(listView);
-  //   await editListView(listView);
-  // };
-
-  // const handleChangeViewList = (
-  //   // viewType: 'original' | 'separated' | 'sorted',
-  //   viewType: string,
-  // ) => {
-  //   console.log('viewType', viewType);
-  //   handleEditListView(viewType);
-  // };
 
   return {
     user,

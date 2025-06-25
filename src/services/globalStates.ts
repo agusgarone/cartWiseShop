@@ -17,7 +17,11 @@ export const globalSessionState = create<IGlobalState>(set => ({
   productsSelected: [],
   valuesSearched: [],
   filtersProducts: {nameFilter: null, category: null, orderAsc: true},
-  filtersListDetail: {splitByCategories: true, category: null, orderAsc: true},
+  filtersListDetail: {
+    splitByCategories: true,
+    categories: null,
+    orderAsc: true,
+  },
   setProductsSelected: products => set({productsSelected: products}),
   setValuesSearched: products => set({valuesSearched: products}),
   setFiltersProducts: filters => set({filtersProducts: filters}),
