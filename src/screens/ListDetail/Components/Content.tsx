@@ -119,6 +119,8 @@ const ShowProductsWithCategories = ({
     data: ITab[];
   };
 }) => {
+  const {theme} = useContext(ThemeContext);
+
   return (
     <ScrollView>
       {values.data.map((tab, indexTab) => (
@@ -128,7 +130,7 @@ const ShowProductsWithCategories = ({
               style={{
                 fontSize: 20,
                 fontWeight: 700,
-                color: '#000',
+                color: theme.listDetail.titleColor,
               }}>
               {tab.categoria}
             </Text>

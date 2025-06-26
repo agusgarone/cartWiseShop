@@ -2,7 +2,6 @@ import React, {useContext} from 'react';
 import {FlatList, SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import Button from '../../components/Button';
 import {productsController} from './Controller/productsController';
-import {IProductDTO} from '../../models/types/product';
 import Loader from '../../components/Loader';
 import {ThemeContext} from '../../services/ThemeProvider';
 import {useTranslation} from 'react-i18next';
@@ -24,16 +23,6 @@ const Products = () => {
     open,
     categories,
   } = productsController();
-
-  const _renderProducts = ({item}: {item: IProductDTO}) => {
-    return (
-      <SwipeToDeleteItem
-        item={item}
-        onDismiss={() => null}
-        onPressTrash={onConfirm => handleDeleteProduct(item, onConfirm)}
-      />
-    );
-  };
 
   return (
     <SafeAreaView
@@ -67,7 +56,15 @@ const Products = () => {
                 <FlatList
                   style={{paddingVertical: 5}}
                   data={allProducts}
-                  renderItem={_renderProducts}
+                  renderItem={({item}) => (
+                    <SwipeToDeleteItem
+                      item={item}
+                      onDismiss={() => null}
+                      onPressTrash={onConfirm =>
+                        handleDeleteProduct(item, onConfirm)
+                      }
+                    />
+                  )}
                   ListEmptyComponent={() => {
                     if (loading) {
                       return null;

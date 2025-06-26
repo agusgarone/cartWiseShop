@@ -28,9 +28,6 @@ export const CustomDrawerContent = ({
         styles.container,
         {backgroundColor: theme.filterProducts.background},
       ]}>
-      <Text style={[styles.title, {color: theme.filterProducts.title}]}>
-        {t('filterProducts.title')}
-      </Text>
       {filterTo === 'detail' && productsCategories ? (
         <FilterFormDetail
           categories={productsCategories}

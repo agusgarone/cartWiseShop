@@ -116,7 +116,7 @@ const FilterFormDetail = ({
                     )}
                     style={{
                       paddingVertical: 5,
-                      height: '55%',
+                      height: '63%',
                     }}
                   />
                 )}
@@ -146,10 +146,11 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'space-between',
     paddingTop: 16,
-    gap: 16,
+    gap: 32,
   },
   subtitle: {
-    fontSize: theme.fontSize.l,
+    fontSize: theme.fontSize.xl,
+    fontWeight: '600',
   },
 });
 

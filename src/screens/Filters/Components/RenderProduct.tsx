@@ -3,6 +3,7 @@ import {StyleSheet, Switch, Text, View} from 'react-native';
 import {useField} from 'formik';
 import {ICategoryFilter} from '../../../models/types/category';
 import {ThemeContext} from '../../../services/ThemeProvider';
+import theme from '../../../common/theme';
 
 const RenderProduct = ({
   item,
@@ -55,7 +56,7 @@ const RenderProduct = ({
 const style = StyleSheet.create({
   view: {
     marginTop: 2,
-    marginBottom: 4,
+    marginBottom: 8,
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -63,7 +64,8 @@ const style = StyleSheet.create({
   },
   text: {
     paddingVertical: 6,
-    width: '75%',
+    width: '80%',
+    fontSize: theme.fontSize.l,
   },
 });
 
