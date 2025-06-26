@@ -112,7 +112,6 @@ export const listDetailController = (id: string) => {
       newFormatArrayList.data.forEach(tab => {
         sortProducts(tab.products);
       });
-      console.log(JSON.stringify(newFormatArrayList));
       setListSelectedFormatted(newFormatArrayList);
     }
   };
