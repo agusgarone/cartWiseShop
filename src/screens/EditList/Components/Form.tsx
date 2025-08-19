@@ -1,19 +1,20 @@
 import React from 'react';
-import {View, StyleSheet, TouchableOpacity, Text} from 'react-native';
+import {View, StyleSheet} from 'react-native';
 import {Formik, FormikState} from 'formik';
 import {FormikInputValue} from '../../../components/FormikInput';
 import Button from '../../../components/Button';
-import {Content} from './Content';
-import RenderProduct from './RenderProducts';
+import {Content} from '../../CreateList/Components/Content';
+import RenderProduct from '../../CreateList/Components/RenderProducts';
 import {IProductDTO} from '../../../models/types/product';
 import {useTranslation} from 'react-i18next';
+import Loader from '../../../components/Loader';
+import {Colors} from '../../CreateList/Components/Colors';
 import FloatButton from '../../../components/FloatButton';
-import {Chip} from '../../../components/ChipColor';
-import {Colors} from './Colors';
 
-const CreateListForm = ({
+const EditListForm = ({
   products,
   initialValues,
+  loading,
   goToAddProducts,
   handleFormikSubmit,
   removeProductSelected,
@@ -33,6 +34,7 @@ const CreateListForm = ({
   goToAddProducts: (values: {name: string}) => void;
   products: IProductDTO[];
   removeProductSelected: (id: number) => void;
+  loading: boolean;
 }) => {
   const {t} = useTranslation();
   const _renderProducts = ({item}: {item: IProductDTO}) => {
@@ -48,38 +50,42 @@ const CreateListForm = ({
       initialValues={initialValues}
       onSubmit={handleFormikSubmit}
       enableReinitialize>
-      {({handleSubmit, values, setFieldValue}) => (
+      {({handleSubmit, values}) => (
         <View style={styles.form}>
-          <>
-            <View style={{paddingBottom: 12}}>
-              <FormikInputValue
-                name="name"
-                placeholder={t('createList.inputPlaceHolder')}
-                onChange={() => null}
-                isNameList
-              />
-              <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
-                <Colors name="categories" values={values} key={'Colors'} />
-              </View>
-            </View>
-            <View style={styles.containerResult}>
-              <Content
-                _renderProducts={_renderProducts}
-                goToAddProducts={() => goToAddProducts(values)}
-                products={products}
-              />
-              <FloatButton navigate={handleFloatButton} key={'FloatButton'} />
-              <View style={styles.containerButton}>
-                <Button
-                  children={t('createList.button')}
-                  isDisabled={false}
-                  type="primary"
-                  onPress={handleSubmit}
-                  key={'Button'}
+          {loading ? (
+            <Loader />
+          ) : (
+            <>
+              <View style={{paddingBottom: 12}}>
+                <FormikInputValue
+                  name="name"
+                  placeholder={t('createList.inputPlaceHolder')}
+                  onChange={() => null}
+                  isNameList
                 />
+                <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
+                  <Colors name="categories" values={values} key={'Colors'} />
+                </View>
               </View>
-            </View>
-          </>
+              <View style={styles.containerResult}>
+                <Content
+                  _renderProducts={_renderProducts}
+                  goToAddProducts={() => goToAddProducts(values)}
+                  products={products}
+                />
+                <FloatButton navigate={handleFloatButton} key={'FloatButton'} />
+                <View style={styles.containerButton}>
+                  <Button
+                    children={t('createList.button')}
+                    isDisabled={false}
+                    type="primary"
+                    onPress={handleSubmit}
+                    key={'Button'}
+                  />
+                </View>
+              </View>
+            </>
+          )}
         </View>
       )}
     </Formik>
@@ -105,4 +111,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CreateListForm;
+export default EditListForm;

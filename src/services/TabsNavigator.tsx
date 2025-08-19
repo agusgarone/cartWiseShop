@@ -45,7 +45,7 @@ const BottomTabs = ({navigation}: DrawerNavigation) => {
         }}
         component={Home}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name="CreateList"
         options={{
           header: () => null,
@@ -59,7 +59,7 @@ const BottomTabs = ({navigation}: DrawerNavigation) => {
           tabBarActiveTintColor: theme.tab.activeTabColor,
         }}
         component={CreateList}
-      />
+      /> */}
       <Tab.Screen
         name="ProductsTab"
         options={{

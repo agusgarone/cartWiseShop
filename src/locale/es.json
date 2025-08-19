@@ -4,12 +4,21 @@
     "inputPlaceHolder": "Buscar producto",
     "button": "Agregar"
   },
-  "createList": {
-    "tab": "Crear lista",
+  "editList": {
+    "stack": "Editar lista",
     "inputPlaceHolder": "Nombre de la lista",
     "button": "Listo",
-    "emptyText": "¡No hay productos!",
-    "emptyButton": "Agregar",
+    "emptyText": "¡La lista esta vacia!",
+    "emptyButton": "Añadir productos",
+    "buttonAddProduct": "Añadir producto",
+    "addNameToTheList": "¡Agregá un nombre a la lista, por favor!"
+  },
+  "createList": {
+    "stack": "Nueva lista",
+    "inputPlaceHolder": "Nombre de la lista",
+    "button": "Listo",
+    "emptyText": "¡La lista esta vacia!",
+    "emptyButton": "Añadir productos",
     "buttonAddProduct": "Añadir producto",
     "addNameToTheList": "¡Agregá un nombre a la lista, por favor!"
   },

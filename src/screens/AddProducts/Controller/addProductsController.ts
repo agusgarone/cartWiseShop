@@ -43,12 +43,7 @@ export const addProductsController = () => {
 
   const handleButton = () => {
     setProductsSelectedZustand(productsSelected);
-    navigation?.navigate('MainDrawer', {
-      screen: 'MainTabs',
-      params: {
-        screen: 'CreateList',
-      },
-    });
+    navigation?.goBack();
   };
 
   const loadProducts = async () => {

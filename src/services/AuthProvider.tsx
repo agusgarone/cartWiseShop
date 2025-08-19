@@ -76,7 +76,7 @@ const AuthProvider = ({children}: any) => {
   // }, [session, lastActiveTime]);
 
   if (loading) {
-    return <Loader isLoadingPreferences={true} />;
+    return <Loader isLoadingPreferences />;
   }
 
   return (

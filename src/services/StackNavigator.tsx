@@ -10,11 +10,15 @@ import UserSettings from '../screens/UserSettings';
 import Loader from '../components/Loader';
 import {ThemeContext} from './ThemeProvider';
 import {useTranslation} from 'react-i18next';
+import CreateList from '../screens/CreateList';
+import EditList from '../screens/EditList';
 
 export type StackParamList = {
   Login: undefined;
   MainDrawer: undefined;
   ListDetail: {itemId: string};
+  CreateList: undefined;
+  EditList: undefined;
   AddProducts: undefined;
   CreateProduct: undefined;
   UserSettings: undefined;
@@ -99,6 +103,36 @@ function StackNavigator() {
         component={UserSettings}
         options={{
           title: t('userSettings.header'),
+          headerStyle: {
+            backgroundColor: theme.stack.background,
+          },
+          headerTintColor: theme.stack.titleScreen,
+          headerTitleStyle: {
+            fontWeight: '600',
+            color: theme.stack.icon,
+          },
+        }}
+      />
+      <Stack.Screen
+        name="CreateList"
+        component={CreateList}
+        options={{
+          title: t('createList.stack'),
+          headerStyle: {
+            backgroundColor: theme.stack.background,
+          },
+          headerTintColor: theme.stack.titleScreen,
+          headerTitleStyle: {
+            fontWeight: '600',
+            color: theme.stack.icon,
+          },
+        }}
+      />
+      <Stack.Screen
+        name="EditList"
+        component={EditList}
+        options={{
+          title: t('editList.stack'),
           headerStyle: {
             backgroundColor: theme.stack.background,
           },

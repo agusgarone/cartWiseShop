@@ -37,27 +37,6 @@ export const Content = ({
               />
             </View>
           )}
-          ListFooterComponent={() => {
-            if (products && products?.length) {
-              return (
-                <View
-                  style={{
-                    marginTop: 4,
-                    paddingBottom: 16,
-                  }}>
-                  <Button
-                    children={t('createList.buttonAddProduct')}
-                    isDisabled={false}
-                    type="primary"
-                    onPress={goToAddProducts}
-                    key={'Button'}
-                  />
-                </View>
-              );
-            } else {
-              return null;
-            }
-          }}
         />
       </View>
     </>

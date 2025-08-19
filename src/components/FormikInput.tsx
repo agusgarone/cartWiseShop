@@ -6,6 +6,7 @@ import {ThemeContext} from '../services/ThemeProvider';
 
 interface IFormikInputValue {
   name: string;
+  isNameList?: boolean;
   placeholder: string;
   onChange: (value: string) => void;
 }
@@ -13,6 +14,7 @@ interface IFormikInputValue {
 export const FormikInputValue = ({
   name,
   placeholder,
+  isNameList,
   onChange,
 }: IFormikInputValue) => {
   const {theme} = useContext(ThemeContext);
@@ -26,7 +28,6 @@ export const FormikInputValue = ({
     },
     container: {
       flex: 1,
-      color: theme.input.color,
       flexDirection: 'row',
       alignItems: 'center',
       borderColor: focus ? theme.input.borderColor : 'transparent',
@@ -34,9 +35,13 @@ export const FormikInputValue = ({
       borderWidth: 2,
       borderRadius: 12,
       backgroundColor: theme.input.background,
-      paddingHorizontal: 16,
+      paddingHorizontal: isNameList
+        ? style.nameList.padding
+        : style.regular.padding,
       justifyContent: 'space-between',
-      elevation: 3,
+      elevation: isNameList
+        ? style.nameList.elevation
+        : style.regular.elevation,
     },
   });
 
@@ -50,7 +55,16 @@ export const FormikInputValue = ({
         <TextInput
           onFocus={() => setFocus(true)}
           onBlur={() => setFocus(false)}
-          style={{flex: 1, color: theme.input.color}}
+          style={{
+            flex: 1,
+            color: theme.input.color,
+            fontSize: isNameList
+              ? style.nameList.fontSize
+              : style.regular.fontSize,
+            fontWeight: isNameList
+              ? style.nameList.fontWeight
+              : style.regular.fontWeight,
+          }}
           placeholder={placeholder}
           placeholderTextColor={theme.input.placeHolder}
           value={field.value}
@@ -64,3 +78,18 @@ export const FormikInputValue = ({
     </View>
   );
 };
+
+const style = StyleSheet.create({
+  nameList: {
+    fontSize: theme.fontSize.xxl,
+    fontWeight: 'bold',
+    padding: 8,
+    elevation: 0,
+  },
+  regular: {
+    fontSize: theme.fontSize.m,
+    fontWeight: 'normal',
+    padding: 16,
+    elevation: 3,
+  },
+});

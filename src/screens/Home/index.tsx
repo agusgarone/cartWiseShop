@@ -7,15 +7,17 @@ import ProfileButton from '../../components/ProfileButton';
 import Loader from '../../components/Loader';
 import {ThemeContext} from '../../services/ThemeProvider';
 import {useTranslation} from 'react-i18next';
+import FloatButton from '../../components/FloatButton';
 
 const Home = () => {
   const {
     list,
+    user,
+    loading,
     navigateToListDetail,
     navigateToEditList,
     navigateToUserSettings,
-    user,
-    loading,
+    navigateToCreateList,
   } = homeController();
   const {t} = useTranslation();
   const {theme} = useContext(ThemeContext);
@@ -59,6 +61,7 @@ const Home = () => {
               )}
             />
           )}
+          <FloatButton navigate={navigateToCreateList} key={'FloatButton'} />
         </View>
       </View>
     </SafeAreaView>

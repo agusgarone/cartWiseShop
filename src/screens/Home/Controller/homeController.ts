@@ -1,4 +1,4 @@
-import {useCallback, useContext, useEffect, useState} from 'react';
+import {useCallback, useContext, useState} from 'react';
 import {NavigationContext, useFocusEffect} from '@react-navigation/native';
 import {IListDTO} from '../../../models/types/list';
 import {fetchLists} from '../../../services/List';
@@ -18,11 +18,15 @@ export const homeController = () => {
     navigation?.navigate('ListDetail', {id: id});
   };
 
+  const navigateToCreateList = () => {
+    navigation?.navigate('CreateList');
+  };
+
   const navigateToUserSettings = () => navigation?.navigate('UserSettings');
 
   const navigateToEditList = async (id: string) => {
     await StorageService.setItem('idList', id);
-    navigation?.navigate('MainTabs', {screen: 'CreateList'});
+    navigation?.navigate('EditList');
   };
 
   useFocusEffect(
@@ -50,10 +54,11 @@ export const homeController = () => {
 
   return {
     list,
+    user,
+    loading,
     navigateToListDetail,
     navigateToEditList,
     navigateToUserSettings,
-    user,
-    loading,
+    navigateToCreateList,
   };
 };
