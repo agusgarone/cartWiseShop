@@ -12,6 +12,7 @@ const EditList = () => {
     goToAddProducts,
     handleFormikSubmit,
     removeProductSelected,
+    handleNameListSelected,
   } = editListController();
   const {theme} = useContext(ThemeContext);
 
@@ -26,6 +27,7 @@ const EditList = () => {
           products={products}
           removeProductSelected={removeProductSelected}
           loading={loading}
+          handleNameListSelected={handleNameListSelected}
         />
       </View>
     </SafeAreaView>

@@ -37,6 +37,12 @@ export const Content = ({
               />
             </View>
           )}
+          ListFooterComponent={() => (
+            <View
+              style={{
+                marginVertical: 20,
+              }}></View>
+          )}
         />
       </View>
     </>

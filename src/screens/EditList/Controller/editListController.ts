@@ -21,6 +21,9 @@ export const editListController = () => {
   const setProductsSelected = globalSessionState(
     state => state.setProductsSelected,
   );
+  const setNameListSelected = globalSessionState(
+    state => state.setNameListSelected,
+  );
   const [list, setList] = useState<IListDTO<IProductDTO> | null>(null);
   const [initialValues, setInitialValues] = useState({
     name: '',
@@ -30,7 +33,6 @@ export const editListController = () => {
 
   useFocusEffect(
     useCallback(() => {
-      getDataFromStorage();
       getList();
 
       return () => {
@@ -79,18 +81,18 @@ export const editListController = () => {
       await resetVariablesAndStates();
       Keyboard.dismiss();
       actions.resetForm();
-      navigation?.navigate('MainTabs', {screen: 'Home'});
+      navigation?.goBack();
     } else {
       Alert.alert(t('createList.addNameToTheList'));
     }
   };
 
   const resetVariablesAndStates = async () => {
-    await StorageService.removeItem('nameList');
     await StorageService.removeItem('currentList');
     await StorageService.removeItem('isEditing');
     setProducts([]);
     setProductsSelected([]);
+    setNameListSelected('');
     setInitialValues({name: '', categories: []});
   };
 
@@ -112,6 +114,7 @@ export const editListController = () => {
             'currentList',
             responseGetList.data[0].list_id,
           );
+          console.log('response', responseGetList.data);
           setList(mapperListSupabaseToDTO(responseGetList.data[0]));
           setLoading(false);
         }
@@ -119,19 +122,12 @@ export const editListController = () => {
     }
   };
 
-  const getDataFromStorage = async () => {
-    const nameList = await StorageService.getItem('nameList');
-    if (nameList) {
-      setInitialValues({
-        name: nameList,
-        categories: [],
-      });
-    }
+  const goToAddProducts = () => {
+    navigation?.navigate('AddProducts');
   };
 
-  const goToAddProducts = (values: {name: string}) => {
-    StorageService.setItem('nameList', values.name);
-    navigation?.navigate('AddProducts');
+  const handleNameListSelected = (value: string) => {
+    setNameListSelected(value);
   };
 
   const removeProductSelected = (id: number) => {
@@ -148,5 +144,6 @@ export const editListController = () => {
     goToAddProducts,
     handleFormikSubmit,
     removeProductSelected,
+    handleNameListSelected,
   };
 };

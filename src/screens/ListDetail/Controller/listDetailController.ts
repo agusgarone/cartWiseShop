@@ -179,12 +179,7 @@ export const listDetailController = (id: string) => {
 
   const navigateToEditList = async () => {
     await StorageService.setItem('idList', id);
-    navigation?.navigate('MainDrawer', {
-      screen: 'MainTabs',
-      params: {
-        screen: 'CreateList',
-      },
-    });
+    navigation?.navigate('EditList');
   };
 
   const getCategoriesByProducts = (
