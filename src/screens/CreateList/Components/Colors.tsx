@@ -1,5 +1,6 @@
 import {useField} from 'formik';
 import {Chip} from '../../../components/ChipColor';
+import {View} from 'react-native';
 
 interface IColors {
   values: {
@@ -22,7 +23,7 @@ export const Colors = ({values, name}: IColors) => {
   const [field, meta, helpers] = useField(name);
 
   return (
-    <>
+    <View style={{display: 'flex', flexDirection: 'row', margin: 'auto'}}>
       {ColorsItems.map(cat => {
         const isSelected = values?.categories?.includes(cat);
         const onPress = () => {
@@ -32,6 +33,6 @@ export const Colors = ({values, name}: IColors) => {
           <Chip cat={cat} isSelected={isSelected} onPress={onPress} key={cat} />
         );
       })}
-    </>
+    </View>
   );
 };

@@ -15,7 +15,7 @@ export const Chip = memo(function ({cat, isSelected, onPress}: IChip) {
       style={{
         width: 30,
         height: 30,
-        margin: 10,
+        margin: 14,
         borderRadius: 20,
         borderWidth: isSelected ? 2 : 0,
         borderColor: isSelected ? '#000' : 'transparent',

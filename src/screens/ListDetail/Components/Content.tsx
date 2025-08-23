@@ -1,14 +1,15 @@
 import React, {useContext, useEffect, useMemo, useRef} from 'react';
-import {FlatList, ScrollView, StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 import theme from '../../../common/theme';
 import {Formik, useFormikContext} from 'formik';
 import {IListForm, ITab} from '../../../models/types/list';
-import RenderProduct from './RenderProducts';
 import Loader from '../../../components/Loader';
 import {ThemeContext} from '../../../services/ThemeProvider';
 import Button from '../../../components/Button';
 import {useTranslation} from 'react-i18next';
 import {FilterButton} from '../../../components/FilterButton';
+import {ListProductsByCategory} from '../../../components/ListProductsByCategory';
+import {ListProductsWithoutCategory} from '../../../components/ListProductsWithoutCategory';
 
 const Content = ({
   handleAllSelected,
@@ -54,9 +55,9 @@ const Content = ({
                   <AllSelectedWatcher onAllSelected={handleAllSelected} />
 
                   {showWithCategories ? (
-                    <ShowProductsWithCategories values={values} />
+                    <ListProductsByCategory values={values} />
                   ) : (
-                    <ShowOnlyProducts values={values} />
+                    <ListProductsWithoutCategory values={values} />
                   )}
                 </>
               )}
@@ -110,74 +111,6 @@ const AllSelectedWatcher = ({onAllSelected}: {onAllSelected: () => void}) => {
   }, [allSelected, onAllSelected]);
 
   return null;
-};
-
-const ShowProductsWithCategories = ({
-  values,
-}: {
-  values: {
-    data: ITab[];
-  };
-}) => {
-  const {theme} = useContext(ThemeContext);
-
-  return (
-    <ScrollView>
-      {values.data.map((tab, indexTab) => (
-        <View key={indexTab}>
-          <View style={{padding: 16}}>
-            <Text
-              style={{
-                fontSize: 20,
-                fontWeight: 700,
-                color: theme.listDetail.titleColor,
-              }}>
-              {tab.categoria}
-            </Text>
-          </View>
-          {tab.products.map((prod, indexProd) => {
-            return (
-              <RenderProduct
-                item={prod}
-                indexTab={indexTab}
-                indexProd={indexProd}
-                key={`${prod.id}${indexProd}`}
-              />
-            );
-          })}
-        </View>
-      ))}
-    </ScrollView>
-  );
-};
-
-const ShowOnlyProducts = ({
-  values,
-}: {
-  values: {
-    data: ITab[];
-  };
-}) => {
-  return (
-    <FlatList
-      data={values.data[0].products}
-      renderItem={({item, index}) => (
-        <RenderProduct
-          item={item}
-          indexTab={0}
-          indexProd={index}
-          key={`${item.id}${index}`}
-        />
-      )}
-      style={{paddingVertical: 5}}
-      ListFooterComponent={() => (
-        <View
-          style={{
-            marginVertical: 20,
-          }}></View>
-      )}
-    />
-  );
 };
 
 const styles = StyleSheet.create({

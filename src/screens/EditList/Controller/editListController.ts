@@ -3,13 +3,15 @@ import {globalSessionState} from '../../../services/globalStates';
 import {NavigationContext, useFocusEffect} from '@react-navigation/native';
 import {FormikState} from 'formik';
 import {FORM_STATUS} from '../../../common/utils/formStatus';
-import {IListDTO} from '../../../models/types/list';
+import {IListDTO, IListForm, ITab} from '../../../models/types/list';
 import {Alert, Keyboard} from 'react-native';
 import {StorageService} from '../../../storage/asyncStorage';
 import {editList, fetchListById} from '../../../services/List';
 import {IProductDTO} from '../../../models/types/product';
 import {mapperListSupabaseToDTO} from '../../../models/mappers/mapperListSupabaseToDTO';
 import {useTranslation} from 'react-i18next';
+import {ICategoryFilter} from '../../../models/types/category';
+import {getCategoriesByProducts} from '../../../common/utils/functions/getCategoriesByProducts';
 
 export const editListController = () => {
   const {t} = useTranslation();
@@ -30,6 +32,13 @@ export const editListController = () => {
     categories: [],
   });
   const [loading, setLoading] = useState<boolean>(false);
+  const [open, setOpen] = useState<boolean>(false);
+  const [categories, setCategories] = useState<ICategoryFilter[] | null>(null);
+  const [categoriesFilter, setCategoriesFilter] = useState<
+    ICategoryFilter[] | null
+  >(null);
+  const [listSelectedFormatted, setListSelectedFormatted] =
+    useState<IListForm<ITab>>();
 
   useFocusEffect(
     useCallback(() => {
@@ -110,11 +119,18 @@ export const editListController = () => {
         console.log(responseGetList.error);
       } else {
         if (responseGetList.data) {
+          if (!categoriesFilter) {
+            setCategoriesFilter(
+              getCategoriesByProducts(responseGetList.data[0].product_data),
+            );
+            setCategories(
+              getCategoriesByProducts(responseGetList.data[0].product_data),
+            );
+          }
           await StorageService.setItem(
             'currentList',
             responseGetList.data[0].list_id,
           );
-          console.log('response', responseGetList.data);
           setList(mapperListSupabaseToDTO(responseGetList.data[0]));
           setLoading(false);
         }
@@ -141,9 +157,12 @@ export const editListController = () => {
     initialValues,
     list,
     loading,
+    open,
+    categoriesFilter,
     goToAddProducts,
     handleFormikSubmit,
     removeProductSelected,
     handleNameListSelected,
+    setOpen,
   };
 };

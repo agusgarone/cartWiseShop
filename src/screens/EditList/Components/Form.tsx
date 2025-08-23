@@ -1,5 +1,5 @@
-import React, {useEffect} from 'react';
-import {View, StyleSheet} from 'react-native';
+import React, {Dispatch, SetStateAction, useEffect} from 'react';
+import {View, StyleSheet, Dimensions} from 'react-native';
 import {Formik, FormikState} from 'formik';
 import {FormikInputValue} from '../../../components/FormikInput';
 import Button from '../../../components/Button';
@@ -11,6 +11,7 @@ import Loader from '../../../components/Loader';
 import {Colors} from '../../CreateList/Components/Colors';
 import FloatButton from '../../../components/FloatButton';
 import {useDebounce} from '../../../common/utils/customHooks/useDebounce';
+import {FilterButton} from '../../../components/FilterButton';
 
 const EditListForm = ({
   products,
@@ -20,8 +21,12 @@ const EditListForm = ({
   handleFormikSubmit,
   removeProductSelected,
   handleNameListSelected,
+  setOpen,
 }: {
+  products: IProductDTO[];
   initialValues: {name: string; categories: string[]};
+  loading: boolean;
+  goToAddProducts: (values: {name: string}) => void;
   handleFormikSubmit: (
     values: {
       name: string;
@@ -33,11 +38,9 @@ const EditListForm = ({
       resetForm: (nextState?: Partial<FormikState<any>>) => void;
     },
   ) => Promise<any>;
-  goToAddProducts: (values: {name: string}) => void;
-  products: IProductDTO[];
   removeProductSelected: (id: number) => void;
   handleNameListSelected: (value: string) => void;
-  loading: boolean;
+  setOpen: Dispatch<SetStateAction<boolean>>;
 }) => {
   const {t} = useTranslation();
   const _renderProducts = ({item}: {item: IProductDTO}) => {
@@ -68,13 +71,22 @@ const EditListForm = ({
             ) : (
               <>
                 <View style={{paddingBottom: 12}}>
-                  <FormikInputValue
-                    name="name"
-                    placeholder={t('createList.inputPlaceHolder')}
-                    onChange={() => null}
-                    isNameList
-                  />
-                  <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
+                  <View style={styles.containerTitleAndFilter}>
+                    <View style={{width: Dimensions.get('screen').width - 110}}>
+                      <FormikInputValue
+                        name="name"
+                        placeholder={t('createList.inputPlaceHolder')}
+                        onChange={() => null}
+                        isNameList
+                      />
+                    </View>
+                    <FilterButton onPress={() => setOpen(true)} />
+                  </View>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      flexWrap: 'wrap',
+                    }}>
                     <Colors name="categories" values={values} key={'Colors'} />
                   </View>
                 </View>
@@ -123,6 +135,11 @@ const styles = StyleSheet.create({
     width: '100%',
     display: 'flex',
     marginBottom: 28,
+  },
+  containerTitleAndFilter: {
+    display: 'flex',
+    flexDirection: 'row',
+    gap: 20,
   },
 });
 

@@ -20,7 +20,6 @@ export const Content = ({
     <>
       <View style={Style.first}>
         <FlatList
-          style={{paddingVertical: 5}}
           data={products}
           renderItem={_renderProducts}
           ListEmptyComponent={() => (
@@ -37,6 +36,7 @@ export const Content = ({
               />
             </View>
           )}
+          style={{paddingVertical: 5}}
           ListFooterComponent={() => (
             <View
               style={{

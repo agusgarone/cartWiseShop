@@ -10,6 +10,8 @@ import {useTranslation} from 'react-i18next';
 import {IFilterListDetail} from '../../../models/types/filter';
 import {globalSessionState} from '../../../services/globalStates';
 import {ICategoryFilter} from '../../../models/types/category';
+import {getCategoriesByProducts} from '../../../common/utils/functions/getCategoriesByProducts';
+import {parseData} from '../../../common/utils/functions/parseData';
 
 export const listDetailController = (id: string) => {
   const {t} = useTranslation();
@@ -76,69 +78,14 @@ export const listDetailController = (id: string) => {
     }, [fetchParams, id]),
   );
 
-  const parseData = () => {
-    if (listSelected && categories) {
-      const newFormatArrayList: IListForm<ITab> = {
-        id: listSelected?.id,
-        created_at: listSelected?.created_at,
-        name: listSelected?.name,
-        data: [],
-      };
-      if (!filters.splitByCategories) {
-        const tab: ITab = {
-          categoria: 'default',
-          products: listSelected.products,
-        };
-        newFormatArrayList.data = [tab];
-      } else {
-        const tabs: ITab[] = categories.map(i => {
-          const tab: ITab = {
-            categoria: i.name,
-            products: [],
-          };
-          return tab;
-        });
-
-        tabs.forEach(tab => {
-          listSelected.products?.forEach(prod => {
-            if (prod.category.name === tab.categoria) {
-              tab.products.push(prod);
-            }
-          });
-        });
-        newFormatArrayList.data = tabs;
-        sortCategories(newFormatArrayList);
-      }
-      newFormatArrayList.data.forEach(tab => {
-        sortProducts(tab.products);
-      });
-      setListSelectedFormatted(newFormatArrayList);
-    }
-  };
-
-  const sortProducts = (products: IProductForm[]) => {
-    const productsValue = products;
-    const isAsc = filters?.orderAsc ?? true;
-    productsValue?.sort((a, b) =>
-      isAsc ? a.name.localeCompare(b.name) : b.name.localeCompare(a.name),
-    );
-    return productsValue;
-  };
-
-  const sortCategories = (list: IListForm<ITab>) => {
-    const listValue = list;
-    const isAsc = filters?.orderAsc ?? true;
-    listValue?.data.sort((a, b) =>
-      isAsc
-        ? a.categoria.localeCompare(b.categoria)
-        : b.categoria.localeCompare(a.categoria),
-    );
-    return listValue;
-  };
-
   useMemo(() => {
     if (listSelected && categories) {
-      parseData();
+      parseData({
+        listSelected: listSelected,
+        categories: categories,
+        filters: filters,
+        setListSelectedFormatted: setListSelectedFormatted,
+      });
     }
   }, [categories, listSelected]);
 
@@ -180,28 +127,6 @@ export const listDetailController = (id: string) => {
   const navigateToEditList = async () => {
     await StorageService.setItem('idList', id);
     navigation?.navigate('EditList');
-  };
-
-  const getCategoriesByProducts = (
-    products: Array<{
-      id: string;
-      name: string;
-      id_category: number;
-      category: string;
-    }> | null,
-  ) => {
-    const categories: ICategoryFilter[] = [];
-    products?.forEach(prod => {
-      const findCat = categories.find(cat => cat.id === prod.id_category);
-      if (!findCat) {
-        categories.push({
-          id: prod.id_category,
-          name: prod.category,
-          isChecked: false,
-        });
-      }
-    });
-    return categories;
   };
 
   return {

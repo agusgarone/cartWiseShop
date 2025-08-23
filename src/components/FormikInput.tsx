@@ -81,7 +81,7 @@ export const FormikInputValue = ({
 
 const style = StyleSheet.create({
   nameList: {
-    fontSize: theme.fontSize.xxl,
+    fontSize: theme.fontSize.xxxl,
     fontWeight: 'bold',
     padding: 8,
     elevation: 0,
