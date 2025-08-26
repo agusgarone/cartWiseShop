@@ -1,4 +1,4 @@
-import {IProductForm} from './product';
+import {IProductDTO, IProductForm} from './product';
 
 export interface IListSupabase {
   id: number;

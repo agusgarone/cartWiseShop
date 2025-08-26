@@ -10,6 +10,8 @@ import {useTranslation} from 'react-i18next';
 import {FilterButton} from '../../../components/FilterButton';
 import {ListProductsByCategory} from '../../../components/ListProductsByCategory';
 import {ListProductsWithoutCategory} from '../../../components/ListProductsWithoutCategory';
+import RenderProduct from './RenderProducts';
+import {IProductForm} from '../../../models/types/product';
 
 const Content = ({
   handleAllSelected,
@@ -30,6 +32,21 @@ const Content = ({
 }) => {
   const {theme} = useContext(ThemeContext);
   const {t} = useTranslation();
+
+  const _renderProducts = ({
+    item,
+    index,
+  }: {
+    item: IProductForm;
+    index: number;
+  }) => (
+    <RenderProduct
+      item={item}
+      indexTab={0}
+      indexProd={index}
+      key={`${item.id}${index}`}
+    />
+  );
 
   return (
     <View style={styles.centeredView}>
@@ -55,9 +72,16 @@ const Content = ({
                   <AllSelectedWatcher onAllSelected={handleAllSelected} />
 
                   {showWithCategories ? (
-                    <ListProductsByCategory values={values} />
+                    <ListProductsByCategory
+                      values={values}
+                      emptyComponent={null}
+                    />
                   ) : (
-                    <ListProductsWithoutCategory values={values} />
+                    <ListProductsWithoutCategory
+                      values={values}
+                      _renderProducts={_renderProducts}
+                      emptyComponent={null}
+                    />
                   )}
                 </>
               )}

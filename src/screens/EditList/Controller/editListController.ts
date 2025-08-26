@@ -1,4 +1,4 @@
-import {useCallback, useContext, useEffect, useState} from 'react';
+import {useCallback, useContext, useEffect, useMemo, useState} from 'react';
 import {globalSessionState} from '../../../services/globalStates';
 import {NavigationContext, useFocusEffect} from '@react-navigation/native';
 import {FormikState} from 'formik';
@@ -12,12 +12,17 @@ import {mapperListSupabaseToDTO} from '../../../models/mappers/mapperListSupabas
 import {useTranslation} from 'react-i18next';
 import {ICategoryFilter} from '../../../models/types/category';
 import {getCategoriesByProducts} from '../../../common/utils/functions/getCategoriesByProducts';
+import {parseData} from '../../../common/utils/functions/parseData';
+import {IFilterListDetail} from '../../../models/types/filter';
 
 export const editListController = () => {
   const {t} = useTranslation();
   const navigation = useContext(NavigationContext);
   const productsFromZustand = globalSessionState(
     state => state.productsSelected,
+  );
+  const filters: IFilterListDetail = globalSessionState(
+    state => state.filtersEditList,
   );
   const [products, setProducts] = useState<IProductDTO[]>([]);
   const setProductsSelected = globalSessionState(
@@ -138,6 +143,17 @@ export const editListController = () => {
     }
   };
 
+  // useMemo(() => {
+  //   if (list && categories) {
+  //     parseData({
+  //       listSelected: list,
+  //       categories: categories,
+  //       filters: filters,
+  //       setListSelectedFormatted: setListSelectedFormatted,
+  //     });
+  //   }
+  // }, [categories, list]);
+
   const goToAddProducts = () => {
     navigation?.navigate('AddProducts');
   };
@@ -153,16 +169,17 @@ export const editListController = () => {
   };
 
   return {
+    goToAddProducts,
+    handleFormikSubmit,
+    removeProductSelected,
+    handleNameListSelected,
+    setOpen,
     products,
     initialValues,
     list,
     loading,
     open,
     categoriesFilter,
-    goToAddProducts,
-    handleFormikSubmit,
-    removeProductSelected,
-    handleNameListSelected,
-    setOpen,
+    showWithCategories: filters.splitByCategories,
   };
 };

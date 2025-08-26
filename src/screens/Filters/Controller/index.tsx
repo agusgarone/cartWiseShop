@@ -8,6 +8,9 @@ export const filterProductService = () => {
   const setFilterListDetail = globalSessionState(
     state => state.setFiltersListDetail,
   );
+  const setFilterEditList = globalSessionState(
+    state => state.setFiltersEditList,
+  );
 
   const applyFiltersProducts = (values: {
     textSearched: string;
@@ -45,8 +48,27 @@ export const filterProductService = () => {
     });
   };
 
+  const applyFiltersEditList = (values: {
+    splitByCategories: boolean;
+    categories: ICategoryFilter[];
+    orderAsc: boolean;
+  }) => {
+    let categoriesSelected: number[] = [];
+    values.categories.forEach((category: ICategoryFilter) => {
+      if (category?.isChecked) {
+        categoriesSelected?.push(category?.id);
+      }
+    });
+    setFilterEditList({
+      categories: categoriesSelected,
+      splitByCategories: values.splitByCategories,
+      orderAsc: values.orderAsc,
+    });
+  };
+
   return {
     applyFiltersProducts,
     applyFiltersListDetail,
+    applyFiltersEditList,
   };
 };

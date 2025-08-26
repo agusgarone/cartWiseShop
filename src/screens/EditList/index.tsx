@@ -13,6 +13,7 @@ const EditList = () => {
     loading,
     open,
     categoriesFilter,
+    showWithCategories,
     goToAddProducts,
     handleFormikSubmit,
     removeProductSelected,
@@ -32,7 +33,7 @@ const EditList = () => {
         renderDrawerContent={() => {
           return (
             <CustomDrawerContent
-              filterTo="detail"
+              filterTo="edit"
               closeDrawer={() => setOpen(false)}
               productsCategories={categoriesFilter}
               categories={[]}
@@ -41,13 +42,14 @@ const EditList = () => {
         }}>
         <View style={Style.content}>
           <EditListForm
-            handleFormikSubmit={handleFormikSubmit}
             initialValues={initialValues}
-            goToAddProducts={goToAddProducts}
             products={products}
-            removeProductSelected={removeProductSelected}
             loading={loading}
+            showWithCategories={showWithCategories}
+            handleFormikSubmit={handleFormikSubmit}
+            removeProductSelected={removeProductSelected}
             handleNameListSelected={handleNameListSelected}
+            goToAddProducts={goToAddProducts}
             setOpen={setOpen}
           />
         </View>

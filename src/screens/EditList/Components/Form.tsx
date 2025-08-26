@@ -17,6 +17,7 @@ const EditListForm = ({
   products,
   initialValues,
   loading,
+  showWithCategories,
   goToAddProducts,
   handleFormikSubmit,
   removeProductSelected,
@@ -26,6 +27,7 @@ const EditListForm = ({
   products: IProductDTO[];
   initialValues: {name: string; categories: string[]};
   loading: boolean;
+  showWithCategories: boolean;
   goToAddProducts: (values: {name: string}) => void;
   handleFormikSubmit: (
     values: {
@@ -95,6 +97,7 @@ const EditListForm = ({
                     _renderProducts={_renderProducts}
                     goToAddProducts={() => goToAddProducts(values)}
                     products={products}
+                    showWithCategories={showWithCategories}
                   />
                   <FloatButton
                     navigate={handleFloatButton}

@@ -6,16 +6,18 @@ import {ThemeContext} from '../services/ThemeProvider';
 
 export const ListProductsByCategory = ({
   values,
+  emptyComponent = null,
 }: {
   values: {
     data: ITab[];
-  };
+  } | null;
+  emptyComponent: React.ComponentType<any> | null;
 }) => {
   const {theme} = useContext(ThemeContext);
 
   return (
     <ScrollView>
-      {values.data.map((tab, indexTab) => (
+      {values?.data.map((tab, indexTab) => (
         <View key={indexTab}>
           <View style={{padding: 16}}>
             <Text
