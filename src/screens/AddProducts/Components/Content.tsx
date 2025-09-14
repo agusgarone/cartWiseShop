@@ -1,5 +1,5 @@
-import React from 'react';
-import {FlatList, StyleSheet, View} from 'react-native';
+import React, {useContext} from 'react';
+import {FlatList, StyleSheet, View, Text} from 'react-native';
 import BottomSheetForm from './Form';
 import Button from '../../../components/Button';
 import RenderProduct from './RenderProducts';
@@ -7,6 +7,7 @@ import {globalSessionState} from '../../../services/globalStates';
 import {IProductDTO} from '../../../models/types/product';
 import Loader from '../../../components/Loader';
 import {useTranslation} from 'react-i18next';
+import {ThemeContext} from '../../../services/ThemeProvider';
 
 const Content = ({
   handleButton,
@@ -14,15 +15,28 @@ const Content = ({
   productsSelected,
   handleFormikSubmit,
   loading,
+  onCreateProduct,
+  searchQuery,
 }: {
   productsSelected: IProductDTO[];
   handleButton: () => void;
   onPress: ({item}: {item: IProductDTO}) => void;
   handleFormikSubmit: (values: {textSearched: string}) => Promise<void>;
   loading: boolean;
+  onCreateProduct?: (productName: string) => void;
+  searchQuery?: string;
 }) => {
   const {t} = useTranslation();
+  const {theme} = useContext(ThemeContext);
   const valuesSearched = globalSessionState(state => state.valuesSearched);
+
+  // Determinar si mostrar el botón de crear producto
+  const shouldShowCreateProduct =
+    !loading &&
+    valuesSearched &&
+    valuesSearched.length === 0 &&
+    searchQuery &&
+    searchQuery.trim().length > 0;
 
   return (
     <View style={styles.centeredView}>
@@ -34,6 +48,21 @@ const Content = ({
         <View style={styles.containerList}>
           {loading ? (
             <Loader />
+          ) : shouldShowCreateProduct ? (
+            <View style={styles.noProducts}>
+              <Text style={{color: theme.createList.listEmpty.color}}>
+                {t('addProducts.noProductsFound', {query: searchQuery})}
+              </Text>
+              <Button
+                children={t('addProducts.createProductButton', {
+                  productName: searchQuery,
+                })}
+                isDisabled={false}
+                type="primary"
+                onPress={() => onCreateProduct?.(searchQuery)}
+                key={'CreateProductButton'}
+              />
+            </View>
           ) : (
             <FlatList
               data={valuesSearched}
@@ -102,6 +131,14 @@ const styles = StyleSheet.create({
     width: '100%',
     display: 'flex',
     paddingTop: 12,
+  },
+  noProducts: {
+    marginTop: 10,
+    minHeight: 250,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: 16,
   },
 });
 

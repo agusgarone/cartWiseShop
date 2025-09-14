@@ -7,8 +7,15 @@ import {ThemeContext} from '../../services/ThemeProvider';
 const AddProducts = () => {
   const {theme} = useContext(ThemeContext);
 
-  const {handleButton, handleFormikSubmit, onPress, productsSelected, loading} =
-    addProductsController();
+  const {
+    handleButton,
+    handleFormikSubmit,
+    onPress,
+    productsSelected,
+    loading,
+    goToCreateProduct,
+    searchQuery,
+  } = addProductsController();
 
   return (
     <SafeAreaView
@@ -19,6 +26,8 @@ const AddProducts = () => {
         onPress={onPress}
         productsSelected={productsSelected}
         loading={loading}
+        onCreateProduct={goToCreateProduct}
+        searchQuery={searchQuery}
       />
     </SafeAreaView>
   );

@@ -2,7 +2,9 @@
   "addProducts": {
     "header": "Añadir productos",
     "inputPlaceHolder": "Buscar producto",
-    "button": "Agregar"
+    "button": "Agregar",
+    "noProductsFound": "No se encontraron productos para '{{query}}'",
+    "createProductButton": "Crear '{{productName}}'"
   },
   "editList": {
     "stack": "Editar lista",
@@ -11,7 +13,10 @@
     "emptyText": "¡La lista esta vacia!",
     "emptyButton": "Añadir productos",
     "buttonAddProduct": "Añadir producto",
-    "addNameToTheList": "¡Agregá un nombre a la lista, por favor!"
+    "addNameToTheList": "¡Agregá un nombre a la lista, por favor!",
+    "noProductsFound": "No se encontraron productos para '{{query}}'",
+    "createProductButton": "Crear '{{productName}}'",
+    "searchOtherProducts": "Buscar otros productos"
   },
   "createList": {
     "stack": "Nueva lista",
@@ -20,7 +25,10 @@
     "emptyText": "¡La lista esta vacia!",
     "emptyButton": "Añadir productos",
     "buttonAddProduct": "Añadir producto",
-    "addNameToTheList": "¡Agregá un nombre a la lista, por favor!"
+    "addNameToTheList": "¡Agregá un nombre a la lista, por favor!",
+    "noProductsFound": "No se encontraron productos para '{{query}}'",
+    "createProductButton": "Crear '{{productName}}'",
+    "searchOtherProducts": "Buscar otros productos"
   },
   "createProduct": {
     "header": "Crear producto",

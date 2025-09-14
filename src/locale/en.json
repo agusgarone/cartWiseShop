@@ -2,7 +2,9 @@
   "addProducts": {
     "header": "Add products",
     "inputPlaceHolder": "Search product",
-    "button": "Add"
+    "button": "Add",
+    "noProductsFound": "No products found for '{{query}}'",
+    "createProductButton": "Create '{{productName}}'"
   },
   "createList": {
     "tab": "Create list",
@@ -11,7 +13,22 @@
     "emptyText": "No products!",
     "emptyButton": "Add product",
     "buttonAddProduct": "Add product",
-    "addNameToTheList": "Please add a name to the list!"
+    "addNameToTheList": "Please add a name to the list!",
+    "noProductsFound": "No products found for '{{query}}'",
+    "createProductButton": "Create '{{productName}}'",
+    "searchOtherProducts": "Search other products"
+  },
+  "editList": {
+    "stack": "Edit list",
+    "inputPlaceHolder": "List name",
+    "button": "Done",
+    "emptyText": "No products!",
+    "emptyButton": "Add product",
+    "buttonAddProduct": "Add product",
+    "addNameToTheList": "Please add a name to the list!",
+    "noProductsFound": "No products found for '{{query}}'",
+    "createProductButton": "Create '{{productName}}'",
+    "searchOtherProducts": "Search other products"
   },
   "createProduct": {
     "header": "Create product",

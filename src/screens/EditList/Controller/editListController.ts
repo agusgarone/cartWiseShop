@@ -12,7 +12,7 @@ import {mapperListSupabaseToDTO} from '../../../models/mappers/mapperListSupabas
 import {useTranslation} from 'react-i18next';
 import {ICategoryFilter} from '../../../models/types/category';
 import {getCategoriesByProducts} from '../../../common/utils/functions/getCategoriesByProducts';
-import {parseData} from '../../../common/utils/functions/parseData';
+import {parseDataForEdit} from '../../../common/utils/functions/parseData';
 import {IFilterListDetail} from '../../../models/types/filter';
 
 export const editListController = () => {
@@ -51,12 +51,59 @@ export const editListController = () => {
 
       return () => {
         console.log('🔄 Cleanup: Se desmonta el listener');
+        // Solo limpiar si no estamos creando un producto
+        const shouldCleanup = async () => {
+          const isCreatingProduct = await StorageService.getItem(
+            'isCreatingProduct',
+          );
+          if (!isCreatingProduct) {
+            // No hacer cleanup en editList ya que no tiene resetVariablesAndStates
+          } else {
+            // Limpiar la bandera después de usarla
+            await StorageService.removeItem('isCreatingProduct');
+          }
+        };
+        shouldCleanup();
       };
     }, []),
   );
 
+  // Detectar cuando regresas de AddProducts y forzar actualización
+  useFocusEffect(
+    useCallback(() => {
+      const checkForReturnFromAddProducts = async () => {
+        const isCreatingProduct = await StorageService.getItem(
+          'isCreatingProduct',
+        );
+        if (isCreatingProduct === 'true') {
+          console.log(
+            '🔄 EditList: Detectado retorno de AddProducts, actualizando productos',
+          );
+          await StorageService.removeItem('isCreatingProduct');
+          // Forzar actualización sincronizando con Zustand
+          setProducts(productsFromZustand);
+          setProductsSelected(productsFromZustand);
+        }
+      };
+      checkForReturnFromAddProducts();
+    }, [productsFromZustand]),
+  );
+
   useEffect(() => {
+    console.log('🔄 EditList: Sincronizando con Zustand', productsFromZustand);
     setProducts(productsFromZustand);
+    const formattedProductsToGetCategories = productsFromZustand.map(
+      product => ({
+        id: product.id.toString(),
+        name: product.name,
+        id_category: product.category.id,
+        category: product.category.name,
+      }),
+    );
+    setCategoriesFilter(
+      getCategoriesByProducts(formattedProductsToGetCategories),
+    );
+    setCategories(getCategoriesByProducts(formattedProductsToGetCategories));
   }, [productsFromZustand]);
 
   useEffect(() => {
@@ -67,6 +114,10 @@ export const editListController = () => {
       });
     }
     if (list?.products) {
+      console.log(
+        '🔄 EditList: Cargando productos de la lista original',
+        list?.products,
+      );
       setProducts(list?.products);
       setProductsSelected(list?.products);
     }
@@ -143,18 +194,29 @@ export const editListController = () => {
     }
   };
 
-  // useMemo(() => {
-  //   if (list && categories) {
-  //     parseData({
-  //       listSelected: list,
-  //       categories: categories,
-  //       filters: filters,
-  //       setListSelectedFormatted: setListSelectedFormatted,
-  //     });
-  //   }
-  // }, [categories, list]);
+  useMemo(() => {
+    if (list && categories && products.length > 0) {
+      // Crear una lista actualizada con los productos del estado local
+      const updatedList = {
+        ...list,
+        products: products,
+      };
+      console.log(
+        '🔄 EditList: Actualizando parseDataForEdit con productos actualizados:',
+        products,
+      );
 
-  const goToAddProducts = () => {
+      parseDataForEdit({
+        listSelected: updatedList,
+        categories: categories,
+        filters: filters,
+        setListSelectedFormatted: setListSelectedFormatted,
+      });
+    }
+  }, [categories, list, filters, products]);
+
+  const goToAddProducts = async () => {
+    await StorageService.setItem('isCreatingProduct', 'true');
     navigation?.navigate('AddProducts');
   };
 
@@ -181,5 +243,6 @@ export const editListController = () => {
     open,
     categoriesFilter,
     showWithCategories: filters.splitByCategories,
+    listSelectedFormatted,
   };
 };

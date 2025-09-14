@@ -17,6 +17,7 @@ const CreateListForm = ({
   goToAddProducts,
   handleFormikSubmit,
   removeProductSelected,
+  goToCreateProduct,
 }: {
   initialValues: {name: string; categories: string[]};
   handleFormikSubmit: (
@@ -33,6 +34,7 @@ const CreateListForm = ({
   goToAddProducts: (values: {name: string}) => void;
   products: IProductDTO[];
   removeProductSelected: (id: number) => void;
+  goToCreateProduct: (productName: string) => void;
 }) => {
   const {t} = useTranslation();
   const _renderProducts = ({item}: {item: IProductDTO}) => {

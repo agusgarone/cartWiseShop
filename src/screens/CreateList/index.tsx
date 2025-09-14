@@ -11,6 +11,7 @@ const CreateList = () => {
     goToAddProducts,
     handleFormikSubmit,
     removeProductSelected,
+    goToCreateProduct,
   } = createListController();
   const {theme} = useContext(ThemeContext);
 
@@ -24,6 +25,7 @@ const CreateList = () => {
           goToAddProducts={goToAddProducts}
           products={products}
           removeProductSelected={removeProductSelected}
+          goToCreateProduct={goToCreateProduct}
         />
       </View>
     </SafeAreaView>

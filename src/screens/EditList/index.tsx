@@ -19,6 +19,7 @@ const EditList = () => {
     removeProductSelected,
     handleNameListSelected,
     setOpen,
+    listSelectedFormatted,
   } = editListController();
   const {theme} = useContext(ThemeContext);
 
@@ -51,6 +52,7 @@ const EditList = () => {
             handleNameListSelected={handleNameListSelected}
             goToAddProducts={goToAddProducts}
             setOpen={setOpen}
+            listSelectedFormatted={listSelectedFormatted}
           />
         </View>
       </Drawer>

@@ -6,6 +6,7 @@ import Button from '../../../components/Button';
 import {Content} from '../../CreateList/Components/Content';
 import RenderProduct from '../../CreateList/Components/RenderProducts';
 import {IProductDTO} from '../../../models/types/product';
+import {IListForm, ITab} from '../../../models/types/list';
 import {useTranslation} from 'react-i18next';
 import Loader from '../../../components/Loader';
 import {Colors} from '../../CreateList/Components/Colors';
@@ -23,6 +24,7 @@ const EditListForm = ({
   removeProductSelected,
   handleNameListSelected,
   setOpen,
+  listSelectedFormatted,
 }: {
   products: IProductDTO[];
   initialValues: {name: string; categories: string[]};
@@ -43,6 +45,7 @@ const EditListForm = ({
   removeProductSelected: (id: number) => void;
   handleNameListSelected: (value: string) => void;
   setOpen: Dispatch<SetStateAction<boolean>>;
+  listSelectedFormatted?: IListForm<ITab>;
 }) => {
   const {t} = useTranslation();
   const _renderProducts = ({item}: {item: IProductDTO}) => {
@@ -98,6 +101,7 @@ const EditListForm = ({
                     goToAddProducts={() => goToAddProducts(values)}
                     products={products}
                     showWithCategories={showWithCategories}
+                    listSelectedFormatted={listSelectedFormatted}
                   />
                   <FloatButton
                     navigate={handleFloatButton}

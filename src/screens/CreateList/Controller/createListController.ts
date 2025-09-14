@@ -31,7 +31,19 @@ export const createListController = () => {
     useCallback(() => {
       return () => {
         console.log('🔄 Cleanup: Se desmonta el listener');
-        resetVariablesAndStates();
+        // Solo limpiar si no estamos creando un producto
+        const shouldCleanup = async () => {
+          const isCreatingProduct = await StorageService.getItem(
+            'isCreatingProduct',
+          );
+          if (!isCreatingProduct) {
+            resetVariablesAndStates();
+          } else {
+            // Limpiar la bandera después de usarla
+            await StorageService.removeItem('isCreatingProduct');
+          }
+        };
+        shouldCleanup();
       };
     }, []),
   );
@@ -74,7 +86,8 @@ export const createListController = () => {
     setInitialValues({name: '', categories: []});
   };
 
-  const goToAddProducts = () => {
+  const goToAddProducts = async () => {
+    await StorageService.setItem('isCreatingProduct', 'true');
     navigation?.navigate('AddProducts');
   };
 
@@ -84,11 +97,18 @@ export const createListController = () => {
     setProductsSelected(productsFilter);
   };
 
+  const goToCreateProduct = async (productName: string) => {
+    await StorageService.setItem('preloadedProductName', productName);
+    await StorageService.setItem('isCreatingProduct', 'true');
+    navigation?.navigate('CreateProduct');
+  };
+
   return {
     products,
     initialValues,
     goToAddProducts,
     handleFormikSubmit,
     removeProductSelected,
+    goToCreateProduct,
   };
 };
