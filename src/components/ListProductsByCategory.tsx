@@ -15,6 +15,18 @@ export const ListProductsByCategory = ({
 }) => {
   const {theme} = useContext(ThemeContext);
 
+  // Verificar si hay productos para mostrar
+  const hasProducts =
+    values?.data &&
+    values.data.length > 0 &&
+    values.data.some(tab => tab.products && tab.products.length > 0);
+
+  // Si no hay productos y hay un emptyComponent, renderizarlo
+  if (!hasProducts && emptyComponent) {
+    const EmptyComponent = emptyComponent;
+    return <EmptyComponent />;
+  }
+
   return (
     <ScrollView>
       {values?.data.map((tab, indexTab) => (

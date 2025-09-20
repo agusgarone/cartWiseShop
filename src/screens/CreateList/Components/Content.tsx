@@ -11,13 +11,11 @@ import {ListProductsWithoutCategory} from '../../../components/ListProductsWitho
 export const Content = ({
   _renderProducts,
   goToAddProducts,
-  products,
   showWithCategories,
   listSelectedFormatted,
 }: {
   _renderProducts: ({item}: {item: IProductDTO}) => React.JSX.Element;
   goToAddProducts: () => void | undefined;
-  products: IProductDTO[];
   showWithCategories: boolean;
   listSelectedFormatted?: IListForm<ITab>;
 }) => {
@@ -30,7 +28,20 @@ export const Content = ({
         {showWithCategories ? (
           <ListProductsByCategory
             values={listSelectedFormatted || null}
-            emptyComponent={null}
+            emptyComponent={() => (
+              <View style={Style.noProducts}>
+                <Text style={{color: theme.createList.listEmpty.color}}>
+                  {t('createList.emptyText')}
+                </Text>
+                <Button
+                  children={t('createList.emptyButton')}
+                  isDisabled={false}
+                  type="primary"
+                  onPress={goToAddProducts}
+                  key={'Button'}
+                />
+              </View>
+            )}
           />
         ) : (
           <ListProductsWithoutCategory

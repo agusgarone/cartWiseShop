@@ -9,7 +9,6 @@ import {CustomDrawerContent} from '../Filters';
 const EditList = () => {
   const {
     initialValues,
-    products,
     loading,
     open,
     categoriesFilter,
@@ -44,7 +43,6 @@ const EditList = () => {
         <View style={Style.content}>
           <EditListForm
             initialValues={initialValues}
-            products={products}
             loading={loading}
             showWithCategories={showWithCategories}
             handleFormikSubmit={handleFormikSubmit}

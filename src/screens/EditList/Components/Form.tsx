@@ -15,7 +15,6 @@ import {useDebounce} from '../../../common/utils/customHooks/useDebounce';
 import {FilterButton} from '../../../components/FilterButton';
 
 const EditListForm = ({
-  products,
   initialValues,
   loading,
   showWithCategories,
@@ -26,7 +25,6 @@ const EditListForm = ({
   setOpen,
   listSelectedFormatted,
 }: {
-  products: IProductDTO[];
   initialValues: {name: string; categories: string[]};
   loading: boolean;
   showWithCategories: boolean;
@@ -99,7 +97,6 @@ const EditListForm = ({
                   <Content
                     _renderProducts={_renderProducts}
                     goToAddProducts={() => goToAddProducts(values)}
-                    products={products}
                     showWithCategories={showWithCategories}
                     listSelectedFormatted={listSelectedFormatted}
                   />

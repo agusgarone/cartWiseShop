@@ -1,5 +1,11 @@
-import React from 'react';
-import {View, StyleSheet, TouchableOpacity, Text} from 'react-native';
+import React, {Dispatch, SetStateAction, useEffect} from 'react';
+import {
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  Text,
+  Dimensions,
+} from 'react-native';
 import {Formik, FormikState} from 'formik';
 import {FormikInputValue} from '../../../components/FormikInput';
 import Button from '../../../components/Button';
@@ -8,18 +14,23 @@ import RenderProduct from './RenderProducts';
 import {IProductDTO} from '../../../models/types/product';
 import {useTranslation} from 'react-i18next';
 import FloatButton from '../../../components/FloatButton';
-import {Chip} from '../../../components/ChipColor';
 import {Colors} from './Colors';
+import {IListForm, ITab} from '../../../models/types/list';
+import {useDebounce} from '../../../common/utils/customHooks/useDebounce';
+import {FilterButton} from '../../../components/FilterButton';
 
 const CreateListForm = ({
-  products,
   initialValues,
   goToAddProducts,
   handleFormikSubmit,
   removeProductSelected,
-  goToCreateProduct,
+  showWithCategories,
+  listSelectedFormatted,
+  handleNameListSelected,
+  setOpen,
 }: {
   initialValues: {name: string; categories: string[]};
+  showWithCategories: boolean;
   handleFormikSubmit: (
     values: {
       name: string;
@@ -32,9 +43,10 @@ const CreateListForm = ({
     },
   ) => Promise<any>;
   goToAddProducts: (values: {name: string}) => void;
-  products: IProductDTO[];
   removeProductSelected: (id: number) => void;
-  goToCreateProduct: (productName: string) => void;
+  handleNameListSelected: (value: string) => void;
+  setOpen: Dispatch<SetStateAction<boolean>>;
+  listSelectedFormatted?: IListForm<ITab>;
 }) => {
   const {t} = useTranslation();
   const _renderProducts = ({item}: {item: IProductDTO}) => {
@@ -50,40 +62,59 @@ const CreateListForm = ({
       initialValues={initialValues}
       onSubmit={handleFormikSubmit}
       enableReinitialize>
-      {({handleSubmit, values, setFieldValue}) => (
-        <View style={styles.form}>
-          <>
-            <View style={{paddingBottom: 12}}>
-              <FormikInputValue
-                name="name"
-                placeholder={t('createList.inputPlaceHolder')}
-                onChange={() => null}
-                isNameList
-              />
-              <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
-                <Colors name="categories" values={values} key={'Colors'} />
+      {({handleSubmit, values, setFieldValue}) => {
+        const debouncedSearch = useDebounce(values.name, 700);
+
+        useEffect(() => {
+          if (debouncedSearch) {
+            handleNameListSelected(values.name);
+          }
+        }, [debouncedSearch]);
+        return (
+          <View style={styles.form}>
+            <>
+              <View style={{paddingBottom: 12}}>
+                <View style={styles.containerTitleAndFilter}>
+                  <View style={{width: Dimensions.get('screen').width - 110}}>
+                    <FormikInputValue
+                      name="name"
+                      placeholder={t('createList.inputPlaceHolder')}
+                      onChange={() => null}
+                      isNameList
+                    />
+                  </View>
+                  <FilterButton onPress={() => setOpen(true)} />
+                </View>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    flexWrap: 'wrap',
+                  }}>
+                  <Colors name="categories" values={values} key={'Colors'} />
+                </View>
               </View>
-            </View>
-            <View style={styles.containerResult}>
-              <Content
-                _renderProducts={_renderProducts}
-                goToAddProducts={() => goToAddProducts(values)}
-                products={products}
-              />
-              <FloatButton navigate={handleFloatButton} key={'FloatButton'} />
-              <View style={styles.containerButton}>
-                <Button
-                  children={t('createList.button')}
-                  isDisabled={false}
-                  type="primary"
-                  onPress={handleSubmit}
-                  key={'Button'}
+              <View style={styles.containerResult}>
+                <Content
+                  _renderProducts={_renderProducts}
+                  goToAddProducts={() => goToAddProducts(values)}
+                  showWithCategories={showWithCategories}
+                  listSelectedFormatted={listSelectedFormatted}
                 />
+                <FloatButton navigate={handleFloatButton} key={'FloatButton'} />
+                <View style={styles.containerButton}>
+                  <Button
+                    children={t('createList.button')}
+                    isDisabled={false}
+                    type="primary"
+                    onPress={handleSubmit}
+                    key={'Button'}
+                  />
+                </View>
               </View>
-            </View>
-          </>
-        </View>
-      )}
+            </>
+          </View>
+        );
+      }}
     </Formik>
   );
 };
@@ -104,6 +135,11 @@ const styles = StyleSheet.create({
     width: '100%',
     display: 'flex',
     marginBottom: 28,
+  },
+  containerTitleAndFilter: {
+    display: 'flex',
+    flexDirection: 'row',
+    gap: 20,
   },
 });
 
