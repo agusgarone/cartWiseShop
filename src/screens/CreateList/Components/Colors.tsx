@@ -5,7 +5,7 @@ import {View} from 'react-native';
 interface IColors {
   values: {
     name: string;
-    categories: string[];
+    color: string;
   };
   name: string;
 }
@@ -21,13 +21,16 @@ const ColorsItems = [
 
 export const Colors = ({values, name}: IColors) => {
   const [field, meta, helpers] = useField(name);
+  console.log('🚀 Colors: values', values);
 
   return (
     <View style={{display: 'flex', flexDirection: 'row', margin: 'auto'}}>
       {ColorsItems.map(cat => {
-        const isSelected = values?.categories?.includes(cat);
+        const isSelected = values?.color === cat;
         const onPress = () => {
-          helpers.setValue([cat]);
+          console.log('🚀 Colors: onPress ejecutado');
+          console.log('📝 Cat:', cat);
+          helpers.setValue(cat);
         };
         return (
           <Chip cat={cat} isSelected={isSelected} onPress={onPress} key={cat} />

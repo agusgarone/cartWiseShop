@@ -1,7 +1,7 @@
+import React, {useContext} from 'react';
 import {ScrollView, Text, View} from 'react-native';
 import {ITab} from '../models/types/list';
 import RenderProduct from '../screens/ListDetail/Components/RenderProducts';
-import {useContext} from 'react';
 import {ThemeContext} from '../services/ThemeProvider';
 
 export const ListProductsByCategory = ({
@@ -23,8 +23,7 @@ export const ListProductsByCategory = ({
 
   // Si no hay productos y hay un emptyComponent, renderizarlo
   if (!hasProducts && emptyComponent) {
-    const EmptyComponent = emptyComponent;
-    return <EmptyComponent />;
+    return React.createElement(emptyComponent);
   }
 
   return (

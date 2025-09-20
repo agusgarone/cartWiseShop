@@ -29,12 +29,12 @@ const CreateListForm = ({
   handleNameListSelected,
   setOpen,
 }: {
-  initialValues: {name: string; categories: string[]};
+  initialValues: {name: string; color: string};
   showWithCategories: boolean;
   handleFormikSubmit: (
     values: {
       name: string;
-      categories: string[];
+      color: string;
     },
     actions: {
       setStatus: (arg0: string) => void;
@@ -90,7 +90,7 @@ const CreateListForm = ({
                     flexDirection: 'row',
                     flexWrap: 'wrap',
                   }}>
-                  <Colors name="categories" values={values} key={'Colors'} />
+                  <Colors name="color" values={values} key={'Colors'} />
                 </View>
               </View>
               <View style={styles.containerResult}>

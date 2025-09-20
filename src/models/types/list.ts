@@ -1,10 +1,11 @@
-import {IProductDTO, IProductForm} from './product';
+import {IProductForm} from './product';
 
 export interface IListSupabase {
   id: number;
   created_at: string;
   name: string;
   id_products: number[];
+  color: string;
 }
 
 export interface IListDTO<T> {
@@ -12,6 +13,7 @@ export interface IListDTO<T> {
   created_at: string;
   name: string;
   products: T[];
+  color: string;
 }
 
 export interface IListForm<T> {

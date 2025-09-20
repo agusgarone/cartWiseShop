@@ -1,6 +1,5 @@
 import {FormikState} from 'formik';
 import {editList, fetchListById} from '../../../services/List';
-import {IProductDTO} from '../../../models/types/product';
 import {mapperListSupabaseToDTO} from '../../../models/mappers/mapperListSupabaseToDTO';
 import {useListsManagement} from '../../../common/utils/customHooks/useListsManagement';
 import {StorageService} from '../../../storage/asyncStorage';
@@ -67,13 +66,14 @@ export const editListController = () => {
   };
 
   const handleFormikSubmit = async (
-    values: {name: string},
+    values: {name: string; color: string},
     actions: {
       setStatus: (arg0: string) => void;
       setSubmitting: (arg0: boolean) => void;
       resetForm: (nextState?: Partial<FormikState<any>>) => void;
     },
   ) => {
+    console.log('📝 Valores:', values);
     await baseHandleFormikSubmit(values, actions);
   };
 

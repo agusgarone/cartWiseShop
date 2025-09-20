@@ -43,25 +43,30 @@ const Home = () => {
           {loading ? (
             <Loader />
           ) : (
-            <FlatList
-              data={list}
-              renderItem={({item}) => (
-                <RenderList
-                  item={item}
-                  navigateToListDetail={navigateToListDetail}
-                  navigateToEditList={navigateToEditList}
-                />
-              )}
-              style={{paddingVertical: 5}}
-              ListFooterComponent={() => (
-                <View
-                  style={{
-                    marginVertical: 20,
-                  }}></View>
-              )}
-            />
+            <>
+              <FlatList
+                data={list}
+                renderItem={({item}) => (
+                  <RenderList
+                    item={item}
+                    navigateToListDetail={navigateToListDetail}
+                    navigateToEditList={navigateToEditList}
+                  />
+                )}
+                style={{paddingVertical: 5}}
+                ListFooterComponent={() => (
+                  <View
+                    style={{
+                      marginVertical: 20,
+                    }}></View>
+                )}
+              />
+              <FloatButton
+                navigate={navigateToCreateList}
+                key={'FloatButton'}
+              />
+            </>
           )}
-          <FloatButton navigate={navigateToCreateList} key={'FloatButton'} />
         </View>
       </View>
     </SafeAreaView>

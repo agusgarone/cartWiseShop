@@ -25,14 +25,14 @@ const EditListForm = ({
   setOpen,
   listSelectedFormatted,
 }: {
-  initialValues: {name: string; categories: string[]};
+  initialValues: {name: string; color: string};
   loading: boolean;
   showWithCategories: boolean;
-  goToAddProducts: (values: {name: string}) => void;
+  goToAddProducts: (values: {name: string; color: string}) => void;
   handleFormikSubmit: (
     values: {
       name: string;
-      categories: string[];
+      color: string;
     },
     actions: {
       setStatus: (arg0: string) => void;
@@ -90,7 +90,7 @@ const EditListForm = ({
                       flexDirection: 'row',
                       flexWrap: 'wrap',
                     }}>
-                    <Colors name="categories" values={values} key={'Colors'} />
+                    <Colors name="color" values={values} key={'Colors'} />
                   </View>
                 </View>
                 <View style={styles.containerResult}>

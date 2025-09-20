@@ -70,12 +70,13 @@ export const useListsManagement = ({
           created_at: new Date().toISOString(),
           name: '',
           products: [],
+          color: '',
         }
       : null,
   );
   const [initialValues, setInitialValues] = useState({
     name: '',
-    categories: [],
+    color: '',
   });
   const [open, setOpen] = useState<boolean>(false);
   const [listSelectedFormatted, setListSelectedFormatted] =
@@ -148,7 +149,7 @@ export const useListsManagement = ({
     if (mode === 'edit' && list) {
       setInitialValues({
         name: list?.name || '',
-        categories: [],
+        color: list?.color || '',
       });
       if (list?.products) {
         setProductsAndProductsSelected(list?.products);
@@ -193,11 +194,11 @@ export const useListsManagement = ({
       setNameListSelected('');
     }
     resetProducts();
-    setInitialValues({name: '', categories: []});
+    setInitialValues({name: '', color: ''});
   };
 
   const handleFormikSubmit = async (
-    values: {name: string; categories?: string[]},
+    values: {name: string; color: string},
     actions: {
       setStatus: (arg0: string) => void;
       setSubmitting: (arg0: boolean) => void;
@@ -213,16 +214,26 @@ export const useListsManagement = ({
           name: values.name,
           products: products ?? [],
           id: Math.floor(Math.random() * 900000) + 100000,
+          color: values.color,
         };
+        console.log(
+          '🚀 useListsManagement: Creando lista con color:',
+          values.color,
+        );
         onListCreated?.(newList);
       } else {
         const currentList: number = await StorageService.getItem('currentList');
         const isEditing: boolean = await StorageService.getItem('isEditing');
 
         if (currentList && isEditing) {
-          const newValues: {newName: string; newProducts: number[]} = {
+          const newValues: {
+            newName: string;
+            newProducts: number[];
+            newColor: string;
+          } = {
             newName: values.name,
             newProducts: products.length ? products.map(x => x.id) : [],
+            newColor: values.color,
           };
           onListUpdated?.(currentList, newValues);
         }
