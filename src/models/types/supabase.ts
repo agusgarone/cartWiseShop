@@ -11,7 +11,6 @@ export type Database = {
           createdAt: string;
           language: string;
           theme: string;
-          listView: string;
         };
         Insert: {
           uid: string;
@@ -22,7 +21,6 @@ export type Database = {
           createdAt?: string;
           language: string;
           theme: string;
-          listView: string;
         };
         Update: {
           uid?: string;
@@ -33,7 +31,6 @@ export type Database = {
           createdAt?: string;
           language?: string;
           theme?: string;
-          listView?: string;
         };
         Relationships: [];
       };

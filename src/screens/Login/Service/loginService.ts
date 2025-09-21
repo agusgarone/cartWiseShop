@@ -4,7 +4,6 @@ import {
   getUserById,
   insertUser,
   updateLanguage,
-  updateListView,
   updateTheme,
 } from '../Api/facade';
 import auth from '@react-native-firebase/auth';
@@ -59,9 +58,4 @@ export const editLanguage = async (lang: string) => {
 export const editTheme = async (theme: string) => {
   const responseUpdateTheme = await updateTheme(theme);
   return responseUpdateTheme;
-};
-
-export const editListView = async (listView: string) => {
-  const responseUpdateListView = await updateListView(listView);
-  return responseUpdateListView;
 };

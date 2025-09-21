@@ -2,7 +2,6 @@ import {useCallback, useContext, useEffect, useState} from 'react';
 import {NavigationContext, useFocusEffect} from '@react-navigation/native';
 import {
   editLanguage,
-  editListView,
   editTheme,
   fetchUserById,
 } from '../../Login/Service/loginService';

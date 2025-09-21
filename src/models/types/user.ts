@@ -7,5 +7,4 @@ export type User = {
   createdAt: string;
   language: string;
   theme: string;
-  listView: string;
 };

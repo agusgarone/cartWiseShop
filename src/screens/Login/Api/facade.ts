@@ -67,17 +67,6 @@ export const updateTheme = async (theme: string) => {
   return response;
 };
 
-export const updateListView = async (listView: string) => {
-  const response = await supabase
-    .from('users')
-    .update({
-      listView: listView,
-    })
-    .eq('uid', await getUserUid());
-
-  return response;
-};
-
 export const logOutSupabase = async () => {
   const response = await supabase.auth.signOut();
   return response;
