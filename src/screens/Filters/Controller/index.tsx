@@ -25,7 +25,7 @@ export const filterProductService = () => {
     });
     setFilterProducts({
       category: categorySelected,
-      nameFilter: values.textSearched,
+      nameFilter: values.textSearched.toLowerCase(),
       orderAsc: values.orderAsc,
     });
   };

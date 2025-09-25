@@ -9,6 +9,7 @@ import {User} from '../../../models/types/user';
 import {ThemeContext} from '../../../services/ThemeProvider';
 import i18n from '../../../services/i18n';
 import {logOutSupabase} from '../../Login/Api/facade';
+import {capitalizeFirstLetter} from '../../../common/utils/functions/capitalizeFirstLetter';
 
 export const userSettingsController = () => {
   const navigation = useContext(NavigationContext);
@@ -92,11 +93,6 @@ export const userSettingsController = () => {
   const handleEditTheme = async (theme: 'light' | 'dark') => {
     await editTheme(theme);
     setMode(theme);
-  };
-
-  const capitalizeFirstLetter = (text: string) => {
-    if (!text) return '';
-    return text.charAt(0).toUpperCase() + text.slice(1);
   };
 
   const capitalizeEachWord = (text: string) => {

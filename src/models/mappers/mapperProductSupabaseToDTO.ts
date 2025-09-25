@@ -1,3 +1,4 @@
+import {capitalizeFirstLetter} from '../../common/utils/functions/capitalizeFirstLetter';
 import {IProductDTO} from '../types/product';
 
 export const mapperProductSupabaseToDTO = (
@@ -12,7 +13,7 @@ export const mapperProductSupabaseToDTO = (
   return entry.map(value => {
     const prodDTO: IProductDTO = {
       id: parseInt(value.id, 10),
-      name: value.name,
+      name: capitalizeFirstLetter(value.name),
       category: {
         id: parseInt(value.id_category, 10),
         name: value.category_name,
