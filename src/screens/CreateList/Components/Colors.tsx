@@ -21,15 +21,12 @@ const ColorsItems = [
 
 export const Colors = ({values, name}: IColors) => {
   const [field, meta, helpers] = useField(name);
-  console.log('🚀 Colors: values', values);
 
   return (
     <View style={{display: 'flex', flexDirection: 'row', margin: 'auto'}}>
       {ColorsItems.map(cat => {
         const isSelected = values?.color === cat;
         const onPress = () => {
-          console.log('🚀 Colors: onPress ejecutado');
-          console.log('📝 Cat:', cat);
           helpers.setValue(cat);
         };
         return (

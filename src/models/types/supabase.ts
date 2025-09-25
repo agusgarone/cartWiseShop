@@ -83,6 +83,7 @@ export type Database = {
           id: number;
           created_at: string;
           name: string;
+          color: string;
           id_products: number[];
           uid_user: string;
         };
@@ -90,6 +91,7 @@ export type Database = {
           id?: number;
           created_at?: string;
           name: string;
+          color: string;
           id_products: number[];
           uid_user: string;
         };
@@ -97,6 +99,7 @@ export type Database = {
           id?: number;
           created_at?: string;
           name?: string;
+          color?: string;
           id_products?: number[];
           uid_user?: string;
         };
@@ -139,6 +142,7 @@ export type Database = {
           list_name: string;
           created_at: string;
           uid_user: string;
+          color: string;
           product_data: Array<{
             id: string;
             name: string;
@@ -159,6 +163,7 @@ export type Database = {
               list_name: string;
               created_at: string;
               uid_user: string;
+              color: string;
               product_data: Array<{
                 id: string;
                 name: string;

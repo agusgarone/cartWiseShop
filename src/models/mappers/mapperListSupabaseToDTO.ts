@@ -2,12 +2,11 @@ import moment from 'moment';
 import {IListDTO} from '../types/list';
 import {IProductDTO} from '../types/product';
 
-// * Hay que revisar el tema de products en el objeto
-
 export const mapperListSupabaseToDTO = (
   entry: {
     list_id: number;
     list_name: string;
+    color: string;
     created_at: string;
     uid_user: string;
     product_data: Array<{
@@ -22,6 +21,7 @@ export const mapperListSupabaseToDTO = (
     const listDTO: IListDTO<IProductDTO> = {
       id: entry.list_id,
       name: entry.list_name,
+      color: entry.color,
       created_at: moment(entry.created_at).format('DD/MM/YYYY'),
       products:
         entry.product_data?.map(item => {

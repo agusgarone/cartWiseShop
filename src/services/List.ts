@@ -32,7 +32,7 @@ export const fetchLists = async () => {
 
 export const editList = async (
   listId: number,
-  values: {newName: string; newProducts: number[]},
+  values: {newName: string; newProducts: number[]; newColor: string},
 ) => {
   const responseFetchLists = await updateList(listId, values);
   return responseFetchLists;

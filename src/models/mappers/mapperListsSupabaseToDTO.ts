@@ -7,6 +7,7 @@ export const mapperListsSupabaseToDTO = (
     list_id: string;
     created_at: string;
     list_name: string;
+    color: string;
     product_data:
       | {
           id: string;
@@ -23,6 +24,7 @@ export const mapperListsSupabaseToDTO = (
       id: parseInt(value.list_id, 10),
       name: value.list_name,
       created_at: moment(value.created_at).format('DD/MM/YYYY'),
+      color: value.color,
       products:
         value.product_data?.map(item => {
           const product: IProductDTO = {

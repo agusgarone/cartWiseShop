@@ -7,6 +7,7 @@ export const insertList = async (list: IListSupabase) => {
       id: list.id,
       created_at: list.created_at,
       name: list.name,
+      color: list.color,
       id_products: list.id_products.map(Number),
       uid_user: await getUserUid(),
     },
@@ -49,13 +50,14 @@ export const getLists = async () => {
 
 export const updateList = async (
   listId: number,
-  values: {newName: string; newProducts: number[]},
+  values: {newName: string; newProducts: number[]; newColor: string},
 ) => {
   const response = await supabase
     .from('lists')
     .update({
       name: values.newName || undefined,
       id_products: values.newProducts || undefined,
+      color: values.newColor || undefined,
     })
     .eq('id', listId);
 

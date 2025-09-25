@@ -66,9 +66,7 @@ export const createProductController = () => {
   }, []);
 
   const loadPreloadedProductName = async () => {
-    console.log('🔍 CreateProduct: Cargando nombre pre-cargado...');
     const preloadedName = await StorageService.getItem('preloadedProductName');
-    console.log('📝 Nombre pre-cargado:', preloadedName);
     if (preloadedName) {
       setInitialValues(prev => ({
         ...prev,
@@ -76,7 +74,6 @@ export const createProductController = () => {
       }));
       // Limpiar el nombre pre-cargado después de usarlo
       await StorageService.removeItem('preloadedProductName');
-      console.log('✅ Nombre pre-cargado aplicado y limpiado');
     }
   };
 
@@ -88,8 +85,6 @@ export const createProductController = () => {
       resetForm: (nextState?: Partial<FormikState<any>>) => void;
     },
   ) => {
-    console.log('🚀 CreateProduct: handleFormikSubmit ejecutado');
-    console.log('📝 Valores:', values);
     actions.setStatus(FORM_STATUS.idle);
     if (values.name) {
       const newProduct: IProductSupabase = {
@@ -116,12 +111,8 @@ export const createProductController = () => {
           default: false,
         };
 
-        console.log('Lista modificada:', [...currentProducts, tempProduct]);
-
         // Agregar el producto a la lista actual
         setProductsSelected([...currentProducts, tempProduct]);
-
-        console.log('✅ Producto agregado a la lista:', tempProduct);
       } else {
         console.log('❌ Error al crear el producto:', response.error);
         Alert.alert(t('createProduct.unexpectedErrorToCreateProduct'));

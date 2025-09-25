@@ -26,7 +26,7 @@ interface UseListsManagementProps {
   onListCreated?: (list: IListDTO<IProductDTO>) => void;
   onListUpdated?: (
     listId: number,
-    newValues: {newName: string; newProducts: number[]},
+    newValues: {newName: string; newProducts: number[]; newColor: string},
   ) => void;
   onListLoaded?: (list: IListDTO<IProductDTO>) => void;
   onMount?: () => void;
@@ -216,10 +216,6 @@ export const useListsManagement = ({
           id: Math.floor(Math.random() * 900000) + 100000,
           color: values.color,
         };
-        console.log(
-          '🚀 useListsManagement: Creando lista con color:',
-          values.color,
-        );
         onListCreated?.(newList);
       } else {
         const currentList: number = await StorageService.getItem('currentList');

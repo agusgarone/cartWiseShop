@@ -43,7 +43,6 @@ export const addProductsController = () => {
         if (isCreatingProduct === 'true') {
           await StorageService.removeItem('isCreatingProduct');
           await loadProducts();
-          console.log('✅ AddProducts: Productos recargados');
         }
       };
       checkForNewProduct();
@@ -59,12 +58,6 @@ export const addProductsController = () => {
         searchQueryRef.current &&
         searchQueryRef.current.trim().length > 0
       ) {
-        console.log(
-          '🔍 AddProducts: Actualizando búsqueda con productos recargados:',
-          searchQueryRef.current,
-        );
-        console.log('productsSelected', productsSelected);
-        console.log('allProducts', allProducts);
         await handleFormikSubmit({textSearched: searchQueryRef.current});
       }
     };
@@ -86,10 +79,6 @@ export const addProductsController = () => {
   };
 
   const handleButton = () => {
-    console.log(
-      '🔄 AddProducts: Guardando productos en Zustand:',
-      productsSelected,
-    );
     setProductsSelectedZustand(productsSelected);
     navigation?.goBack();
   };
@@ -103,10 +92,7 @@ export const addProductsController = () => {
     };
     const responseGetAllProducts = await fetchProducts(filters);
     if (responseGetAllProducts.error) {
-      console.log(
-        '❌ Error al cargar productos:',
-        responseGetAllProducts.error,
-      );
+      console.log(responseGetAllProducts.error);
     } else {
       const mappedProducts = mapperProductSupabaseToDTO(
         responseGetAllProducts.data,

@@ -19,10 +19,6 @@ export const createListController = () => {
   } = useListsManagement({
     mode: 'create',
     onListCreated: async list => {
-      console.log(
-        '🚀 createListController: Lista creada con color:',
-        list.color,
-      );
       await createList(mapperListDTOToSupabase(list));
     },
   });
@@ -35,7 +31,6 @@ export const createListController = () => {
       resetForm: (nextState?: Partial<FormikState<any>>) => void;
     },
   ) => {
-    console.log('📝 Valores:', values);
     await baseHandleFormikSubmit(values, actions);
   };
 

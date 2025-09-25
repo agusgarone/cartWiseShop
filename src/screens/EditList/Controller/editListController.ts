@@ -73,7 +73,6 @@ export const editListController = () => {
       resetForm: (nextState?: Partial<FormikState<any>>) => void;
     },
   ) => {
-    console.log('📝 Valores:', values);
     await baseHandleFormikSubmit(values, actions);
   };
 

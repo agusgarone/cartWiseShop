@@ -1,5 +1,5 @@
 import React, {useContext} from 'react';
-import {StyleSheet, Text, TouchableOpacity} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {IListDTO} from '../../../models/types/list';
 import theme from '../../../common/theme';
 import {IProductDTO} from '../../../models/types/product';
@@ -19,33 +19,39 @@ const RenderList = ({
   const {theme} = useContext(ThemeContext);
   return (
     <TouchableOpacity
-      style={[
-        style.view,
-        {backgroundColor: theme.home.renderProduct.background},
-      ]}
+      style={[style.view]}
+      activeOpacity={1}
       onPress={() => navigateToListDetail(item.id.toString())}
       onLongPress={() => navigateToEditList(item.id.toString())}>
-      <Text style={[style.name, {color: theme.home.renderProduct.titleColor}]}>
-        {item.name}
-      </Text>
-      <Text
+      <View
         style={[
-          style.subtitle,
-          {color: theme.home.renderProduct.subtitleColor},
+          style.content,
+          {backgroundColor: theme.home.renderProduct.background},
         ]}>
-        {`${item.products.length} ${
-          item.products.length === 1
-            ? t('home.renderItem.product')
-            : t('home.renderItem.products')
-        }`}
-      </Text>
-      <Text
-        style={{
-          color: theme.home.renderProduct.subtitleColor,
-        }}>
-        {t('home.renderItem.createdAt')}
-        {` ${item.created_at}`}
-      </Text>
+        <Text
+          style={[style.name, {color: theme.home.renderProduct.titleColor}]}>
+          {item.name}
+        </Text>
+        <Text
+          style={[
+            style.subtitle,
+            {color: theme.home.renderProduct.subtitleColor},
+          ]}>
+          {`${item.products.length} ${
+            item.products.length === 1
+              ? t('home.renderItem.product')
+              : t('home.renderItem.products')
+          }`}
+        </Text>
+        <Text
+          style={{
+            color: theme.home.renderProduct.subtitleColor,
+          }}>
+          {t('home.renderItem.createdAt')}
+          {` ${item.created_at}`}
+        </Text>
+      </View>
+      <View style={[style.color, {backgroundColor: item.color || 'purple'}]} />
     </TouchableOpacity>
   );
 };
@@ -55,12 +61,25 @@ const style = StyleSheet.create({
     marginHorizontal: 3,
     marginVertical: 5,
     borderRadius: 20,
-    paddingVertical: 16,
-    paddingHorizontal: 16,
+    display: 'flex',
+    flexDirection: 'row',
+    elevation: 3,
+  },
+  content: {
+    width: '94%',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
-    elevation: 3,
+    paddingVertical: 16,
+    paddingHorizontal: 16,
+    borderRadius: 20,
+    zIndex: 100,
+  },
+  color: {
+    width: '16%',
+    borderRadius: 20,
+    position: 'relative',
+    left: -38,
   },
   name: {
     fontSize: theme.fontSize.xxxl,
