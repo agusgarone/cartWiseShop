@@ -104,13 +104,12 @@ export const addProductsController = () => {
   };
 
   const handleFormikSubmit = async (values: {textSearched: string}) => {
-    setSearchQuery(values.textSearched);
-    searchQueryRef.current = values.textSearched;
+    const cleanText = values.textSearched.trim().toLowerCase();
+    setSearchQuery(cleanText);
+    searchQueryRef.current = cleanText;
     if (allProducts?.length) {
       const valuesSearched = allProducts.filter(value =>
-        value.name
-          .toLocaleLowerCase()
-          .includes(values.textSearched.toLocaleLowerCase()),
+        value.name.toLowerCase().includes(cleanText),
       );
       setValuesSearched(valuesSearched);
       Keyboard.dismiss();

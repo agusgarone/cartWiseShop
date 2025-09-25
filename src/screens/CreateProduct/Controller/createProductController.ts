@@ -89,7 +89,7 @@ export const createProductController = () => {
     if (values.name) {
       const newProduct: IProductSupabase = {
         id: Math.floor(Math.random() * 900000) + 100000,
-        name: values.name.toLowerCase(),
+        name: values.name.trim().toLowerCase(),
         id_category:
           categories.find(category => category.id === values.category)?.id || 1,
       };
@@ -103,7 +103,7 @@ export const createProductController = () => {
         );
         const tempProduct: IProductDTO = {
           id: newProduct.id,
-          name: newProduct.name.toLowerCase(),
+          name: newProduct.name.trim().toLowerCase(),
           category: {
             id: selectedCategory?.id || 1,
             name: selectedCategory?.name || 'Sin categoría',
