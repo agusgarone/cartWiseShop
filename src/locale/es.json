@@ -35,7 +35,9 @@
     "inputPlaceHolder": "Nombre del producto",
     "selectPlaceHolder": "Categoria del producto",
     "button": "Aceptar",
-    "unexpectedErrorToCreateProduct": "¡Hubo un error al crear el producto, intentelo de nuevo por favor!"
+    "unexpectedErrorToCreateProduct": "¡Hubo un error al crear el producto, intentelo de nuevo por favor!",
+    "productAlreadyExists": "Producto ya existe",
+    "productAlreadyExistsMessage": "El producto '{{productName}}' ya existe en tu lista de productos."
   },
   "home": {
     "tab": "Inicio",

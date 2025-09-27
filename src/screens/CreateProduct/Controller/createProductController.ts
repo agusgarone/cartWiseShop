@@ -1,13 +1,9 @@
 import {useCallback, useContext, useState, useEffect} from 'react';
-import {
-  NavigationContext,
-  useFocusEffect,
-  useRoute,
-} from '@react-navigation/native';
+import {NavigationContext, useFocusEffect} from '@react-navigation/native';
 import {FormikState} from 'formik';
 import {FORM_STATUS} from '../../../common/utils/formStatus';
 import {Alert, Keyboard} from 'react-native';
-import {createProduct} from '../../../services/Product';
+import {createProduct, verifyProductExists} from '../../../services/Product';
 import {IProductSupabase} from '../../../models/types/product';
 import {useTranslation} from 'react-i18next';
 import {mapperCategorySupabaseToFilter} from '../../../models/mappers/mapperCategorySupabaseToFilter';
@@ -16,9 +12,6 @@ import {fetchCategories} from '../../../services/Category';
 import {StorageService} from '../../../storage/asyncStorage';
 import {globalSessionState} from '../../../services/globalStates';
 import {IProductDTO} from '../../../models/types/product';
-import {fetchProducts} from '../../../services/Product';
-import {mapperProductSupabaseToDTO} from '../../../models/mappers/mapperProductSupabaseToDTO';
-import {IFilterProducts} from '../../../models/types/filter';
 
 export const createProductController = () => {
   const {t} = useTranslation();
@@ -87,9 +80,32 @@ export const createProductController = () => {
   ) => {
     actions.setStatus(FORM_STATUS.idle);
     if (values.name) {
+      const productName = values.name.trim().toLowerCase();
+
+      // Verificar si el producto ya existe
+      const checkResponse = await verifyProductExists(productName);
+
+      if (checkResponse.error) {
+        console.log('❌ Error al verificar el producto:', checkResponse.error);
+        Alert.alert(t('createProduct.unexpectedErrorToCreateProduct'));
+        return;
+      }
+
+      // Si el producto ya existe, mostrar mensaje de error
+      if (checkResponse.data && checkResponse.data.length > 0) {
+        Alert.alert(
+          t('createProduct.productAlreadyExists'),
+          t('createProduct.productAlreadyExistsMessage', {
+            productName: productName,
+          }),
+        );
+        actions.setSubmitting(false);
+        return;
+      }
+
       const newProduct: IProductSupabase = {
         id: Math.floor(Math.random() * 900000) + 100000,
-        name: values.name.trim().toLowerCase(),
+        name: productName,
         id_category:
           categories.find(category => category.id === values.category)?.id || 1,
       };

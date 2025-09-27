@@ -35,7 +35,9 @@
     "inputPlaceHolder": "Product name",
     "selectPlaceHolder": "Product category",
     "button": "Accept",
-    "unexpectedErrorToCreateProduct": "There was an error creating the product, please try again!"
+    "unexpectedErrorToCreateProduct": "There was an error creating the product, please try again!",
+    "productAlreadyExists": "Product already exists",
+    "productAlreadyExistsMessage": "The product '{{productName}}' already exists in your product list."
   },
   "home": {
     "tab": "Home",

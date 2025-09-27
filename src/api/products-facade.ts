@@ -36,6 +36,17 @@ export const getProducts = async (filters: IFilterProducts) => {
   return response;
 };
 
+export const checkProductExists = async (productName: string) => {
+  const response = await supabase
+    .from('products')
+    .select('id, name')
+    .eq('name', productName.trim().toLowerCase())
+    .eq('uid_user', await getUserUid())
+    .limit(1);
+
+  return response;
+};
+
 const getUserUid = async () => {
   const {data: session} = await supabase.auth.getSession();
 
