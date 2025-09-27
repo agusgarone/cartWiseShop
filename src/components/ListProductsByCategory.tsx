@@ -7,11 +7,13 @@ import {ThemeContext} from '../services/ThemeProvider';
 export const ListProductsByCategory = ({
   values,
   emptyComponent = null,
+  _renderProducts,
 }: {
   values: {
     data: ITab[];
   } | null;
   emptyComponent: React.ComponentType<any> | null;
+  _renderProducts: ({item}: {item: any; index: number}) => React.JSX.Element;
 }) => {
   const {theme} = useContext(ThemeContext);
 
@@ -40,16 +42,9 @@ export const ListProductsByCategory = ({
               {tab.categoria}
             </Text>
           </View>
-          {tab.products.map((prod, indexProd) => {
-            return (
-              <RenderProduct
-                item={prod}
-                indexTab={indexTab}
-                indexProd={indexProd}
-                key={`${prod.id}${indexProd}`}
-              />
-            );
-          })}
+          {tab.products.map((prod, indexProd) =>
+            _renderProducts({item: prod, index: indexProd}),
+          )}
         </View>
       ))}
     </ScrollView>

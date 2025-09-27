@@ -71,7 +71,7 @@
   "filterProducts": {
     "title": "Filtri",
     "inputPlaceholder": "Cerca il prodotto",
-    "addButton": "Aggiungi",
+    "addButton": "Applica filtri",
     "groupByCategory": "Gruppo per categoria",
     "categories": "Categorie",
     "sort": "Ordinanza"

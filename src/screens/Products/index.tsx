@@ -9,6 +9,7 @@ import SwipeToDeleteItem from './Components/AnimatedRenderItem';
 import {FilterButton} from '../../components/FilterButton';
 import {Drawer} from 'react-native-drawer-layout';
 import {CustomDrawerContent} from '../Filters';
+import FloatButton from '../../components/FloatButton';
 
 const Products = () => {
   const {t} = useTranslation();
@@ -83,15 +84,11 @@ const Products = () => {
                 />
               )}
             </View>
-            <View style={Style.containerButton}>
-              <Button
-                children={t('products.button')}
-                isDisabled={false}
-                type="primary"
-                onPress={goToCreateProduct}
-                key={'Button'}
-              />
-            </View>
+            <FloatButton
+              navigate={goToCreateProduct}
+              isHome
+              key={'FloatButton'}
+            />
           </View>
         </View>
       </Drawer>
@@ -106,7 +103,6 @@ const Style = StyleSheet.create({
   selectList: {
     flex: 1,
     justifyContent: 'flex-start',
-    marginTop: 32,
   },
   content: {
     flex: 1,
@@ -128,6 +124,7 @@ const Style = StyleSheet.create({
   containerButton: {
     display: 'flex',
     marginBottom: 16,
+    backgroundColor: 'red',
   },
   noProducts: {
     marginTop: 10,

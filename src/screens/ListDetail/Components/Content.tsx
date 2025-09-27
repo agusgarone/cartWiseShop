@@ -74,6 +74,7 @@ const Content = ({
                   {showWithCategories ? (
                     <ListProductsByCategory
                       values={values}
+                      _renderProducts={_renderProducts}
                       emptyComponent={null}
                     />
                   ) : (

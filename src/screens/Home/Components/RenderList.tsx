@@ -51,7 +51,12 @@ const RenderList = ({
           {` ${item.created_at}`}
         </Text>
       </View>
-      <View style={[style.color, {backgroundColor: item.color || 'purple'}]} />
+      <View
+        style={[
+          style.color,
+          {backgroundColor: item.color || theme.home.renderProduct.background},
+        ]}
+      />
     </TouchableOpacity>
   );
 };

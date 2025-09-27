@@ -63,6 +63,7 @@ const Home = () => {
               />
               <FloatButton
                 navigate={navigateToCreateList}
+                isHome
                 key={'FloatButton'}
               />
             </>
@@ -83,7 +84,6 @@ const Style = StyleSheet.create({
   content: {
     flex: 1,
     paddingHorizontal: 16,
-    paddingVertical: 32,
   },
 });
 

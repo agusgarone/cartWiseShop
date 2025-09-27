@@ -50,7 +50,13 @@ const CreateListForm = ({
 }) => {
   const {t} = useTranslation();
   const _renderProducts = ({item}: {item: IProductDTO}) => {
-    return <RenderProduct item={item} onPress={removeProductSelected} />;
+    return (
+      <RenderProduct
+        item={item}
+        onPress={removeProductSelected}
+        key={`${item.id}`}
+      />
+    );
   };
 
   const handleFloatButton = (values: any) => {

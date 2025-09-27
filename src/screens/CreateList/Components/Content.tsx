@@ -28,6 +28,7 @@ export const Content = ({
         {showWithCategories ? (
           <ListProductsByCategory
             values={listSelectedFormatted || null}
+            _renderProducts={_renderProducts}
             emptyComponent={() => (
               <View style={Style.noProducts}>
                 <Text style={{color: theme.createList.listEmpty.color}}>

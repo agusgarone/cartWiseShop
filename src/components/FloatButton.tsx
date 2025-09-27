@@ -5,12 +5,22 @@ import theme from '../common/theme';
 
 interface IFloatButton {
   navigate: (values: any) => void;
+  isHome?: boolean;
 }
 
-const FloatButton = memo(function FloatButton({navigate}: IFloatButton) {
+const FloatButton = memo(function FloatButton({
+  navigate,
+  isHome = false,
+}: IFloatButton) {
   return (
     <TouchableOpacity
-      style={[Style.action, {backgroundColor: '#39bd5c'}]}
+      style={[
+        Style.action,
+        {backgroundColor: '#39bd5c'},
+        isHome
+          ? {position: 'absolute', bottom: 32, right: 16}
+          : {position: 'absolute', bottom: 94},
+      ]}
       onPress={navigate}>
       <Plus size={25} color="white" />
     </TouchableOpacity>
