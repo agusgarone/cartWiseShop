@@ -35,16 +35,18 @@ const Content = ({
 
   const _renderProducts = ({
     item,
-    index,
+    indexProd,
+    indexTab,
   }: {
     item: IProductForm;
-    index: number;
+    indexProd: number;
+    indexTab: number;
   }) => (
     <RenderProduct
       item={item}
-      indexTab={0}
-      indexProd={index}
-      key={`${item.id}${index}`}
+      indexTab={indexTab}
+      indexProd={indexProd}
+      key={`${item.id}${indexTab}${indexProd}`}
     />
   );
 

@@ -10,12 +10,20 @@ export const ListProductsWithoutCategory = ({
     data: ITab[];
   } | null;
   emptyComponent: React.ComponentType<any> | null;
-  _renderProducts: ({item}: {item: any; index: number}) => React.JSX.Element;
+  _renderProducts: ({
+    item,
+  }: {
+    item: any;
+    indexProd: number;
+    indexTab: number;
+  }) => React.JSX.Element;
 }) => {
   return (
     <FlatList
       data={values?.data[0].products}
-      renderItem={_renderProducts}
+      renderItem={({item, index}) =>
+        _renderProducts({item, indexProd: index, indexTab: 0})
+      }
       style={{paddingVertical: 5}}
       ListFooterComponent={() => (
         <View

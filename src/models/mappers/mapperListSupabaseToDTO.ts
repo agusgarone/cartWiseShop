@@ -1,6 +1,7 @@
 import moment from 'moment';
 import {IListDTO} from '../types/list';
 import {IProductDTO} from '../types/product';
+import {capitalizeFirstLetter} from '../../common/utils/functions/capitalizeFirstLetter';
 
 export const mapperListSupabaseToDTO = (
   entry: {
@@ -31,7 +32,7 @@ export const mapperListSupabaseToDTO = (
               name: item.category,
             },
             id: parseInt(item.id, 10),
-            name: item.name,
+            name: capitalizeFirstLetter(item.name),
             default: !entry.uid_user,
           };
           return product;

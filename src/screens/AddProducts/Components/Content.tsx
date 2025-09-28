@@ -8,6 +8,7 @@ import {IProductDTO} from '../../../models/types/product';
 import Loader from '../../../components/Loader';
 import {useTranslation} from 'react-i18next';
 import {ThemeContext} from '../../../services/ThemeProvider';
+import {capitalizeFirstLetter} from '../../../common/utils/functions/capitalizeFirstLetter';
 
 const Content = ({
   handleButton,
@@ -51,11 +52,13 @@ const Content = ({
           ) : shouldShowCreateProduct ? (
             <View style={styles.noProducts}>
               <Text style={{color: theme.createList.listEmpty.color}}>
-                {t('addProducts.noProductsFound', {query: searchQuery})}
+                {t('addProducts.noProductsFound', {
+                  query: capitalizeFirstLetter(searchQuery),
+                })}
               </Text>
               <Button
                 children={t('addProducts.createProductButton', {
-                  productName: searchQuery,
+                  productName: capitalizeFirstLetter(searchQuery),
                 })}
                 isDisabled={false}
                 type="primary"

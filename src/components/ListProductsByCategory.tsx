@@ -1,7 +1,6 @@
 import React, {useContext} from 'react';
 import {ScrollView, Text, View} from 'react-native';
 import {ITab} from '../models/types/list';
-import RenderProduct from '../screens/ListDetail/Components/RenderProducts';
 import {ThemeContext} from '../services/ThemeProvider';
 
 export const ListProductsByCategory = ({
@@ -13,7 +12,13 @@ export const ListProductsByCategory = ({
     data: ITab[];
   } | null;
   emptyComponent: React.ComponentType<any> | null;
-  _renderProducts: ({item}: {item: any; index: number}) => React.JSX.Element;
+  _renderProducts: ({
+    item,
+  }: {
+    item: any;
+    indexProd: number;
+    indexTab: number;
+  }) => React.JSX.Element;
 }) => {
   const {theme} = useContext(ThemeContext);
 
@@ -43,7 +48,11 @@ export const ListProductsByCategory = ({
             </Text>
           </View>
           {tab.products.map((prod, indexProd) =>
-            _renderProducts({item: prod, index: indexProd}),
+            _renderProducts({
+              item: prod,
+              indexProd: indexProd,
+              indexTab: indexTab,
+            }),
           )}
         </View>
       ))}
