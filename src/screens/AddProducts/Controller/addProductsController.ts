@@ -31,6 +31,10 @@ export const addProductsController = () => {
   }, [products]);
 
   useEffect(() => {
+    setProductsSelectedZustand(productsSelected);
+  }, [productsSelected]);
+
+  useEffect(() => {
     loadProducts();
   }, []);
 

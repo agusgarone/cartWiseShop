@@ -33,7 +33,10 @@ function StackNavigator() {
   const auth = useContext(AuthContext);
 
   return (
-    <Stack.Navigator>
+    <Stack.Navigator
+      screenOptions={{
+        cardStyle: {backgroundColor: theme.stack.background},
+      }}>
       {auth?.loading && (
         <Stack.Screen
           name="Loader"

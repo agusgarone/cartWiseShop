@@ -35,27 +35,34 @@ export const ListProductsByCategory = ({
 
   return (
     <ScrollView>
-      {values?.data.map((tab, indexTab) => (
-        <View key={indexTab}>
-          <View style={{padding: 16}}>
-            <Text
-              style={{
-                fontSize: 20,
-                fontWeight: 700,
-                color: theme.listDetail.titleColor,
-              }}>
-              {tab.categoria}
-            </Text>
+      {values?.data.map((tab, indexTab) => {
+        const lastIndexTab = values?.data.length - 1;
+        return (
+          <View
+            style={{
+              marginBottom: lastIndexTab === indexTab ? 70 : 0,
+            }}
+            key={indexTab}>
+            <View style={{padding: 16}}>
+              <Text
+                style={{
+                  fontSize: 20,
+                  fontWeight: 700,
+                  color: theme.listDetail.titleColor,
+                }}>
+                {tab.categoria}
+              </Text>
+            </View>
+            {tab.products.map((prod, indexProd) =>
+              _renderProducts({
+                item: prod,
+                indexProd: indexProd,
+                indexTab: indexTab,
+              }),
+            )}
           </View>
-          {tab.products.map((prod, indexProd) =>
-            _renderProducts({
-              item: prod,
-              indexProd: indexProd,
-              indexTab: indexTab,
-            }),
-          )}
-        </View>
-      ))}
+        );
+      })}
     </ScrollView>
   );
 };

@@ -28,7 +28,7 @@ export const ListProductsWithoutCategory = ({
       ListFooterComponent={() => (
         <View
           style={{
-            marginVertical: 20,
+            marginVertical: 40,
           }}></View>
       )}
       ListEmptyComponent={emptyComponent}
