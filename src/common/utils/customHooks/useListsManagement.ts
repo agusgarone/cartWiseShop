@@ -62,6 +62,22 @@ export const useListsManagement = ({
     state => state.setNameListSelected,
   );
 
+  const fetchParams = useMemo(() => {
+    return {
+      splitByCategories: filters?.splitByCategories || null,
+      categories: filters?.categories || null,
+      orderAsc: filters.orderAsc,
+    };
+  }, [filters]);
+
+  useEffect(() => {
+    console.log('filters', filters);
+  }, [filters]);
+
+  useEffect(() => {
+    console.log('fetchParams', fetchParams);
+  }, [fetchParams]);
+
   // Estados comunes
   const [list, setList] = useState<IListDTO<IProductDTO> | null>(
     mode === 'create'
@@ -272,5 +288,6 @@ export const useListsManagement = ({
 
     // Valores calculados
     showWithCategories: filters.splitByCategories,
+    fetchParams,
   };
 };

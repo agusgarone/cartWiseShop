@@ -22,6 +22,7 @@ export const editListController = () => {
     setList,
     setLoading,
     setCategoriesAndCategoriesFilter,
+    fetchParams,
   } = useListsManagement({
     mode: 'edit',
     onListUpdated: async (listId, newValues) => {
@@ -90,5 +91,6 @@ export const editListController = () => {
     showWithCategories,
     listSelectedFormatted,
     getList,
+    fetchParams,
   };
 };

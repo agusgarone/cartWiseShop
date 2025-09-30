@@ -26,14 +26,29 @@ export const parseData = ({
       name: listSelected?.name,
       data: [],
     };
+
+    // Filtrar categorías si hay filtros aplicados
+    const categoriesToShow =
+      filters.categories && filters.categories.length > 0
+        ? categories.filter(cat => filters.categories?.includes(cat.id))
+        : categories;
+
     if (!filters.splitByCategories) {
+      // Filtrar productos por categorías si hay filtros aplicados
+      const filteredProducts =
+        filters.categories && filters.categories.length > 0
+          ? listSelected.products.filter(prod =>
+              filters.categories?.includes(prod.category.id),
+            )
+          : listSelected.products;
+
       const tab: ITab = {
         categoria: 'default',
-        products: listSelected.products,
+        products: filteredProducts,
       };
       newFormatArrayList.data = [tab];
     } else {
-      const tabs: ITab[] = categories.map(i => {
+      const tabs: ITab[] = categoriesToShow.map(i => {
         const tab: ITab = {
           categoria: i.name,
           products: [],
@@ -115,14 +130,26 @@ export const parseDataForEdit = ({
       data: [],
     };
 
+    // Filtrar categorías si hay filtros aplicados
+    const categoriesToShow =
+      filters.categories && filters.categories.length > 0
+        ? categories.filter(cat => filters.categories?.includes(cat.id))
+        : categories;
+
     if (!filters.splitByCategories) {
+      // Filtrar productos por categorías si hay filtros aplicados
+      const filteredProducts =
+        filters.categories && filters.categories.length > 0
+          ? listSelected.products.filter(prod =>
+              filters.categories?.includes(prod.category.id),
+            )
+          : listSelected.products;
+
       // Convertir IProductDTO a IProductForm agregando isChecked: false
-      const productsWithCheck: IProductForm[] = listSelected.products.map(
-        prod => ({
-          ...prod,
-          isChecked: false,
-        }),
-      );
+      const productsWithCheck: IProductForm[] = filteredProducts.map(prod => ({
+        ...prod,
+        isChecked: false,
+      }));
 
       const tab: ITab = {
         categoria: 'default',
@@ -130,7 +157,7 @@ export const parseDataForEdit = ({
       };
       newFormatArrayList.data = [tab];
     } else {
-      const tabs: ITab[] = categories.map(i => {
+      const tabs: ITab[] = categoriesToShow.map(i => {
         const tab: ITab = {
           categoria: i.name,
           products: [],
@@ -157,7 +184,6 @@ export const parseDataForEdit = ({
     newFormatArrayList.data.forEach(tab => {
       sortProducts({products: tab.products, filters});
     });
-    console.log('🔄 parseDataForEdit: newFormatArrayList', newFormatArrayList);
     setListSelectedFormatted(newFormatArrayList);
   }
 };
