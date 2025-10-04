@@ -25,6 +25,7 @@ export const productsController = () => {
   const [categories, setCategories] = useState<ICategoryFilter[]>([]);
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState<string>('');
 
   const fetchData = async (filters?: IFilterProducts) => {
     setLoading(true);
@@ -54,7 +55,6 @@ export const productsController = () => {
 
   const fetchParams = useMemo(() => {
     return {
-      nameFilter: filters?.nameFilter || null,
       category: filters?.category || null,
       orderAsc: filters.orderAsc,
     };
@@ -62,13 +62,13 @@ export const productsController = () => {
 
   useFocusEffect(
     useCallback(() => {
-      fetchData(fetchParams);
+      fetchData({...fetchParams, nameFilter: searchQuery});
       getCategories();
 
       return () => {
         console.log('🔄 Cleanup: Se desmonta el listener');
       };
-    }, [fetchParams]),
+    }, [fetchParams, searchQuery]),
   );
 
   const handleDelete = async (product: IProductDTO) => {
@@ -101,6 +101,11 @@ export const productsController = () => {
     );
   };
 
+  const handleFormikSubmit = async (values: {textSearched: string}) => {
+    const cleanText = values.textSearched.trim().toLowerCase();
+    setSearchQuery(cleanText);
+  };
+
   return {
     allProducts,
     loading,
@@ -109,5 +114,6 @@ export const productsController = () => {
     setOpen,
     handleDeleteProduct,
     goToCreateProduct,
+    handleFormikSubmit,
   };
 };

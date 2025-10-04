@@ -40,11 +40,6 @@ const FilterFormProducts = ({
       {({handleSubmit, values, setFieldValue}) => {
         return (
           <View style={styles.form}>
-            <FormikInputValue
-              name="textSearched"
-              placeholder={t('filterProducts.inputPlaceholder')}
-              onChange={value => null}
-            />
             <View
               style={{
                 display: 'flex',
@@ -119,7 +114,7 @@ const styles = StyleSheet.create({
     width: '100%',
     display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'space-between',
+    justifyContent: 'space-around',
     paddingTop: 16,
     gap: 32,
   },

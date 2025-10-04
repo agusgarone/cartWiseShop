@@ -12,6 +12,7 @@ import {fetchCategories} from '../../../services/Category';
 import {StorageService} from '../../../storage/asyncStorage';
 import {globalSessionState} from '../../../services/globalStates';
 import {IProductDTO} from '../../../models/types/product';
+import {capitalizeFirstLetter} from '../../../common/utils/functions/capitalizeFirstLetter';
 
 export const createProductController = () => {
   const {t} = useTranslation();
@@ -119,7 +120,7 @@ export const createProductController = () => {
         );
         const tempProduct: IProductDTO = {
           id: newProduct.id,
-          name: newProduct.name.trim().toLowerCase(),
+          name: capitalizeFirstLetter(newProduct.name.trim().toLowerCase()),
           category: {
             id: selectedCategory?.id || 1,
             name: selectedCategory?.name || 'Sin categoría',

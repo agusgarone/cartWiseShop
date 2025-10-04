@@ -62,7 +62,9 @@ const Content = ({
                 })}
                 isDisabled={false}
                 type="primary"
-                onPress={() => onCreateProduct?.(searchQuery)}
+                onPress={() =>
+                  onCreateProduct?.(capitalizeFirstLetter(searchQuery))
+                }
                 key={'CreateProductButton'}
               />
             </View>
