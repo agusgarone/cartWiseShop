@@ -1,7 +1,7 @@
 import {FormikState} from 'formik';
-import {createList} from '../../../services/List';
 import {mapperListDTOToSupabase} from '../../../models/mappers/mapperListDTOToSupabase';
 import {useListsManagement} from '../../../common/utils/customHooks/useListsManagement';
+import {ListsStorage} from '../../../storage/storageHelpers';
 
 export const createListController = () => {
   const {
@@ -19,7 +19,9 @@ export const createListController = () => {
   } = useListsManagement({
     mode: 'create',
     onListCreated: async list => {
-      await createList(mapperListDTOToSupabase(list));
+      const listSupabase = mapperListDTOToSupabase(list);
+      // Guardar en storage local
+      await ListsStorage.saveList(listSupabase);
     },
   });
 

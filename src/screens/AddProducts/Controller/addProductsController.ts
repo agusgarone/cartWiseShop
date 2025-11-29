@@ -2,11 +2,9 @@ import {useContext, useEffect, useState, useCallback, useRef} from 'react';
 import {globalSessionState} from '../../../services/globalStates';
 import {NavigationContext, useFocusEffect} from '@react-navigation/native';
 import {Keyboard} from 'react-native';
-import {fetchProducts} from '../../../services/Product';
 import {IProductDTO} from '../../../models/types/product';
-import {mapperProductSupabaseToDTO} from '../../../models/mappers/mapperProductSupabaseToDTO';
 import {StorageService} from '../../../storage/asyncStorage';
-import {IFilterProducts} from '../../../models/types/filter';
+import {ProductsStorage, CategoriesStorage} from '../../../storage/storageHelpers';
 
 export const addProductsController = () => {
   const navigation = useContext(NavigationContext);
@@ -89,22 +87,30 @@ export const addProductsController = () => {
 
   const loadProducts = async () => {
     setLoading(true);
-    const filters: IFilterProducts = {
-      category: null,
-      nameFilter: null,
-      orderAsc: true,
-    };
-    const responseGetAllProducts = await fetchProducts(filters);
-    if (responseGetAllProducts.error) {
-      console.log(responseGetAllProducts.error);
-    } else {
-      const mappedProducts = mapperProductSupabaseToDTO(
-        responseGetAllProducts.data,
-      );
-      setAllProducts(mappedProducts);
-      setValuesSearched(mappedProducts);
-      setLoading(false);
-    }
+    
+    // Cargar productos desde storage local
+    const localProducts = await ProductsStorage.getAllProducts();
+    
+    // Obtener todas las categorías para mapear nombres
+    const allCategories = await CategoriesStorage.getAllCategories();
+    const categoryMap = new Map(
+      allCategories.map(cat => [cat.id, cat.name]),
+    );
+    
+    // Convertir IProductSupabase a IProductDTO
+    const mappedProducts = localProducts.map(prod => ({
+      id: prod.id,
+      name: prod.name,
+      category: {
+        id: prod.id_category,
+        name: categoryMap.get(prod.id_category) || 'Sin categoría',
+      },
+      default: false,
+    })) as IProductDTO[];
+    
+    setAllProducts(mappedProducts);
+    setValuesSearched(mappedProducts);
+    setLoading(false);
   };
 
   const handleFormikSubmit = async (values: {textSearched: string}) => {

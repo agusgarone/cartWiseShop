@@ -1,11 +1,14 @@
-import {getCategories} from '../api/categories-facade';
+import {CategoriesStorage} from '../storage/storageHelpers';
 
 export const fetchCategories = async () => {
-  const responseFetchCategories = await getCategories();
+  // Inicializar categorías por defecto si no existen
+  await CategoriesStorage.initializeDefaultCategories();
+  
+  // Obtener categorías desde storage local
+  const categories = await CategoriesStorage.getAllCategories();
 
-  if (responseFetchCategories.data) {
-    responseFetchCategories.data.sort((a, b) => a.name.localeCompare(b.name));
-  }
-
-  return responseFetchCategories;
+  return {
+    data: categories,
+    error: null,
+  };
 };

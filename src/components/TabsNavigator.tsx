@@ -1,16 +1,14 @@
 import React, {useContext} from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Home from '../screens/Home';
-import CreateList from '../screens/CreateList';
 import Products from '../screens/Products';
 import {DrawerScreenProps} from '@react-navigation/drawer';
-import {House, ListPlus, ShoppingBasket} from 'lucide-react-native';
-import {ThemeContext} from './ThemeProvider';
+import {House, ShoppingBasket} from 'lucide-react-native';
+import {ThemeContext} from '../services/ThemeProvider';
 import {useTranslation} from 'react-i18next';
 
 export type TabsParamList = {
   Home: undefined;
-  CreateList: undefined;
   ProductsTab: undefined;
 };
 
@@ -45,21 +43,6 @@ const BottomTabs = ({navigation}: DrawerNavigation) => {
         }}
         component={Home}
       />
-      {/* <Tab.Screen
-        name="CreateList"
-        options={{
-          header: () => null,
-          tabBarIcon: ({focused}) => (
-            <ListPlus
-              color={focused ? theme.tab.iconFocus : theme.tab.icon}
-              size={25}
-            />
-          ),
-          title: t('createList.tab'),
-          tabBarActiveTintColor: theme.tab.activeTabColor,
-        }}
-        component={CreateList}
-      /> */}
       <Tab.Screen
         name="ProductsTab"
         options={{

@@ -108,6 +108,7 @@ const Style = StyleSheet.create({
     flex: 9,
     display: 'flex',
     paddingBottom: 12,
+    backgroundColor: 'green',
   },
   containerButton: {
     display: 'flex',

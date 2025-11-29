@@ -12,7 +12,7 @@ import FloatButton from '../../components/FloatButton';
 const Home = () => {
   const {
     list,
-    user,
+    // user,
     loading,
     navigateToListDetail,
     navigateToEditList,
@@ -31,10 +31,11 @@ const Home = () => {
             <Text style={{color: theme.home.color}}>{t('home.nameApp')}</Text>
           }
           left={
-            <ProfileButton
-              onPress={navigateToUserSettings}
-              imageUrl={user?.photoURL || ''}
-            />
+            // <ProfileButton
+            //   onPress={navigateToUserSettings}
+            //   imageUrl={user?.photoURL || ''}
+            // />
+            <></>
           }
           right={<></>}
           key={'Header'}

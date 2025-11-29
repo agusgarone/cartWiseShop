@@ -1,5 +1,5 @@
 import React from 'react';
-import AuthProvider from './src/services/AuthProvider';
+// import AuthProvider from './src/services/AuthProvider';
 import ThemeProvider from './src/services/ThemeProvider';
 import StackNavigator from './src/services/StackNavigator';
 import {NavigationContainer} from '@react-navigation/native';
@@ -11,11 +11,11 @@ function App(): React.JSX.Element {
   return (
     <GestureHandlerRootView style={{flex: 1}}>
       <ThemeProvider>
-        <AuthProvider>
-          <NavigationContainer>
-            <StackNavigator />
-          </NavigationContainer>
-        </AuthProvider>
+        {/* <AuthProvider> */}
+        <NavigationContainer>
+          <StackNavigator />
+        </NavigationContainer>
+        {/* </AuthProvider> */}
       </ThemeProvider>
     </GestureHandlerRootView>
   );

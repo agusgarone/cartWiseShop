@@ -3,7 +3,6 @@ import {NavigationContext, useFocusEffect} from '@react-navigation/native';
 import {FormikState} from 'formik';
 import {FORM_STATUS} from '../../../common/utils/formStatus';
 import {Alert, Keyboard} from 'react-native';
-import {createProduct, verifyProductExists} from '../../../services/Product';
 import {IProductSupabase} from '../../../models/types/product';
 import {useTranslation} from 'react-i18next';
 import {mapperCategorySupabaseToFilter} from '../../../models/mappers/mapperCategorySupabaseToFilter';
@@ -13,6 +12,7 @@ import {StorageService} from '../../../storage/asyncStorage';
 import {globalSessionState} from '../../../services/globalStates';
 import {IProductDTO} from '../../../models/types/product';
 import {capitalizeFirstLetter} from '../../../common/utils/functions/capitalizeFirstLetter';
+import {ProductsStorage} from '../../../storage/storageHelpers';
 
 export const createProductController = () => {
   const {t} = useTranslation();
@@ -36,10 +36,11 @@ export const createProductController = () => {
   const getCategories = async () => {
     const responseGetAllCategories = await fetchCategories();
     if (responseGetAllCategories.error) {
-      console.log(responseGetAllCategories.error);
+      console.log('categories', responseGetAllCategories.error);
     } else {
+      // Mapear categorías a formato Filter (agregar isChecked: false)
       setCategories(
-        mapperCategorySupabaseToFilter(responseGetAllCategories.data),
+        mapperCategorySupabaseToFilter(responseGetAllCategories.data || []),
       );
     }
   };
@@ -58,6 +59,10 @@ export const createProductController = () => {
   useEffect(() => {
     loadPreloadedProductName();
   }, []);
+
+  useEffect(() => {
+    console.log('categories', categories);
+  }, [categories]);
 
   const loadPreloadedProductName = async () => {
     const preloadedName = await StorageService.getItem('preloadedProductName');
@@ -83,17 +88,13 @@ export const createProductController = () => {
     if (values.name) {
       const productName = values.name.trim().toLowerCase();
 
-      // Verificar si el producto ya existe
-      const checkResponse = await verifyProductExists(productName);
+      // Verificar si el producto ya existe en storage local
+      const allProducts = await ProductsStorage.getAllProducts();
+      const productExists = allProducts.some(
+        p => p.name.toLowerCase() === productName,
+      );
 
-      if (checkResponse.error) {
-        console.log('❌ Error al verificar el producto:', checkResponse.error);
-        Alert.alert(t('createProduct.unexpectedErrorToCreateProduct'));
-        return;
-      }
-
-      // Si el producto ya existe, mostrar mensaje de error
-      if (checkResponse.data && checkResponse.data.length > 0) {
+      if (productExists) {
         Alert.alert(
           t('createProduct.productAlreadyExists'),
           t('createProduct.productAlreadyExistsMessage', {
@@ -111,29 +112,25 @@ export const createProductController = () => {
           categories.find(category => category.id === values.category)?.id || 1,
       };
 
-      const response = await createProduct(newProduct);
+      // Guardar en storage local
+      await ProductsStorage.saveProduct(newProduct);
 
-      if (!response.error) {
-        // Crear un producto temporal para agregar a la lista
-        const selectedCategory = categories.find(
-          category => category.id === values.category,
-        );
-        const tempProduct: IProductDTO = {
-          id: newProduct.id,
-          name: capitalizeFirstLetter(newProduct.name.trim().toLowerCase()),
-          category: {
-            id: selectedCategory?.id || 1,
-            name: selectedCategory?.name || 'Sin categoría',
-          },
-          default: false,
-        };
+      // Crear un producto temporal para agregar a la lista
+      const selectedCategory = categories.find(
+        category => category.id === values.category,
+      );
+      const tempProduct: IProductDTO = {
+        id: newProduct.id,
+        name: capitalizeFirstLetter(newProduct.name.trim().toLowerCase()),
+        category: {
+          id: selectedCategory?.id || 1,
+          name: selectedCategory?.name || 'Sin categoría',
+        },
+        default: false,
+      };
 
-        // Agregar el producto a la lista actual
-        setProductsSelected([...currentProducts, tempProduct]);
-      } else {
-        console.log('❌ Error al crear el producto:', response.error);
-        Alert.alert(t('createProduct.unexpectedErrorToCreateProduct'));
-      }
+      // Agregar el producto a la lista actual
+      setProductsSelected([...currentProducts, tempProduct]);
 
       Keyboard.dismiss();
       actions.resetForm();

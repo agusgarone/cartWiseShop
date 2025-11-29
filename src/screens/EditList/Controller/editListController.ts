@@ -1,9 +1,9 @@
 import {FormikState} from 'formik';
-import {editList, fetchListById} from '../../../services/List';
-import {mapperListSupabaseToDTO} from '../../../models/mappers/mapperListSupabaseToDTO';
 import {useListsManagement} from '../../../common/utils/customHooks/useListsManagement';
 import {StorageService} from '../../../storage/asyncStorage';
 import {getCategoriesByProducts} from '../../../common/utils/functions/getCategoriesByProducts';
+import {ListsStorage, CombinedStorage, CategoriesStorage} from '../../../storage/storageHelpers';
+import {IProductDTO} from '../../../models/types/product';
 
 export const editListController = () => {
   const {
@@ -26,7 +26,15 @@ export const editListController = () => {
   } = useListsManagement({
     mode: 'edit',
     onListUpdated: async (listId, newValues) => {
-      await editList(listId, newValues);
+      // Actualizar en storage local
+      const currentList = await ListsStorage.getListById(listId);
+      if (currentList) {
+        await ListsStorage.updateList(listId, {
+          name: newValues.newName || currentList.name,
+          color: newValues.newColor || currentList.color,
+          id_products: newValues.newProducts || currentList.id_products,
+        });
+      }
     },
     onListLoaded: list => {
       // Lógica específica cuando se carga la lista
@@ -42,27 +50,54 @@ export const editListController = () => {
       setLoading(true);
       await StorageService.setItem('isEditing', true);
       await StorageService.removeItem('idList');
-      const responseGetList = await fetchListById({
-        listId: parseInt(idList, 10),
-        categories: null,
-      });
-      if (responseGetList.error) {
-        console.log(responseGetList.error);
-      } else {
-        if (responseGetList.data) {
-          if (!categoriesFilter) {
-            setCategoriesAndCategoriesFilter(
-              getCategoriesByProducts(responseGetList.data[0].product_data),
-            );
-          }
-          await StorageService.setItem(
-            'currentList',
-            responseGetList.data[0].list_id,
+      const listId = parseInt(idList, 10);
+
+      // Cargar lista desde storage local
+      const listSupabase = await ListsStorage.getListById(listId);
+      if (listSupabase) {
+        // Obtener productos de la lista
+        const products = await CombinedStorage.getProductsFromList(listId);
+
+        // Obtener todas las categorías para mapear nombres
+        const allCategories = await CategoriesStorage.getAllCategories();
+        const categoryMap = new Map(
+          allCategories.map(cat => [cat.id, cat.name]),
+        );
+
+        // Convertir a formato DTO
+        const mappedList = {
+          id: listSupabase.id,
+          name: listSupabase.name,
+          created_at: listSupabase.created_at,
+          color: listSupabase.color,
+          products: products.map(prod => ({
+            id: prod.id,
+            name: prod.name,
+            category: {
+              id: prod.id_category,
+              name: categoryMap.get(prod.id_category) || 'Sin categoría',
+            },
+            default: false,
+          })) as IProductDTO[],
+        };
+
+        if (!categoriesFilter && products.length > 0) {
+          const productData = products.map(prod => ({
+            id: prod.id.toString(),
+            name: prod.name,
+            id_category: prod.id_category,
+            category: '',
+          }));
+          setCategoriesAndCategoriesFilter(
+            getCategoriesByProducts(productData),
           );
-          setList(mapperListSupabaseToDTO(responseGetList.data[0]));
-          setLoading(false);
         }
+
+        await StorageService.setItem('currentList', listId.toString());
+        setList(mappedList);
       }
+
+      setLoading(false);
     }
   };
 

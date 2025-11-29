@@ -2,16 +2,15 @@ import {useCallback, useContext, useMemo, useState} from 'react';
 import {NavigationContext, useFocusEffect} from '@react-navigation/native';
 import {StorageService} from '../../../storage/asyncStorage';
 import {Alert} from 'react-native';
-import {fetchListById, removeList} from '../../../services/List';
 import {IProductForm} from '../../../models/types/product';
 import {IListDTO, IListForm, ITab} from '../../../models/types/list';
-import {mapperListSupabaseToForm} from '../../../models/mappers/mapperListSupabaseToForm';
 import {useTranslation} from 'react-i18next';
 import {IFilterListDetail} from '../../../models/types/filter';
 import {globalSessionState} from '../../../services/globalStates';
 import {ICategoryFilter} from '../../../models/types/category';
 import {getCategoriesByProducts} from '../../../common/utils/functions/getCategoriesByProducts';
 import {parseData} from '../../../common/utils/functions/parseData';
+import {ListsStorage, CombinedStorage} from '../../../storage/storageHelpers';
 
 export const listDetailController = (id: string) => {
   const {t} = useTranslation();
@@ -42,30 +41,57 @@ export const listDetailController = (id: string) => {
 
   const getListByID = async () => {
     setLoading(true);
-    const responseFetchListById = await fetchListById({
-      listId: parseInt(id, 10),
-      categories: fetchParams.categories,
-    });
-    if (responseFetchListById.error) {
-      console.log(responseFetchListById.error);
+    const listId = parseInt(id, 10);
+
+    // Cargar lista desde storage local
+    const listSupabase = await ListsStorage.getListById(listId);
+    if (!listSupabase) {
       Alert.alert(t('listDetail.theListDoesntExist'));
       goHome();
-    } else {
-      if (responseFetchListById.data && responseFetchListById.data[0]) {
-        if (!categoriesFilter) {
-          setCategoriesFilter(
-            getCategoriesByProducts(responseFetchListById.data[0].product_data),
-          );
-        }
-        setCategories(
-          getCategoriesByProducts(responseFetchListById.data[0].product_data),
-        );
-        setListSelected(
-          mapperListSupabaseToForm(responseFetchListById.data[0]),
-        );
-        setLoading(false);
-      }
+      setLoading(false);
+      return;
     }
+
+    // Obtener productos de la lista
+    let products = await CombinedStorage.getProductsFromList(listId);
+
+    // Aplicar filtro de categorías si existe
+    if (fetchParams.categories && fetchParams.categories.length > 0) {
+      products = products.filter(prod =>
+        fetchParams.categories?.includes(prod.id_category),
+      );
+    }
+
+    // Convertir productos a formato Form
+    const productData = products.map(prod => ({
+      id: prod.id.toString(),
+      name: prod.name,
+      id_category: prod.id_category,
+      category: '',
+    }));
+
+    if (!categoriesFilter && productData.length > 0) {
+      setCategoriesFilter(getCategoriesByProducts(productData));
+    }
+    setCategories(getCategoriesByProducts(productData));
+
+    // Convertir a formato IListDTO<IProductForm>
+    const mappedList: IListDTO<IProductForm> = {
+      id: listSupabase.id,
+      name: listSupabase.name,
+      created_at: listSupabase.created_at,
+      color: listSupabase.color,
+      products: products.map(prod => ({
+        id: prod.id,
+        name: prod.name,
+        category: {id: prod.id_category, name: ''},
+        default: false,
+        isChecked: false,
+      })),
+    };
+
+    setListSelected(mappedList);
+    setLoading(false);
   };
 
   useFocusEffect(
@@ -90,10 +116,8 @@ export const listDetailController = (id: string) => {
   }, [categories, listSelected]);
 
   const handleDeleteList = async (listId: number) => {
-    const responseRemoveList = await removeList(listId);
-    if (responseRemoveList.error) {
-      console.log(responseRemoveList.error);
-    }
+    // Eliminar de storage local
+    await ListsStorage.deleteList(listId);
   };
 
   const DialogDeleteList = (list: IListForm<ITab>) =>

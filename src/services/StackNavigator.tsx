@@ -2,12 +2,12 @@ import {createStackNavigator} from '@react-navigation/stack';
 import ListDetail from '../screens/ListDetail';
 import AddProducts from '../screens/AddProducts';
 import CreateProduct from '../screens/CreateProduct';
-import {DrawerNavigator} from './DrawerNavigator';
-import Login from '../screens/Login';
+import {DrawerNavigator} from '../components/DrawerNavigator';
+// import Login from '../screens/Login';
 import {useContext} from 'react';
-import {AuthContext} from './AuthProvider';
+// import {AuthContext} from './AuthProvider';
 import UserSettings from '../screens/UserSettings';
-import Loader from '../components/Loader';
+// import Loader from '../components/Loader';
 import {ThemeContext} from './ThemeProvider';
 import {useTranslation} from 'react-i18next';
 import CreateList from '../screens/CreateList';
@@ -30,14 +30,14 @@ const Stack = createStackNavigator<StackParamList>();
 function StackNavigator() {
   const {t} = useTranslation();
   const {theme} = useContext(ThemeContext);
-  const auth = useContext(AuthContext);
+  // const auth = useContext(AuthContext);
 
   return (
     <Stack.Navigator
       screenOptions={{
         cardStyle: {backgroundColor: theme.stack.background},
       }}>
-      {auth?.loading && (
+      {/* {auth?.loading && (
         <Stack.Screen
           name="Loader"
           component={Loader}
@@ -50,7 +50,7 @@ function StackNavigator() {
           component={Login}
           options={{headerShown: false}}
         />
-      )}
+      )} */}
       <Stack.Screen
         name="MainDrawer"
         component={DrawerNavigator}
