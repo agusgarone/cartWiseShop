@@ -3,7 +3,6 @@ import {FlatList, SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import Header from '../../components/Header';
 import RenderList from './Components/RenderList';
 import {homeController} from './Controller/homeController';
-import ProfileButton from '../../components/ProfileButton';
 import Loader from '../../components/Loader';
 import {ThemeContext} from '../../services/ThemeProvider';
 import {useTranslation} from 'react-i18next';
@@ -12,11 +11,9 @@ import FloatButton from '../../components/FloatButton';
 const Home = () => {
   const {
     list,
-    // user,
     loading,
     navigateToListDetail,
     navigateToEditList,
-    navigateToUserSettings,
     navigateToCreateList,
   } = homeController();
   const {t} = useTranslation();
@@ -30,13 +27,7 @@ const Home = () => {
           center={
             <Text style={{color: theme.home.color}}>{t('home.nameApp')}</Text>
           }
-          left={
-            // <ProfileButton
-            //   onPress={navigateToUserSettings}
-            //   imageUrl={user?.photoURL || ''}
-            // />
-            <></>
-          }
+          left={<></>}
           right={<></>}
           key={'Header'}
         />

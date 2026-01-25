@@ -32,47 +32,48 @@ export const productsController = () => {
   const fetchData = async (filters?: IFilterProducts) => {
     setLoading(true);
 
-    // Cargar productos desde storage local
-    let localProducts = await ProductsStorage.getAllProducts();
+    try {
+      let localProducts = await ProductsStorage.getAllProducts();
 
-    // Obtener todas las categorías para mapear nombres
-    const allCategories = await CategoriesStorage.getAllCategories();
-    const categoryMap = new Map(allCategories.map(cat => [cat.id, cat.name]));
+      const allCategories = await CategoriesStorage.getAllCategories();
+      const categoryMap = new Map(allCategories.map(cat => [cat.id, cat.name]));
 
-    // Aplicar filtros locales
-    if (filters?.category) {
-      localProducts = localProducts.filter(
-        p => p.id_category === filters.category,
-      );
+      if (filters?.category) {
+        localProducts = localProducts.filter(
+          p => p.id_category === filters.category,
+        );
+      }
+      if (filters?.nameFilter) {
+        const searchTerm = filters.nameFilter.toLowerCase();
+        localProducts = localProducts.filter(p =>
+          p.name.toLowerCase().includes(searchTerm),
+        );
+      }
+
+      if (filters?.orderAsc !== undefined) {
+        localProducts.sort((a, b) => {
+          const comparison = a.name.localeCompare(b.name);
+          return filters.orderAsc ? comparison : -comparison;
+        });
+      }
+
+      const mappedProducts = localProducts.map(prod => ({
+        id: prod.id,
+        name: prod.name,
+        category: {
+          id: prod.id_category,
+          name: categoryMap.get(prod.id_category) || 'Sin categoría',
+        },
+        default: false,
+      })) as IProductDTO[];
+
+      setAllProducts(mappedProducts);
+    } catch (error) {
+      console.error('Error en fetchData:', error);
+      // En caso de error, aún así establecer productos vacíos o mantener el estado anterior
+    } finally {
+      setLoading(false);
     }
-    if (filters?.nameFilter) {
-      const searchTerm = filters.nameFilter.toLowerCase();
-      localProducts = localProducts.filter(p =>
-        p.name.toLowerCase().includes(searchTerm),
-      );
-    }
-
-    // Ordenar si es necesario
-    if (filters?.orderAsc !== undefined) {
-      localProducts.sort((a, b) => {
-        const comparison = a.name.localeCompare(b.name);
-        return filters.orderAsc ? comparison : -comparison;
-      });
-    }
-
-    // Convertir a DTO
-    const mappedProducts = localProducts.map(prod => ({
-      id: prod.id,
-      name: prod.name,
-      category: {
-        id: prod.id_category,
-        name: categoryMap.get(prod.id_category) || 'Sin categoría',
-      },
-      default: false,
-    })) as IProductDTO[];
-
-    setAllProducts(mappedProducts);
-    setLoading(false);
   };
 
   const getCategories = async () => {
@@ -97,7 +98,6 @@ export const productsController = () => {
     useCallback(() => {
       fetchData({...fetchParams, nameFilter: searchQuery});
       getCategories();
-
       return () => {
         console.log('🔄 Cleanup: Se desmonta el listener');
       };
@@ -105,14 +105,12 @@ export const productsController = () => {
   );
 
   const handleDelete = async (product: IProductDTO) => {
-    // Eliminar de storage local
     await ProductsStorage.deleteProduct(product.id);
     fetchData();
   };
 
   const goToCreateProduct = () => {
-    console.log('Pruebaaaa');
-    navigation?.navigate('CreateProduct');
+    navigation?.navigate('CreateProduct', {cameFrom: 'products'});
   };
 
   const handleDeleteProduct = (product: IProductDTO, onConfirm: () => void) => {

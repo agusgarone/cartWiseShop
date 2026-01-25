@@ -3,7 +3,7 @@ import {View, StyleSheet, SafeAreaView} from 'react-native';
 import CreateProductForm from './Components/Form';
 import {ThemeContext} from '../../services/ThemeProvider';
 
-const CreateProduct = ({route}: any) => {
+const CreateProduct = () => {
   const {theme} = useContext(ThemeContext);
 
   return (

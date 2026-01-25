@@ -2,13 +2,11 @@ import React, {useContext} from 'react';
 import {SafeAreaView, StyleSheet} from 'react-native';
 import {productsController} from './Controller/productsController';
 import {ThemeContext} from '../../services/ThemeProvider';
-import {useTranslation} from 'react-i18next';
 import {Drawer} from 'react-native-drawer-layout';
 import {CustomDrawerContent} from '../Filters';
 import {Form} from './Components/Form';
 
 const Products = () => {
-  const {t} = useTranslation();
   const {theme} = useContext(ThemeContext);
 
   const {

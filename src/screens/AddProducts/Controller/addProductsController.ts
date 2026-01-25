@@ -129,7 +129,7 @@ export const addProductsController = () => {
   const goToCreateProduct = async (productName: string) => {
     await StorageService.setItem('preloadedProductName', productName);
     await StorageService.setItem('isCreatingProduct', 'true');
-    navigation?.navigate('CreateProduct');
+    navigation?.navigate('CreateProduct', {cameFrom: 'addProducts'});
   };
 
   return {

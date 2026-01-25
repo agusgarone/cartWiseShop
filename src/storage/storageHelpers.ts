@@ -298,25 +298,27 @@ export const CategoriesStorage = {
    * Inicializar categorías por defecto si no existen
    */
   async initializeDefaultCategories(): Promise<void> {
-    const existingCategories = await this.getAllCategories();
-    if (existingCategories.length === 0) {
-      await StorageService.setItem(STORAGE_KEYS.CATEGORIES, DEFAULT_CATEGORIES);
-    }
+    await this.getAllCategories();
+    // if (existingCategories.length === 0) {
+    //   await StorageService.setItem(STORAGE_KEYS.CATEGORIES, DEFAULT_CATEGORIES);
+    // }
   },
 
   /**
    * Obtener todas las categorías almacenadas localmente
    */
   async getAllCategories(): Promise<ICategory[]> {
-    const categories = await StorageService.getAllItems<ICategory>(
-      STORAGE_KEYS.CATEGORIES,
-    );
-    // Si no hay categorías, inicializar las por defecto
-    if (categories.length === 0) {
-      await this.initializeDefaultCategories();
-      return DEFAULT_CATEGORIES;
-    }
-    return categories.sort((a, b) => a.name.localeCompare(b.name));
+    // const categories = await StorageService.getAllItems<ICategory>(
+    //   STORAGE_KEYS.CATEGORIES,
+    // );
+    // console.log('categories', categories);
+    // // Si no hay categorías, inicializar las por defecto
+    // if (categories.length === 0) {
+    //   await this.initializeDefaultCategories();
+    //   console.log('DEFAULT_CATEGORIES', DEFAULT_CATEGORIES);
+    // }
+    // return categories.sort((a, b) => a.name.localeCompare(b.name));
+    return DEFAULT_CATEGORIES;
   },
 
   /**

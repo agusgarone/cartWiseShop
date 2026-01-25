@@ -9,10 +9,9 @@ const Loader = ({isLoadingPreferences}: {isLoadingPreferences?: boolean}) => {
       <ActivityIndicator
         size="large"
         color={
-          'white'
-          // isLoadingPreferences
-          //   ? theme.loader.isLoadingPreferences
-          //   : theme.loader.color
+          isLoadingPreferences
+            ? theme.loader.isLoadingPreferences
+            : theme.loader.color
         }
       />
     </View>

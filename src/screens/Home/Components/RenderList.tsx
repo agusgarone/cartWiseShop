@@ -48,7 +48,7 @@ const RenderList = ({
             color: theme.home.renderProduct.subtitleColor,
           }}>
           {t('home.renderItem.createdAt')}
-          {` ${item.created_at}`}
+          {` ${new Date(item.created_at).toLocaleDateString()}`}
         </Text>
       </View>
       <View

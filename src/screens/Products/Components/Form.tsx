@@ -4,7 +4,7 @@ import Loader from '../../../components/Loader';
 import {IProductDTO} from '../../../models/types/product';
 import SwipeToDeleteItem from './AnimatedRenderItem';
 import {useTranslation} from 'react-i18next';
-import {useContext} from 'react';
+import {useContext, useEffect} from 'react';
 import {ThemeContext} from '../../../services/ThemeProvider';
 import FloatButton from '../../../components/FloatButton';
 import BottomSheetForm from '../../AddProducts/Components/Form';
@@ -28,6 +28,7 @@ export const Form = ({
 }: IFormProps) => {
   const {t} = useTranslation();
   const {theme} = useContext(ThemeContext);
+
   return (
     <View style={Style.selectList}>
       <View style={Style.content}>
@@ -108,7 +109,6 @@ const Style = StyleSheet.create({
     flex: 9,
     display: 'flex',
     paddingBottom: 12,
-    backgroundColor: 'green',
   },
   containerButton: {
     display: 'flex',

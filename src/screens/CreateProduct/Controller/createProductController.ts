@@ -1,5 +1,5 @@
 import {useCallback, useContext, useState, useEffect} from 'react';
-import {NavigationContext, useFocusEffect} from '@react-navigation/native';
+import {NavigationContext, RouteProp, useFocusEffect, useRoute} from '@react-navigation/native';
 import {FormikState} from 'formik';
 import {FORM_STATUS} from '../../../common/utils/formStatus';
 import {Alert, Keyboard} from 'react-native';
@@ -17,6 +17,8 @@ import {ProductsStorage} from '../../../storage/storageHelpers';
 export const createProductController = () => {
   const {t} = useTranslation();
   const navigation = useContext(NavigationContext);
+  const route = useRoute<RouteProp<{CreateProduct: {cameFrom: string}}>>();
+  const {params}: {params: {cameFrom: string}} = route;
   const [categories, setCategories] = useState<ICategoryFilter[]>([]);
 
   const [initialValues, setInitialValues] = useState<{
@@ -60,10 +62,6 @@ export const createProductController = () => {
     loadPreloadedProductName();
   }, []);
 
-  useEffect(() => {
-    console.log('categories', categories);
-  }, [categories]);
-
   const loadPreloadedProductName = async () => {
     const preloadedName = await StorageService.getItem('preloadedProductName');
     if (preloadedName) {
@@ -88,10 +86,9 @@ export const createProductController = () => {
     if (values.name) {
       const productName = values.name.trim().toLowerCase();
 
-      // Verificar si el producto ya existe en storage local
       const allProducts = await ProductsStorage.getAllProducts();
       const productExists = allProducts.some(
-        p => p.name.toLowerCase() === productName,
+        p => p.name.toLowerCase() === productName || p.name.toLowerCase().includes(productName) || productName.includes(p.name.toLowerCase()),
       );
 
       if (productExists) {
@@ -112,25 +109,25 @@ export const createProductController = () => {
           categories.find(category => category.id === values.category)?.id || 1,
       };
 
-      // Guardar en storage local
       await ProductsStorage.saveProduct(newProduct);
 
-      // Crear un producto temporal para agregar a la lista
-      const selectedCategory = categories.find(
-        category => category.id === values.category,
-      );
-      const tempProduct: IProductDTO = {
-        id: newProduct.id,
-        name: capitalizeFirstLetter(newProduct.name.trim().toLowerCase()),
-        category: {
-          id: selectedCategory?.id || 1,
-          name: selectedCategory?.name || 'Sin categoría',
-        },
-        default: false,
-      };
+      if (params?.cameFrom === 'addProducts') {
+        const selectedCategory = categories.find(
+          category => category.id === values.category,
+        );
+        const tempProduct: IProductDTO = {
+          id: newProduct.id,
+          name: capitalizeFirstLetter(newProduct.name.trim().toLowerCase()),
+          category: {
+            id: selectedCategory?.id || 1,
+            name: selectedCategory?.name || 'Sin categoría',
+          },
+          default: false,
+        };
+  
+        setProductsSelected([...currentProducts, tempProduct]);
+      }
 
-      // Agregar el producto a la lista actual
-      setProductsSelected([...currentProducts, tempProduct]);
 
       Keyboard.dismiss();
       actions.resetForm();

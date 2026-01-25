@@ -1,4 +1,4 @@
-import {useCallback, useContext, useMemo, useState} from 'react';
+import {useCallback, useContext, useEffect, useMemo, useState} from 'react';
 import {NavigationContext, useFocusEffect} from '@react-navigation/native';
 import {StorageService} from '../../../storage/asyncStorage';
 import {Alert} from 'react-native';
@@ -7,10 +7,11 @@ import {IListDTO, IListForm, ITab} from '../../../models/types/list';
 import {useTranslation} from 'react-i18next';
 import {IFilterListDetail} from '../../../models/types/filter';
 import {globalSessionState} from '../../../services/globalStates';
-import {ICategoryFilter} from '../../../models/types/category';
+import {ICategory, ICategoryFilter} from '../../../models/types/category';
 import {getCategoriesByProducts} from '../../../common/utils/functions/getCategoriesByProducts';
 import {parseData} from '../../../common/utils/functions/parseData';
 import {ListsStorage, CombinedStorage} from '../../../storage/storageHelpers';
+import { fetchCategories } from '../../../services/Category';
 
 export const listDetailController = (id: string) => {
   const {t} = useTranslation();
@@ -41,6 +42,7 @@ export const listDetailController = (id: string) => {
 
   const getListByID = async () => {
     setLoading(true);
+    let categoriesData: ICategory[] = [];
     const listId = parseInt(id, 10);
 
     // Cargar lista desde storage local
@@ -55,6 +57,13 @@ export const listDetailController = (id: string) => {
     // Obtener productos de la lista
     let products = await CombinedStorage.getProductsFromList(listId);
 
+    const responseGetAllCategories = await fetchCategories();
+    if (responseGetAllCategories.error) {
+      console.log('categories', responseGetAllCategories.error);
+    } else {
+      categoriesData = responseGetAllCategories.data || [];
+    }
+
     // Aplicar filtro de categorías si existe
     if (fetchParams.categories && fetchParams.categories.length > 0) {
       products = products.filter(prod =>
@@ -67,7 +76,7 @@ export const listDetailController = (id: string) => {
       id: prod.id.toString(),
       name: prod.name,
       id_category: prod.id_category,
-      category: '',
+      category: categoriesData.find(cat => cat.id === prod.id_category)?.name || '',
     }));
 
     if (!categoriesFilter && productData.length > 0) {
@@ -84,12 +93,11 @@ export const listDetailController = (id: string) => {
       products: products.map(prod => ({
         id: prod.id,
         name: prod.name,
-        category: {id: prod.id_category, name: ''},
+        category: {id: prod.id_category, name: categoriesData.find(cat => cat.id === prod.id_category)?.name || ''},
         default: false,
         isChecked: false,
       })),
     };
-
     setListSelected(mappedList);
     setLoading(false);
   };
