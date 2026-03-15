@@ -8,8 +8,13 @@ import {
   CategoriesStorage,
 } from '../../../storage/storageHelpers';
 import {IProductDTO} from '../../../models/types/product';
+import {useState} from 'react';
 
 export const editListController = () => {
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const toggleModal = () => {
+    setIsModalVisible(!isModalVisible);
+  };
   const {
     goToAddProducts,
     handleFormikSubmit: baseHandleFormikSubmit,
@@ -46,6 +51,7 @@ export const editListController = () => {
     onMount: () => {
       getList();
     },
+    toggleModal,
   });
 
   const getList = async () => {
@@ -131,5 +137,7 @@ export const editListController = () => {
     listSelectedFormatted,
     getList,
     fetchParams,
+    isModalVisible,
+    toggleModal,
   };
 };

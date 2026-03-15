@@ -96,5 +96,9 @@
     "groupByCategory": "Group by category",
     "categories": "Categories",
     "sort": "Sort"
+  },
+  "modal": {
+    "acceptButton": "Accept",
+    "cancelButton": "Cancel"
   }
 }

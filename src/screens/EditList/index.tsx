@@ -5,6 +5,9 @@ import {ThemeContext} from '../../services/ThemeProvider';
 import EditListForm from './Components/Form';
 import {Drawer} from 'react-native-drawer-layout';
 import {CustomDrawerContent} from '../Filters';
+import {useTranslation} from 'react-i18next';
+import {TriangleAlert} from 'lucide-react-native';
+import CustomModal from '../../components/Modal';
 
 const EditList = () => {
   const {
@@ -19,8 +22,11 @@ const EditList = () => {
     handleNameListSelected,
     setOpen,
     listSelectedFormatted,
+    isModalVisible,
+    toggleModal,
   } = editListController();
   const {theme} = useContext(ThemeContext);
+  const {t} = useTranslation();
 
   return (
     <SafeAreaView
@@ -54,6 +60,12 @@ const EditList = () => {
           />
         </View>
       </Drawer>
+      <CustomModal
+        isModalVisible={isModalVisible}
+        toggleModal={toggleModal}
+        icon={<TriangleAlert size={40} color={theme.modal.icon} />}
+        title={t('createList.addNameToTheList')}
+      />
     </SafeAreaView>
   );
 };

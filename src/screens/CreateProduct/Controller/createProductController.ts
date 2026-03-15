@@ -1,5 +1,10 @@
 import {useCallback, useContext, useState, useEffect} from 'react';
-import {NavigationContext, RouteProp, useFocusEffect, useRoute} from '@react-navigation/native';
+import {
+  NavigationContext,
+  RouteProp,
+  useFocusEffect,
+  useRoute,
+} from '@react-navigation/native';
 import {FormikState} from 'formik';
 import {FORM_STATUS} from '../../../common/utils/formStatus';
 import {Alert, Keyboard} from 'react-native';
@@ -20,6 +25,7 @@ export const createProductController = () => {
   const route = useRoute<RouteProp<{CreateProduct: {cameFrom: string}}>>();
   const {params}: {params: {cameFrom: string}} = route;
   const [categories, setCategories] = useState<ICategoryFilter[]>([]);
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
   const [initialValues, setInitialValues] = useState<{
     name: string;
@@ -74,6 +80,10 @@ export const createProductController = () => {
     }
   };
 
+  const toggleModal = () => {
+    setIsModalVisible(!isModalVisible);
+  };
+
   const handleFormikSubmit = async (
     values: {name: string; category: number | undefined},
     actions: {
@@ -88,7 +98,10 @@ export const createProductController = () => {
 
       const allProducts = await ProductsStorage.getAllProducts();
       const productExists = allProducts.some(
-        p => p.name.toLowerCase() === productName || p.name.toLowerCase().includes(productName) || productName.includes(p.name.toLowerCase()),
+        p =>
+          p.name.toLowerCase() === productName ||
+          p.name.toLowerCase().includes(productName) ||
+          productName.includes(p.name.toLowerCase()),
       );
 
       if (productExists) {
@@ -124,16 +137,15 @@ export const createProductController = () => {
           },
           default: false,
         };
-  
+
         setProductsSelected([...currentProducts, tempProduct]);
       }
-
 
       Keyboard.dismiss();
       actions.resetForm();
       navigation?.goBack();
     } else {
-      Alert.alert(t('createProduct.unexpectedErrorToCreateProduct'));
+      toggleModal();
     }
   };
 
@@ -141,5 +153,7 @@ export const createProductController = () => {
     handleFormikSubmit,
     initialValues,
     categories,
+    isModalVisible,
+    toggleModal,
   };
 };

@@ -11,11 +11,16 @@ import {ICategory, ICategoryFilter} from '../../../models/types/category';
 import {getCategoriesByProducts} from '../../../common/utils/functions/getCategoriesByProducts';
 import {parseData} from '../../../common/utils/functions/parseData';
 import {ListsStorage, CombinedStorage} from '../../../storage/storageHelpers';
-import { fetchCategories } from '../../../services/Category';
+import {fetchCategories} from '../../../services/Category';
 
 export const listDetailController = (id: string) => {
   const {t} = useTranslation();
-
+  const [isModalVisibleListDoesntExist, setIsModalVisibleListDoesntExist] =
+    useState(false);
+  const [isModalVisibleDeleteList, setIsModalVisibleDeleteList] =
+    useState(false);
+  const [isModalVisibleShareError, setIsModalVisibleShareError] =
+    useState(false);
   const filters: IFilterListDetail = globalSessionState(
     state => state.filtersListDetail,
   );
@@ -40,6 +45,16 @@ export const listDetailController = (id: string) => {
     };
   }, [filters]);
 
+  const toggleModalListDoesntExist = () => {
+    setIsModalVisibleListDoesntExist(!isModalVisibleListDoesntExist);
+  };
+  const toggleModalDeleteList = () => {
+    setIsModalVisibleDeleteList(!isModalVisibleDeleteList);
+  };
+  const toggleModalShareError = () => {
+    setIsModalVisibleShareError(!isModalVisibleShareError);
+  };
+
   const getListByID = async () => {
     setLoading(true);
     let categoriesData: ICategory[] = [];
@@ -48,7 +63,7 @@ export const listDetailController = (id: string) => {
     // Cargar lista desde storage local
     const listSupabase = await ListsStorage.getListById(listId);
     if (!listSupabase) {
-      Alert.alert(t('listDetail.theListDoesntExist'));
+      toggleModalListDoesntExist();
       goHome();
       setLoading(false);
       return;
@@ -76,7 +91,8 @@ export const listDetailController = (id: string) => {
       id: prod.id.toString(),
       name: prod.name,
       id_category: prod.id_category,
-      category: categoriesData.find(cat => cat.id === prod.id_category)?.name || '',
+      category:
+        categoriesData.find(cat => cat.id === prod.id_category)?.name || '',
     }));
 
     if (!categoriesFilter && productData.length > 0) {
@@ -93,7 +109,11 @@ export const listDetailController = (id: string) => {
       products: products.map(prod => ({
         id: prod.id,
         name: prod.name,
-        category: {id: prod.id_category, name: categoriesData.find(cat => cat.id === prod.id_category)?.name || ''},
+        category: {
+          id: prod.id_category,
+          name:
+            categoriesData.find(cat => cat.id === prod.id_category)?.name || '',
+        },
         default: false,
         isChecked: false,
       })),
@@ -123,36 +143,20 @@ export const listDetailController = (id: string) => {
     }
   }, [categories, listSelected]);
 
-  const handleDeleteList = async (listId: number) => {
-    // Eliminar de storage local
-    await ListsStorage.deleteList(listId);
+  const handleAcceptDeleteList = async () => {
+    if (!listSelectedFormatted?.id) return;
+    await ListsStorage.deleteList(listSelectedFormatted?.id);
+    toggleModalDeleteList();
+    navigation?.goBack();
   };
-
-  const DialogDeleteList = (list: IListForm<ITab>) =>
-    Alert.alert(
-      t('listDetail.atention'),
-      `${t('listDetail.youGoingToDeleteThelistWithName')} ${list.name}`,
-      [
-        {
-          text: t('listDetail.cancel'),
-          onPress: () => null,
-          style: 'cancel',
-        },
-        {
-          text: t('listDetail.accept'),
-          onPress: async () => {
-            await handleDeleteList(list.id);
-            navigation?.goBack();
-          },
-        },
-      ],
-    );
 
   const handleAllSelected = () => {
     setShowConfetti(true);
   };
 
-  const handleButtonDelete = (list: IListForm<ITab>) => DialogDeleteList(list);
+  const handleButtonDelete = (list: IListForm<ITab>) => {
+    toggleModalDeleteList();
+  };
 
   const getListAsText = (list: IListForm<ITab>): string => {
     const lines: string[] = [list.name, ''];
@@ -181,7 +185,7 @@ export const listDetailController = (id: string) => {
       });
     } catch (err) {
       if ((err as Error).message !== 'User did not share') {
-        Alert.alert(t('listDetail.shareError'));
+        toggleModalShareError();
       }
     }
   };
@@ -195,6 +199,7 @@ export const listDetailController = (id: string) => {
 
   return {
     handleButtonDelete,
+    handleAcceptDeleteList,
     handleShareList,
     handleAllSelected,
     setShowConfetti,
@@ -206,5 +211,11 @@ export const listDetailController = (id: string) => {
     open,
     categoriesFilter,
     showWithCategories: filters.splitByCategories,
+    isModalVisibleListDoesntExist,
+    isModalVisibleDeleteList,
+    isModalVisibleShareError,
+    toggleModalListDoesntExist,
+    toggleModalDeleteList,
+    toggleModalShareError,
   };
 };

@@ -2,8 +2,13 @@ import {FormikState} from 'formik';
 import {mapperListDTOToSupabase} from '../../../models/mappers/mapperListDTOToSupabase';
 import {useListsManagement} from '../../../common/utils/customHooks/useListsManagement';
 import {ListsStorage} from '../../../storage/storageHelpers';
+import {useState} from 'react';
 
 export const createListController = () => {
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const toggleModal = () => {
+    setIsModalVisible(!isModalVisible);
+  };
   const {
     products,
     initialValues,
@@ -23,6 +28,7 @@ export const createListController = () => {
       // Guardar en storage local
       await ListsStorage.saveList(listSupabase);
     },
+    toggleModal,
   });
 
   const handleFormikSubmit = async (
@@ -48,5 +54,7 @@ export const createListController = () => {
     setOpen,
     open,
     categoriesFilter,
+    isModalVisible,
+    toggleModal,
   };
 };

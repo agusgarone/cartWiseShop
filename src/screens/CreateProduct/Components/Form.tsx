@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {View, StyleSheet} from 'react-native';
 import {Formik} from 'formik';
 import {FormikInputValue} from '../../../components/FormikInput';
@@ -6,49 +6,65 @@ import Button from '../../../components/Button';
 import {createProductController} from '../Controller/createProductController';
 import {FormikSelectValue} from '../../../components/FormikSelect';
 import {useTranslation} from 'react-i18next';
+import CustomModal from '../../../components/Modal';
+import {TriangleAlert} from 'lucide-react-native';
+import {ThemeContext} from '../../../services/ThemeProvider';
 
 const CreateProductForm = () => {
   const {t} = useTranslation();
-  const {handleFormikSubmit, initialValues, categories} =
-    createProductController();
-
+  const {
+    handleFormikSubmit,
+    initialValues,
+    categories,
+    isModalVisible,
+    toggleModal,
+  } = createProductController();
+  const {theme} = useContext(ThemeContext);
   return (
-    <Formik
-      initialValues={initialValues}
-      onSubmit={handleFormikSubmit}
-      enableReinitialize
-      validateOnMount>
-      {({handleSubmit}) => {
-        return (
-          <View style={styles.form}>
-            <View style={{marginTop: 32, display: 'flex', gap: 32}}>
-              <FormikInputValue
-                name="name"
-                placeholder={t('createProduct.inputPlaceHolder')}
-                onChange={() => null}
-              />
-              <FormikSelectValue
-                name="category"
-                placeholder={t('createProduct.selectPlaceHolder')}
-                onChange={() => null}
-                options={categories}
-              />
-            </View>
-            <View style={styles.containerResult}>
-              <View style={styles.containerButton}>
-                <Button
-                  children={t('createProduct.button')}
-                  isDisabled={false}
-                  type="primary"
-                  onPress={handleSubmit}
-                  key={'Button'}
+    <>
+      <CustomModal
+        isModalVisible={isModalVisible}
+        toggleModal={toggleModal}
+        icon={<TriangleAlert size={40} color={theme.modal.icon} />}
+        title={t('createProduct.unexpectedErrorToCreateProduct')}
+      />
+      <Formik
+        initialValues={initialValues}
+        onSubmit={handleFormikSubmit}
+        enableReinitialize
+        validateOnMount>
+        {({handleSubmit}) => {
+          return (
+            <View style={styles.form}>
+              <View style={{marginTop: 32, display: 'flex', gap: 32}}>
+                <FormikInputValue
+                  name="name"
+                  placeholder={t('createProduct.inputPlaceHolder')}
+                  onChange={() => null}
+                />
+                <FormikSelectValue
+                  name="category"
+                  placeholder={t('createProduct.selectPlaceHolder')}
+                  onChange={() => null}
+                  options={categories}
                 />
               </View>
+              <View style={styles.containerResult}>
+                <View style={styles.containerButton}>
+                  <Button
+                    children={t('createProduct.button')}
+                    isDisabled={false}
+                    type="primary"
+                    onPress={handleSubmit}
+                    key={'Button'}
+                  />
+                </View>
+              </View>
             </View>
-          </View>
-        );
-      }}
-    </Formik>
+          );
+        }}
+      </Formik>
+    </>
   );
 };
 

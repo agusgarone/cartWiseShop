@@ -5,6 +5,9 @@ import {createListController} from './Controller/createListController';
 import {ThemeContext} from '../../services/ThemeProvider';
 import {Drawer} from 'react-native-drawer-layout';
 import {CustomDrawerContent} from '../Filters';
+import CustomModal from '../../components/Modal';
+import {useTranslation} from 'react-i18next';
+import {TriangleAlert} from 'lucide-react-native';
 
 const CreateList = () => {
   const {
@@ -18,8 +21,11 @@ const CreateList = () => {
     open,
     setOpen,
     categoriesFilter,
+    isModalVisible,
+    toggleModal,
   } = createListController();
   const {theme} = useContext(ThemeContext);
+  const {t} = useTranslation();
 
   return (
     <SafeAreaView
@@ -52,6 +58,12 @@ const CreateList = () => {
           />
         </View>
       </Drawer>
+      <CustomModal
+        isModalVisible={isModalVisible}
+        toggleModal={toggleModal}
+        icon={<TriangleAlert size={40} color={theme.modal.icon} />}
+        title={t('createList.addNameToTheList')}
+      />
     </SafeAreaView>
   );
 };

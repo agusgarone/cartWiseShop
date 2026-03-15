@@ -6,9 +6,14 @@ import ConfettiCannon from 'react-native-confetti-cannon';
 import {ThemeContext} from '../../services/ThemeProvider';
 import {Drawer} from 'react-native-drawer-layout';
 import {CustomDrawerContent} from '../Filters';
+import CustomModal from '../../components/Modal';
+import {TriangleAlert} from 'lucide-react-native';
+import {useTranslation} from 'react-i18next';
+import Button from '../../components/Button';
 
 const ListDetail = ({route}: any) => {
   const {theme} = useContext(ThemeContext);
+  const {t} = useTranslation();
   const {key, name, params} = route;
   const {
     listSelectedFormatted,
@@ -18,11 +23,18 @@ const ListDetail = ({route}: any) => {
     categoriesFilter,
     showWithCategories,
     handleButtonDelete,
+    handleAcceptDeleteList,
     handleShareList,
     handleAllSelected,
     setShowConfetti,
     navigateToEditList,
     setOpen,
+    isModalVisibleListDoesntExist,
+    isModalVisibleDeleteList,
+    isModalVisibleShareError,
+    toggleModalListDoesntExist,
+    toggleModalDeleteList,
+    toggleModalShareError,
   } = listDetailController(params?.id);
 
   return (
@@ -66,6 +78,63 @@ const ListDetail = ({route}: any) => {
           />
         )}
       </Drawer>
+      <CustomModal
+        key={'ModalListDetailDoesntExist'}
+        isModalVisible={isModalVisibleListDoesntExist}
+        icon={<TriangleAlert size={40} color={theme.modal.icon} />}
+        title={t('listDetail.theListDoesntExist')}
+        acceptButton={
+          <Button
+            children={t('modal.acceptButton')}
+            isDisabled={false}
+            type="secondary"
+            onPress={toggleModalListDoesntExist}
+            key={'Button1'}
+          />
+        }
+      />
+      <CustomModal
+        key={'ModalListDetailDeleteList'}
+        isModalVisible={isModalVisibleDeleteList}
+        icon={<TriangleAlert size={40} color={theme.modal.icon} />}
+        title={t('listDetail.atention')}
+        subtitle={`${t('listDetail.youGoingToDeleteThelistWithName')} ${
+          listSelectedFormatted?.name || ''
+        }`}
+        acceptButton={
+          <Button
+            children={t('modal.acceptButton')}
+            isDisabled={false}
+            type="secondary"
+            onPress={handleAcceptDeleteList}
+            key={'Button1'}
+          />
+        }
+        cancelButton={
+          <Button
+            children={t('modal.cancelButton')}
+            isDisabled={false}
+            type="secondary"
+            onPress={toggleModalDeleteList}
+            key={'Button1'}
+          />
+        }
+      />
+      <CustomModal
+        key={'ModalListDetailShareError'}
+        isModalVisible={isModalVisibleShareError}
+        icon={<TriangleAlert size={40} color={theme.modal.icon} />}
+        title={t('listDetail.shareError')}
+        acceptButton={
+          <Button
+            children={t('modal.acceptButton')}
+            isDisabled={false}
+            type="secondary"
+            onPress={toggleModalShareError}
+            key={'Button1'}
+          />
+        }
+      />
     </SafeAreaView>
   );
 };

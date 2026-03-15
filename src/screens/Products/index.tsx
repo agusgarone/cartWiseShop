@@ -5,19 +5,28 @@ import {ThemeContext} from '../../services/ThemeProvider';
 import {Drawer} from 'react-native-drawer-layout';
 import {CustomDrawerContent} from '../Filters';
 import {Form} from './Components/Form';
+import CustomModal from '../../components/Modal';
+import Button from '../../components/Button';
+import {TriangleAlert} from 'lucide-react-native';
+import {useTranslation} from 'react-i18next';
 
 const Products = () => {
   const {theme} = useContext(ThemeContext);
+  const {t} = useTranslation();
 
   const {
     allProducts,
     goToCreateProduct,
-    handleDeleteProduct,
+    handleButtonDeleteProduct,
+    handleAcceptDeleteProduct,
     handleFormikSubmit,
     loading,
     setOpen,
     open,
     categories,
+    productSelected,
+    isModalVisibleDeleteProduct,
+    toggleModalDeleteProduct,
   } = productsController();
 
   return (
@@ -42,11 +51,38 @@ const Products = () => {
           setOpen={setOpen}
           loading={loading}
           allProducts={allProducts}
-          handleDeleteProduct={handleDeleteProduct}
+          handleDeleteProduct={handleButtonDeleteProduct}
           goToCreateProduct={goToCreateProduct}
           handleFormikSubmit={handleFormikSubmit}
         />
       </Drawer>
+      <CustomModal
+        key={'ModalProductsDeleteProduct'}
+        isModalVisible={isModalVisibleDeleteProduct}
+        icon={<TriangleAlert size={40} color={theme.modal.icon} />}
+        title={t('products.atention')}
+        subtitle={`${t('products.youGoingToDeleteTheProductWithName')} ${
+          productSelected?.name || ''
+        }`}
+        acceptButton={
+          <Button
+            children={t('modal.acceptButton')}
+            isDisabled={false}
+            type="secondary"
+            onPress={handleAcceptDeleteProduct}
+            key={'Button1'}
+          />
+        }
+        cancelButton={
+          <Button
+            children={t('modal.cancelButton')}
+            isDisabled={false}
+            type="secondary"
+            onPress={toggleModalDeleteProduct}
+            key={'Button1'}
+          />
+        }
+      />
     </SafeAreaView>
   );
 };

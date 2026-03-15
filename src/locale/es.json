@@ -96,5 +96,9 @@
     "groupByCategory": "Agrupar por categoria",
     "categories": "Categorias",
     "sort": "Ordenamiento"
+  },
+  "modal": {
+    "acceptButton": "Aceptar",
+    "cancelButton": "Cancelar"
   }
 }

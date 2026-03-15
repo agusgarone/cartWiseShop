@@ -79,5 +79,9 @@
     "groupByCategory": "Gruppo per categoria",
     "categories": "Categorie",
     "sort": "Ordinanza"
+  },
+  "modal": {
+    "acceptButton": "Accetta",
+    "cancelButton": "Annulla"
   }
 }

@@ -30,6 +30,7 @@ interface UseListsManagementProps {
   ) => void;
   onListLoaded?: (list: IListDTO<IProductDTO>) => void;
   onMount?: () => void;
+  toggleModal: () => void;
 }
 
 export const useListsManagement = ({
@@ -38,6 +39,7 @@ export const useListsManagement = ({
   onListUpdated,
   onListLoaded,
   onMount,
+  toggleModal,
 }: UseListsManagementProps) => {
   const {t} = useTranslation();
   const navigation = useContext(NavigationContext);
@@ -255,7 +257,7 @@ export const useListsManagement = ({
       actions.resetForm();
       navigation?.goBack();
     } else {
-      Alert.alert(t('createList.addNameToTheList'));
+      toggleModal();
     }
   };
 

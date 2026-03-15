@@ -16,6 +16,12 @@ const ColorsLight = {
 
 const light = {
   backgroundScreen: '#FFF',
+  modal: {
+    background: ColorsLight.white,
+    borderColor: ColorsLight.primary,
+    text: ColorsLight.dark,
+    icon: ColorsLight.dark,
+  },
   button: {
     background: ColorsLight.primary,
     text: ColorsLight.white,
@@ -147,6 +153,12 @@ const light = {
 
 const dark = {
   backgroundScreen: '#000',
+  modal: {
+    background: ColorsDark.white,
+    borderColor: ColorsDark.primary,
+    text: ColorsDark.dark,
+    icon: ColorsDark.dark,
+  },
   button: {
     background: ColorsDark.primary,
     text: ColorsDark.white,

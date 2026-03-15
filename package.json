@@ -36,6 +36,7 @@
     "react-native-drawer-layout": "^4.1.11",
     "react-native-dynamic-vector-icons": "^2.0.0",
     "react-native-gesture-handler": "^2.22.1",
+    "react-native-modal": "^14.0.0-rc.1",
     "react-native-pager-view": "^6.7.0",
     "react-native-reanimated": "^3.15.2",
     "react-native-safe-area-context": "^5.1.0",

@@ -28,6 +28,14 @@ export const productsController = () => {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState<string>('');
+  const [productSelected, setProductSelected] = useState<IProductDTO | null>(
+    null,
+  );
+  const [isModalVisibleDeleteProduct, setIsModalVisibleDeleteProduct] =
+    useState(false);
+  const toggleModalDeleteProduct = () => {
+    setIsModalVisibleDeleteProduct(!isModalVisibleDeleteProduct);
+  };
 
   const fetchData = async (filters?: IFilterProducts) => {
     setLoading(true);
@@ -104,34 +112,20 @@ export const productsController = () => {
     }, [fetchParams, searchQuery]),
   );
 
-  const handleDelete = async (product: IProductDTO) => {
-    await ProductsStorage.deleteProduct(product.id);
-    fetchData();
-  };
-
   const goToCreateProduct = () => {
     navigation?.navigate('CreateProduct', {cameFrom: 'products'});
   };
 
-  const handleDeleteProduct = (product: IProductDTO, onConfirm: () => void) => {
-    Alert.alert(
-      t('products.atention'),
-      `${t('products.youGoingToDeleteTheProductWithName')} ${product.name}`,
-      [
-        {
-          text: t('products.cancel'),
-          onPress: () => null,
-          style: 'cancel',
-        },
-        {
-          text: t('products.accept'),
-          onPress: async () => {
-            onConfirm();
-            await handleDelete(product);
-          },
-        },
-      ],
-    );
+  const handleButtonDeleteProduct = (product: IProductDTO) => {
+    setProductSelected(product);
+    toggleModalDeleteProduct();
+  };
+
+  const handleAcceptDeleteProduct = async () => {
+    if (!productSelected) return;
+    await ProductsStorage.deleteProduct(productSelected.id);
+    fetchData();
+    toggleModalDeleteProduct();
   };
 
   const handleFormikSubmit = async (values: {textSearched: string}) => {
@@ -145,8 +139,13 @@ export const productsController = () => {
     open,
     categories,
     setOpen,
-    handleDeleteProduct,
+    handleButtonDeleteProduct,
+    handleAcceptDeleteProduct,
     goToCreateProduct,
     handleFormikSubmit,
+    isModalVisibleDeleteProduct,
+    toggleModalDeleteProduct,
+    productSelected,
+    setProductSelected,
   };
 };
