@@ -18,6 +18,7 @@ const ListDetail = ({route}: any) => {
     categoriesFilter,
     showWithCategories,
     handleButtonDelete,
+    handleShareList,
     handleAllSelected,
     setShowConfetti,
     navigateToEditList,
@@ -49,6 +50,7 @@ const ListDetail = ({route}: any) => {
             showWithCategories={showWithCategories}
             handleAllSelected={handleAllSelected}
             handleButtonDelete={handleButtonDelete}
+            handleShareList={handleShareList}
             navigateToEditList={navigateToEditList}
             setOpen={setOpen}
           />

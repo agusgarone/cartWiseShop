@@ -56,7 +56,9 @@
     "accept": "Accept",
     "cancel": "Cancel",
     "editButton": "Edit List",
-    "deleteButton": "Delete"
+    "shareButton": "Share",
+    "deleteButton": "Delete",
+    "shareError": "Could not share the list"
   },
   "login": {
     "nameApp": "CartWiseShop",

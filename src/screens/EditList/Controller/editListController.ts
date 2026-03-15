@@ -2,7 +2,11 @@ import {FormikState} from 'formik';
 import {useListsManagement} from '../../../common/utils/customHooks/useListsManagement';
 import {StorageService} from '../../../storage/asyncStorage';
 import {getCategoriesByProducts} from '../../../common/utils/functions/getCategoriesByProducts';
-import {ListsStorage, CombinedStorage, CategoriesStorage} from '../../../storage/storageHelpers';
+import {
+  ListsStorage,
+  CombinedStorage,
+  CategoriesStorage,
+} from '../../../storage/storageHelpers';
 import {IProductDTO} from '../../../models/types/product';
 
 export const editListController = () => {
@@ -27,9 +31,9 @@ export const editListController = () => {
     mode: 'edit',
     onListUpdated: async (listId, newValues) => {
       // Actualizar en storage local
-      const currentList = await ListsStorage.getListById(listId);
+      const currentList = await ListsStorage.getListById(+listId);
       if (currentList) {
-        await ListsStorage.updateList(listId, {
+        await ListsStorage.updateList(+listId, {
           name: newValues.newName || currentList.name,
           color: newValues.newColor || currentList.color,
           id_products: newValues.newProducts || currentList.id_products,

@@ -40,6 +40,10 @@ declare module 'react-i18next' {
         youGoingToDeleteThelistWithName: string;
         accept: string;
         cancel: string;
+        editButton: string;
+        shareButton: string;
+        deleteButton: string;
+        shareError: string;
       };
       login: {
         nameApp: string;

@@ -222,7 +222,6 @@ export const useListsManagement = ({
     },
   ) => {
     actions.setStatus(FORM_STATUS.idle);
-
     if (values.name) {
       if (mode === 'create') {
         const newList: IListDTO<IProductDTO> = {

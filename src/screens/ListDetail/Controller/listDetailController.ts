@@ -1,7 +1,7 @@
 import {useCallback, useContext, useEffect, useMemo, useState} from 'react';
 import {NavigationContext, useFocusEffect} from '@react-navigation/native';
 import {StorageService} from '../../../storage/asyncStorage';
-import {Alert} from 'react-native';
+import {Alert, Share} from 'react-native';
 import {IProductForm} from '../../../models/types/product';
 import {IListDTO, IListForm, ITab} from '../../../models/types/list';
 import {useTranslation} from 'react-i18next';
@@ -140,8 +140,8 @@ export const listDetailController = (id: string) => {
         },
         {
           text: t('listDetail.accept'),
-          onPress: () => {
-            handleDeleteList(list.id);
+          onPress: async () => {
+            await handleDeleteList(list.id);
             navigation?.goBack();
           },
         },
@@ -154,6 +154,38 @@ export const listDetailController = (id: string) => {
 
   const handleButtonDelete = (list: IListForm<ITab>) => DialogDeleteList(list);
 
+  const getListAsText = (list: IListForm<ITab>): string => {
+    const lines: string[] = [list.name, ''];
+    if (list.data?.length) {
+      list.data.forEach(tab => {
+        if (tab.categoria) {
+          lines.push(`${tab.categoria}:`);
+        }
+        tab.products?.forEach(prod => {
+          lines.push(`• ${prod.name}`);
+        });
+        if (tab.categoria) {
+          lines.push('');
+        }
+      });
+    }
+    return lines.join('\n').trim();
+  };
+
+  const handleShareList = async (list: IListForm<ITab>) => {
+    try {
+      const message = getListAsText(list);
+      await Share.share({
+        message,
+        title: list.name,
+      });
+    } catch (err) {
+      if ((err as Error).message !== 'User did not share') {
+        Alert.alert(t('listDetail.shareError'));
+      }
+    }
+  };
+
   const goHome = () => navigation?.navigate('MainDrawer');
 
   const navigateToEditList = async () => {
@@ -163,6 +195,7 @@ export const listDetailController = (id: string) => {
 
   return {
     handleButtonDelete,
+    handleShareList,
     handleAllSelected,
     setShowConfetti,
     navigateToEditList,

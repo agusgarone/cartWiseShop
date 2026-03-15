@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useMemo, useRef} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import theme from '../../../common/theme';
 import {Formik, useFormikContext} from 'formik';
 import {IListForm, ITab} from '../../../models/types/list';
@@ -8,6 +8,7 @@ import {ThemeContext} from '../../../services/ThemeProvider';
 import Button from '../../../components/Button';
 import {useTranslation} from 'react-i18next';
 import {FilterButton} from '../../../components/FilterButton';
+import {Share2} from 'lucide-react-native';
 import {ListProductsByCategory} from '../../../components/ListProductsByCategory';
 import {ListProductsWithoutCategory} from '../../../components/ListProductsWithoutCategory';
 import RenderProduct from './RenderProducts';
@@ -16,6 +17,7 @@ import {IProductForm} from '../../../models/types/product';
 const Content = ({
   handleAllSelected,
   handleButtonDelete,
+  handleShareList,
   navigateToEditList,
   setOpen,
   listSelected,
@@ -26,6 +28,7 @@ const Content = ({
   listSelected: IListForm<ITab>;
   loading: boolean;
   handleButtonDelete: (list: IListForm<ITab>) => void;
+  handleShareList: (list: IListForm<ITab>) => Promise<void>;
   handleAllSelected: () => void;
   navigateToEditList: () => Promise<void>;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -60,7 +63,17 @@ const Content = ({
             <Text style={[styles.title, {color: theme.listDetail.titleColor}]}>
               {listSelected?.name}
             </Text>
-            <FilterButton onPress={() => setOpen(true)} />
+            <View style={styles.containerActions}>
+              <TouchableOpacity
+                style={[
+                  styles.iconButton,
+                  {backgroundColor: theme.products.buttonFilter.background},
+                ]}
+                onPress={() => listSelected && handleShareList(listSelected)}>
+                <Share2 size={22} color="white" />
+              </TouchableOpacity>
+              <FilterButton onPress={() => setOpen(true)} />
+            </View>
           </View>
           <View style={styles.containerList}>
             <Formik
@@ -160,6 +173,19 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  containerActions: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+  iconButton: {
+    padding: 10,
+    width: 50,
+    borderRadius: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   title: {
     fontSize: theme.fontSize.xxl,
