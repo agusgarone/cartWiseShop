@@ -6,7 +6,7 @@ import {DrawerNavigator} from '../components/DrawerNavigator';
 // import Login from '../screens/Login';
 import {useContext} from 'react';
 // import {AuthContext} from './AuthProvider';
-import UserSettings from '../screens/UserSettings';
+// UserSettings no se importa aquí: arrastra loginService → facade → supabase y dispara red al inicio
 // import Loader from '../components/Loader';
 import {ThemeContext} from './ThemeProvider';
 import {useTranslation} from 'react-i18next';
@@ -103,7 +103,7 @@ function StackNavigator() {
       />
       <Stack.Screen
         name="UserSettings"
-        component={UserSettings}
+        getComponent={() => require('../screens/UserSettings').default}
         options={{
           title: t('userSettings.header'),
           headerStyle: {

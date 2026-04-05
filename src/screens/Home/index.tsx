@@ -8,6 +8,7 @@ import {ThemeContext} from '../../services/ThemeProvider';
 import {useTranslation} from 'react-i18next';
 import FloatButton from '../../components/FloatButton';
 import CustomModal from '../../components/Modal';
+import AudioTestScreen from '../../features/voice/components/audio';
 
 const Home = () => {
   const {
@@ -37,6 +38,7 @@ const Home = () => {
             <Loader />
           ) : (
             <>
+              <AudioTestScreen />
               <FlatList
                 data={list}
                 renderItem={({item}) => (

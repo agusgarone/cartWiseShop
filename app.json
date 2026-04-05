@@ -1,5 +1,19 @@
 {
   "name": "cartWiseShop",
   "displayName": "cartWiseShop",
-  "version": "2.0.0"
+  "version": "2.0.0",
+  "expo": {
+    "name": "cartWiseShop",
+    "slug": "cartwiseshop",
+    "version": "2.0.0",
+    "plugins": [
+      [
+        "expo-speech-recognition",
+        {
+          "microphonePermission": "Permite que $(PRODUCT_NAME) use el micrófono para dictado.",
+          "speechRecognitionPermission": "Permite que $(PRODUCT_NAME) use el reconocimiento de voz."
+        }
+      ]
+    ]
+  }
 }
