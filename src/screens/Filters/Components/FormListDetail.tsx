@@ -15,6 +15,7 @@ import {useTranslation} from 'react-i18next';
 import {ArrowDownAZ, ArrowUpAZ} from 'lucide-react-native';
 import {ThemeContext} from '../../../services/ThemeProvider';
 import theme from '../../../common/theme';
+import {globalSessionState} from '../../../services/globalStates';
 
 const FilterFormDetail = ({
   handleFormikSubmit,
@@ -31,11 +32,15 @@ const FilterFormDetail = ({
 }) => {
   const {t} = useTranslation();
   const {theme} = useContext(ThemeContext);
+  const filtersList = globalSessionState(state => state.filtersList);
 
   const initialValues = {
-    splitByCategories: true,
-    categories: categories,
-    orderAsc: true,
+    splitByCategories: filtersList.splitByCategories,
+    categories: categories.map(cat => ({
+      ...cat,
+      isChecked: filtersList.categories?.includes(cat.id) ?? cat.isChecked,
+    })),
+    orderAsc: filtersList.orderAsc,
   };
 
   return (
@@ -111,7 +116,6 @@ const FilterFormDetail = ({
                         index={index}
                         categories={categories}
                         setFieldValue={setFieldValue}
-                        filterTo="detail"
                       />
                     )}
                     style={{

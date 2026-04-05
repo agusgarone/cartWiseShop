@@ -28,7 +28,7 @@ const CustomModal = ({
       <View
         style={{
           backgroundColor: theme.modal.background,
-          height: '30%',
+          height: '33%',
           borderWidth: 2,
           borderColor: theme.modal.borderColor,
           borderRadius: 10,

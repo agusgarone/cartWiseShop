@@ -1,4 +1,4 @@
-import {supabase} from '../../../services/supabase';
+import {supabase} from '../../../services/auth/supabase';
 
 export const insertUser = async (user: any) => {
   const response = await supabase.from('users').upsert([

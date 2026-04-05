@@ -1,48 +1,87 @@
-const ColorsDark = {
-  primary: '#34c95c',
-  greyPrimary: '#b4b7b5',
-  greySecondary: '#747b76',
-  white: '#1E1E1E',
-  dark: '#ffffff',
-};
+/**
+ * Paleta "Crema & salvia"
+ * - Canvas / fondo: #FCF3E9
+ * - Acento principal (botones, tabs, check): #87A96B
+ * - Superficies: papel cálido y blanco para tarjetas
+ * - Terracota: acento secundario (voz / IA) complementario al verde
+ */
 
 const ColorsLight = {
-  primary: '#39bd5c',
-  greyPrimary: '#8e9490',
-  greySecondary: '#8e9490',
+  canvas: '#FCF3E9',
+  surface: '#FFFBF6',
+  elevated: '#FFFFFF',
+  primary: '#87A96B',
+  /** Pantallas con mucho color + texto claro (login, ajustes) */
+  primaryStrong: '#6E8A54',
+  primarySoft: '#C5D4B8',
+  greyPrimary: '#8A8174',
+  greySecondary: '#6B6254',
+  /** Texto / iconos sobre botón primario */
+  onPrimary: '#FFFFFF',
   white: '#FFFFFF',
-  dark: '#000000',
+  dark: '#2C2416',
+  terracotta: '#C4836A',
+  terracottaInk: '#5C3D32',
+  terracottaMutedBg: '#EDD6CC',
+};
+
+const ColorsDark = {
+  canvas: '#1E1B17',
+  surface: '#2A2620',
+  elevated: '#36312A',
+  primary: '#9AB882',
+  primaryStrong: '#7D9468',
+  primarySoft: '#4A5540',
+  greyPrimary: '#A89E91',
+  greySecondary: '#C9BFB2',
+  onPrimary: '#1E1B17',
+  white: '#36312A',
+  dark: '#F5EDE4',
+  terracotta: '#D4A090',
+  terracottaInk: '#F5D9CE',
+  terracottaMutedBg: '#4A3230',
 };
 
 const light = {
-  backgroundScreen: '#FFF',
+  backgroundScreen: ColorsLight.canvas,
+  /** FAB flotante principal (+ crear producto / añadir a lista) */
+  floatFab: {
+    background: ColorsLight.primary,
+    icon: ColorsLight.onPrimary,
+  },
+  /** FAB asistente de voz (Sparkles) */
+  fabAi: {
+    background: ColorsLight.terracotta,
+    icon: ColorsLight.onPrimary,
+    shadowColor: ColorsLight.dark,
+  },
   modal: {
-    background: ColorsLight.white,
-    borderColor: ColorsLight.primary,
+    background: ColorsLight.elevated,
+    borderColor: ColorsLight.primarySoft,
     text: ColorsLight.dark,
     icon: ColorsLight.dark,
   },
   button: {
     background: ColorsLight.primary,
-    text: ColorsLight.white,
-    backgroundSecondary: ColorsLight.white,
+    text: ColorsLight.onPrimary,
+    backgroundSecondary: ColorsLight.elevated,
     textSecondary: ColorsLight.primary,
   },
   input: {
     color: ColorsLight.dark,
-    background: ColorsLight.white,
-    borderColor: ColorsLight.primary,
+    background: ColorsLight.elevated,
+    borderColor: ColorsLight.primarySoft,
     placeHolder: ColorsLight.greySecondary,
   },
   select: {
-    background: ColorsLight.white,
+    background: ColorsLight.elevated,
     dropdownIconRipple: ColorsLight.dark,
     dropdownIcon: ColorsLight.dark,
     color: ColorsLight.dark,
-    borderColor: ColorsLight.primary,
+    borderColor: ColorsLight.primarySoft,
   },
   header: {
-    background: ColorsLight.white,
+    background: ColorsLight.surface,
     shadow: ColorsLight.dark,
   },
   loader: {
@@ -54,10 +93,10 @@ const light = {
   },
   addProducts: {
     renderProduct: {
-      background: ColorsLight.white,
+      background: ColorsLight.elevated,
       backgroundSelected: ColorsLight.primary,
       color: ColorsLight.greySecondary,
-      colorSelected: ColorsLight.white,
+      colorSelected: ColorsLight.onPrimary,
     },
   },
   createList: {
@@ -65,43 +104,64 @@ const light = {
       color: ColorsLight.greySecondary,
     },
     renderProduct: {
-      background: ColorsLight.white,
+      background: ColorsLight.elevated,
       color: ColorsLight.greySecondary,
       icon: ColorsLight.greySecondary,
+    },
+    newProductChip: {
+      background: ColorsLight.terracottaMutedBg,
+      color: ColorsLight.terracottaInk,
     },
   },
   home: {
     color: ColorsLight.greySecondary,
     renderProduct: {
-      background: ColorsLight.white,
+      background: ColorsLight.elevated,
       titleColor: ColorsLight.dark,
       subtitleColor: ColorsLight.greySecondary,
+    },
+    emptyList: {
+      iconIA: ColorsLight.onPrimary,
+      iconManual: ColorsLight.primary,
     },
   },
   listDetail: {
     titleColor: ColorsLight.dark,
     button: {
-      background: ColorsLight.greySecondary,
+      background: ColorsLight.primarySoft,
       icon: ColorsLight.dark,
     },
     renderProduct: {
-      background: ColorsLight.white,
+      background: ColorsLight.elevated,
       color: ColorsLight.greySecondary,
       checkboxTrue: ColorsLight.primary,
       checkboxFalse: ColorsLight.greySecondary,
     },
   },
+  listEditor: {
+    segmentBackground: ColorsLight.primarySoft,
+    segmentActive: ColorsLight.primary,
+    segmentActiveText: ColorsLight.onPrimary,
+    segmentInactiveText: ColorsLight.greySecondary,
+    inputBackground: ColorsLight.elevated,
+    inputBorder: ColorsLight.primarySoft,
+    productRowBackground: ColorsLight.elevated,
+    categoryChipBackground: ColorsLight.primarySoft,
+    categoryChipText: ColorsLight.dark,
+    filterChipBackground: ColorsLight.elevated,
+    filterChipText: ColorsLight.greySecondary,
+  },
   login: {
-    background: ColorsLight.primary,
-    backgroundDiv: ColorsLight.white,
+    background: ColorsLight.primaryStrong,
+    backgroundDiv: ColorsLight.elevated,
     color: ColorsLight.dark,
     signIn: {
-      iconColor: ColorsLight.white,
+      iconColor: ColorsLight.onPrimary,
       descriptionColor: ColorsLight.dark,
       colorTextButton: ColorsLight.primary,
     },
     logIn: {
-      iconColor: ColorsLight.white,
+      iconColor: ColorsLight.onPrimary,
       descriptionColor: ColorsLight.dark,
       colorTextButton: ColorsLight.primary,
     },
@@ -110,18 +170,18 @@ const light = {
     color: ColorsLight.greySecondary,
     buttonFilter: {
       background: ColorsLight.primary,
-      color: ColorsLight.white,
+      color: ColorsLight.onPrimary,
     },
     renderProduct: {
-      background: ColorsLight.white,
+      background: ColorsLight.elevated,
       color: ColorsLight.greyPrimary,
-      colorSelected: ColorsLight.white,
+      colorSelected: ColorsLight.onPrimary,
       icon: ColorsLight.greySecondary,
     },
   },
   userSettings: {
-    background: ColorsLight.primary,
-    backgroundDiv: ColorsLight.white,
+    background: ColorsLight.primaryStrong,
+    backgroundDiv: ColorsLight.elevated,
     nameColor: ColorsLight.dark,
     descriptionColor: ColorsLight.greySecondary,
     itemSettingColor: ColorsLight.dark,
@@ -131,15 +191,15 @@ const light = {
     iconFocus: ColorsLight.primary,
     icon: ColorsLight.greySecondary,
     activeTabColor: ColorsLight.primary,
-    background: ColorsLight.white,
+    background: ColorsLight.surface,
   },
   stack: {
     icon: ColorsLight.dark,
-    background: ColorsLight.white,
+    background: ColorsLight.surface,
     titleScreen: ColorsLight.dark,
   },
   filterProducts: {
-    background: '#FFF',
+    background: ColorsLight.canvas,
     title: ColorsLight.dark,
     subtitle: ColorsLight.dark,
     sortIcon: ColorsLight.greySecondary,
@@ -152,34 +212,43 @@ const light = {
 };
 
 const dark = {
-  backgroundScreen: '#000',
+  backgroundScreen: ColorsDark.canvas,
+  floatFab: {
+    background: ColorsDark.primary,
+    icon: ColorsDark.onPrimary,
+  },
+  fabAi: {
+    background: ColorsDark.terracotta,
+    icon: ColorsDark.onPrimary,
+    shadowColor: '#000000',
+  },
   modal: {
-    background: ColorsDark.white,
-    borderColor: ColorsDark.primary,
+    background: ColorsDark.elevated,
+    borderColor: ColorsDark.primarySoft,
     text: ColorsDark.dark,
     icon: ColorsDark.dark,
   },
   button: {
     background: ColorsDark.primary,
-    text: ColorsDark.white,
-    backgroundSecondary: ColorsDark.white,
+    text: ColorsDark.onPrimary,
+    backgroundSecondary: ColorsDark.elevated,
     textSecondary: ColorsDark.primary,
   },
   input: {
     color: ColorsDark.dark,
-    background: ColorsDark.white,
-    borderColor: ColorsDark.primary,
+    background: ColorsDark.elevated,
+    borderColor: ColorsDark.primarySoft,
     placeHolder: ColorsDark.greySecondary,
   },
   select: {
-    background: ColorsDark.white,
+    background: ColorsDark.elevated,
     dropdownIconRipple: ColorsDark.dark,
     dropdownIcon: ColorsDark.dark,
     color: ColorsDark.dark,
-    borderColor: ColorsDark.primary,
+    borderColor: ColorsDark.primarySoft,
   },
   header: {
-    background: ColorsDark.white,
+    background: ColorsDark.surface,
     shadow: ColorsDark.dark,
   },
   loader: {
@@ -191,10 +260,10 @@ const dark = {
   },
   addProducts: {
     renderProduct: {
-      background: ColorsDark.white,
+      background: ColorsDark.elevated,
       backgroundSelected: ColorsDark.primary,
       color: ColorsDark.greyPrimary,
-      colorSelected: ColorsDark.white,
+      colorSelected: ColorsDark.onPrimary,
     },
   },
   createList: {
@@ -202,15 +271,19 @@ const dark = {
       color: ColorsDark.greySecondary,
     },
     renderProduct: {
-      background: ColorsDark.white,
+      background: ColorsDark.elevated,
       color: ColorsDark.greySecondary,
       icon: ColorsDark.greySecondary,
+    },
+    newProductChip: {
+      background: ColorsDark.terracottaMutedBg,
+      color: ColorsDark.terracottaInk,
     },
   },
   home: {
     color: ColorsDark.greySecondary,
     renderProduct: {
-      background: ColorsDark.white,
+      background: ColorsDark.elevated,
       titleColor: ColorsDark.dark,
       subtitleColor: ColorsDark.greySecondary,
     },
@@ -218,27 +291,40 @@ const dark = {
   listDetail: {
     titleColor: ColorsDark.dark,
     button: {
-      background: ColorsDark.greySecondary,
+      background: ColorsDark.primarySoft,
       icon: ColorsDark.dark,
     },
     renderProduct: {
-      background: ColorsDark.white,
+      background: ColorsDark.elevated,
       color: ColorsDark.greyPrimary,
       checkboxTrue: ColorsDark.primary,
       checkboxFalse: ColorsDark.greySecondary,
     },
   },
+  listEditor: {
+    segmentBackground: ColorsDark.primarySoft,
+    segmentActive: ColorsDark.primary,
+    segmentActiveText: ColorsDark.onPrimary,
+    segmentInactiveText: ColorsDark.greySecondary,
+    inputBackground: ColorsDark.elevated,
+    inputBorder: ColorsDark.primarySoft,
+    productRowBackground: ColorsDark.elevated,
+    categoryChipBackground: ColorsDark.primarySoft,
+    categoryChipText: ColorsDark.dark,
+    filterChipBackground: ColorsDark.elevated,
+    filterChipText: ColorsDark.greyPrimary,
+  },
   login: {
-    background: ColorsDark.primary,
-    backgroundDiv: ColorsDark.white,
+    background: ColorsDark.primaryStrong,
+    backgroundDiv: ColorsDark.elevated,
     color: ColorsDark.dark,
     signIn: {
-      iconColor: ColorsDark.white,
+      iconColor: ColorsDark.onPrimary,
       descriptionColor: ColorsDark.dark,
       colorTextButton: ColorsDark.primary,
     },
     logIn: {
-      iconColor: ColorsDark.white,
+      iconColor: ColorsDark.onPrimary,
       descriptionColor: ColorsDark.dark,
       colorTextButton: ColorsDark.primary,
     },
@@ -247,18 +333,18 @@ const dark = {
     color: ColorsDark.greySecondary,
     buttonFilter: {
       background: ColorsDark.primary,
-      color: ColorsDark.white,
+      color: ColorsDark.onPrimary,
     },
     renderProduct: {
-      background: ColorsDark.white,
+      background: ColorsDark.elevated,
       color: ColorsDark.greyPrimary,
-      colorSelected: ColorsDark.white,
+      colorSelected: ColorsDark.onPrimary,
       icon: ColorsDark.greySecondary,
     },
   },
   userSettings: {
-    background: ColorsDark.primary,
-    backgroundDiv: ColorsDark.white,
+    background: ColorsDark.primaryStrong,
+    backgroundDiv: ColorsDark.elevated,
     nameColor: ColorsDark.dark,
     descriptionColor: ColorsDark.greySecondary,
     itemSettingColor: ColorsDark.dark,
@@ -268,15 +354,15 @@ const dark = {
     iconFocus: ColorsDark.primary,
     icon: ColorsDark.greySecondary,
     activeTabColor: ColorsDark.primary,
-    background: ColorsDark.white,
+    background: ColorsDark.surface,
   },
   stack: {
     icon: ColorsDark.dark,
-    background: ColorsDark.white,
+    background: ColorsDark.surface,
     titleScreen: ColorsDark.dark,
   },
   filterProducts: {
-    background: '#000',
+    background: ColorsDark.canvas,
     title: ColorsDark.dark,
     subtitle: ColorsDark.dark,
     sortIcon: ColorsDark.greySecondary,
@@ -287,11 +373,6 @@ const dark = {
     },
   },
 };
-
-//   primary: #39bd5c , #34c95c
-//   grey: #8e9490, #747b76
-//   white: #FFFFFF, #1E1E1E
-//   black: #000000, #ffffff
 
 const fontSize = {
   xxs: 8,

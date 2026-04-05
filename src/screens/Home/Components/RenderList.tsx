@@ -63,7 +63,7 @@ const RenderList = ({
 
 const style = StyleSheet.create({
   view: {
-    marginHorizontal: 3,
+    marginHorizontal: 16,
     marginVertical: 5,
     borderRadius: 20,
     display: 'flex',

@@ -16,7 +16,20 @@
     "addNameToTheList": "Please add a name to the list!",
     "noProductsFound": "No products found for '{{query}}'",
     "createProductButton": "Create '{{productName}}'",
-    "searchOtherProducts": "Search other products"
+    "searchOtherProducts": "Search other products",
+    "newProductChip": "New: not in your catalog yet; it will be added to products when you save the list",
+    "aiVoice": {
+      "title": "Create list with voice",
+      "subtitle": "Say the items for your new list.",
+      "start": "Start dictation",
+      "stop": "Stop",
+      "continue": "Continue",
+      "close": "Close",
+      "listening": "Listening…",
+      "readyToContinue": "Review the text and tap Continue",
+      "preview": "Recognized text",
+      "openAssistant": "Voice assistant to create a list"
+    }
   },
   "editList": {
     "stack": "Edit list",
@@ -46,6 +59,15 @@
       "createdAt": "Created on",
       "product": "product",
       "products": "products"
+    },
+    "emptyList": {
+      "titleOnboardingComplete": "You have no lists right now",
+      "titleOnboardingPending": "You don't have any lists yet",
+      "subtitleFirst": "Create your first shopping list by speaking or adding products.",
+      "subtitleMore": "Create a shopping list by speaking or adding products.",
+      "voiceButton": "Create list with voice",
+      "manualButton": "Create list manually",
+      "orAlso": "Or you can"
     }
   },
   "listDetail": {
@@ -59,6 +81,31 @@
     "shareButton": "Share",
     "deleteButton": "Delete",
     "shareError": "Could not share the list"
+  },
+  "listEditor": {
+    "header": "List",
+    "listNamePlaceholder": "List name",
+    "modeShopping": "Shop",
+    "modeEditing": "Edit",
+    "addProductPlaceholder": "Add product...",
+    "addProductA11y": "Add product",
+    "filterAll": "All",
+    "filterPending": "Pending",
+    "filterPurchased": "Purchased",
+    "emptyProducts": "No products yet. Type one below or use the voice assistant.",
+    "saving": "Saving...",
+    "aiVoice": {
+      "title": "Add products with voice",
+      "subtitle": "Say the items you want to add to this list.",
+      "start": "Start dictation",
+      "stop": "Stop",
+      "continue": "Continue",
+      "close": "Close",
+      "listening": "Listening…",
+      "readyToContinue": "Review the text and tap Continue",
+      "preview": "Recognized text",
+      "openAssistant": "Voice assistant to add products to the list"
+    }
   },
   "login": {
     "nameApp": "CartWiseShop",
@@ -80,7 +127,40 @@
     "atention": "Attention!",
     "youGoingToDeleteTheProductWithName": "You are going to delete the product named:",
     "accept": "Accept",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "aiVoice": {
+      "title": "Add by voice",
+      "subtitle": "Say the products you want to add.",
+      "start": "Start dictation",
+      "stop": "Stop",
+      "continue": "Continue",
+      "close": "Close",
+      "listening": "Listening…",
+      "readyToContinue": "Review the text and tap Continue",
+      "preview": "Recognized text",
+      "openAssistant": "Voice assistant to add products"
+    },
+    "emptyCatalog": {
+      "title": "You don't have any products yet",
+      "subtitle": "Add the items you buy often so they're always at hand.",
+      "voiceButton": "Add product with voice",
+      "manualButton": "Add product manually",
+      "orAlso": "Or you can"
+    },
+    "voiceReview": {
+      "headerStack": "Detected products",
+      "subtitle": "Edit or remove anything that is not correct.",
+      "empty": "No products were detected.",
+      "namePlaceholder": "Product name",
+      "done": "Done",
+      "deleteA11y": "Remove product",
+      "nothingSavedTitle": "No changes",
+      "nothingSavedMessage": "No new products: they were already in your catalog or duplicated in the list.",
+      "partialSavedTitle": "Partially saved",
+      "partialSavedMessage": "Added {{added}} product(s). Skipped {{skipped}} (already existed or duplicated).",
+      "saveErrorTitle": "Could not save",
+      "saveErrorMessage": "Products could not be saved. Please try again."
+    }
   },
   "userSettings": {
     "header": "Settings",
@@ -91,8 +171,20 @@
   },
   "filterProducts": {
     "title": "Filters",
+    "drawerTitle": "Filters & order",
+    "drawerSubtitle": "Customize how your list looks",
     "inputPlaceholder": "Search product",
-    "addButton": "Add filter",
+    "addButton": "Apply filters",
+    "clearButton": "Clear",
+    "sectionShow": "Show",
+    "sectionView": "View",
+    "sectionSort": "Sort by",
+    "showAll": "All",
+    "showPending": "Pending",
+    "showPurchased": "Purchased",
+    "sortAz": "A-Z",
+    "sortZa": "Z-A",
+    "sortRecent": "Recent",
     "groupByCategory": "Group by category",
     "categories": "Categories",
     "sort": "Sort"
@@ -100,5 +192,37 @@
   "modal": {
     "acceptButton": "Accept",
     "cancelButton": "Cancel"
+  },
+  "onboarding": {
+    "goToStepA11y": "Go to step {{step}}",
+    "back": "Back",
+    "next": "Next",
+    "start": "Get started",
+    "tabs": {
+      "tab1": {
+        "title": "Create lists in seconds",
+        "description": "By typing or simply by speaking."
+      },
+      "tab2": {
+        "title": "Say it your way",
+        "description": "Our AI understands what you say and turns it into a list."
+      },
+      "tab3": {
+        "title": "Use it anytime",
+        "description": "Create full lists or add products easily."
+      },
+      "tab4": {
+        "title": "Try it now",
+        "description": "Allow microphone access so you can start speaking.",
+        "privacyNote": "Your voice is only used to build your lists and improve your experience."
+      }
+    }
+  },
+  "voice": {
+    "errors": {
+      "permissionDenied": "Microphone or speech recognition permission was denied.",
+      "recognitionUnavailable": "Speech recognition is not available on this device (Google services / Siri).",
+      "startFailed": "Could not start dictation."
+    }
   }
 }

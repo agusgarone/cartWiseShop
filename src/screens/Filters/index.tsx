@@ -1,67 +1,29 @@
-import React, {useContext} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
-import FilterFormProducts from './Components/FormProducts';
-import {useTranslation} from 'react-i18next';
-import {ThemeContext} from '../../services/ThemeProvider';
-import {filterProductService} from './Controller';
-import FilterFormDetail from './Components/FormListDetail';
+import React from 'react';
 import {ICategoryFilter} from '../../models/types/category';
+import {IProductForm} from '../../models/types/product';
+import {FilterDrawerPanel} from './Components/FilterDrawer';
 
 export const CustomDrawerContent = ({
-  filterTo,
   closeDrawer,
   productsCategories,
-  categories,
+  products,
+  isOpen,
 }: {
-  filterTo: 'products' | 'detail' | 'edit';
   closeDrawer: () => void;
   productsCategories: ICategoryFilter[] | null;
-  categories: ICategoryFilter[];
+  products: IProductForm[];
+  isOpen: boolean;
 }) => {
-  const {t} = useTranslation();
-  const {theme} = useContext(ThemeContext);
-  const {applyFiltersProducts, applyFiltersListDetail, applyFiltersEditList} =
-    filterProductService();
+  if (!productsCategories?.length) {
+    return null;
+  }
 
   return (
-    <View
-      style={[
-        styles.container,
-        {backgroundColor: theme.filterProducts.background},
-      ]}>
-      {filterTo === 'detail' && productsCategories && (
-        <FilterFormDetail
-          categories={productsCategories}
-          handleFormikSubmit={applyFiltersListDetail}
-          closeDrawer={closeDrawer}
-        />
-      )}
-      {filterTo === 'edit' && productsCategories && (
-        <FilterFormDetail
-          categories={productsCategories}
-          handleFormikSubmit={applyFiltersEditList}
-          closeDrawer={closeDrawer}
-        />
-      )}
-      {filterTo === 'products' && categories && (
-        <FilterFormProducts
-          categories={categories}
-          handleFormikSubmit={applyFiltersProducts}
-          closeDrawer={closeDrawer}
-        />
-      )}
-    </View>
+    <FilterDrawerPanel
+      closeDrawer={closeDrawer}
+      products={products}
+      productsCategories={productsCategories}
+      isOpen={isOpen}
+    />
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 16,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 16,
-  },
-});

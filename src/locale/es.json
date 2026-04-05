@@ -28,7 +28,20 @@
     "addNameToTheList": "¡Agregá un nombre a la lista, por favor!",
     "noProductsFound": "No se encontraron productos para '{{query}}'",
     "createProductButton": "Crear '{{productName}}'",
-    "searchOtherProducts": "Buscar otros productos"
+    "searchOtherProducts": "Buscar otros productos",
+    "newProductChip": "Nuevo: no está en tu catálogo; se agregará a productos al guardar la lista",
+    "aiVoice": {
+      "title": "Crear lista con voz",
+      "subtitle": "Dictá los productos de la nueva lista.",
+      "start": "Iniciar dictado",
+      "stop": "Detener",
+      "continue": "Continuar",
+      "close": "Cerrar",
+      "listening": "Escuchando…",
+      "readyToContinue": "Revisá el texto y tocá Continuar",
+      "preview": "Texto reconocido",
+      "openAssistant": "Asistente de voz para crear una lista"
+    }
   },
   "createProduct": {
     "header": "Crear producto",
@@ -46,6 +59,15 @@
       "createdAt": "Creada el",
       "product": "producto",
       "products": "productos"
+    },
+    "emptyList": {
+      "titleOnboardingComplete": "No tenés listas por ahora",
+      "titleOnboardingPending": "Aún no tenés listas",
+      "subtitleFirst": "Creá tu primera lista de compras hablando o agregando productos.",
+      "subtitleMore": "Creá una lista de compras hablando o agregando productos.",
+      "voiceButton": "Crear lista con voz",
+      "manualButton": "Crear lista manualmente",
+      "orAlso": "O también podés"
     }
   },
   "listDetail": {
@@ -59,6 +81,31 @@
     "shareButton": "Compartir",
     "deleteButton": "Eliminar",
     "shareError": "No se pudo compartir la lista"
+  },
+  "listEditor": {
+    "header": "Lista",
+    "listNamePlaceholder": "Nombre de la lista",
+    "modeShopping": "Comprar",
+    "modeEditing": "Editar",
+    "addProductPlaceholder": "Agregar producto...",
+    "addProductA11y": "Agregar producto",
+    "filterAll": "Todos",
+    "filterPending": "Pendientes",
+    "filterPurchased": "Comprados",
+    "emptyProducts": "Todavía no hay productos. Escribí uno abajo o usá el asistente de voz.",
+    "saving": "Guardando...",
+    "aiVoice": {
+      "title": "Agregar productos con voz",
+      "subtitle": "Dictá los productos que querés sumar a esta lista.",
+      "start": "Iniciar dictado",
+      "stop": "Detener",
+      "continue": "Continuar",
+      "close": "Cerrar",
+      "listening": "Escuchando…",
+      "readyToContinue": "Revisá el texto y tocá Continuar",
+      "preview": "Texto reconocido",
+      "openAssistant": "Asistente de voz para agregar productos a la lista"
+    }
   },
   "login": {
     "nameApp": "CartWiseShop",
@@ -80,7 +127,40 @@
     "atention": "¡Atención!",
     "youGoingToDeleteTheProductWithName": "Va a eliminar el producto con nombre:",
     "accept": "Aceptar",
-    "cancel": "Cancelar"
+    "cancel": "Cancelar",
+    "aiVoice": {
+      "title": "Agregar con voz",
+      "subtitle": "Dictá los productos que querés sumar.",
+      "start": "Iniciar dictado",
+      "stop": "Detener",
+      "continue": "Continuar",
+      "close": "Cerrar",
+      "listening": "Escuchando…",
+      "readyToContinue": "Revisá el texto y tocá Continuar",
+      "preview": "Texto reconocido",
+      "openAssistant": "Asistente de voz para agregar productos"
+    },
+    "emptyCatalog": {
+      "title": "Aún no tenés productos",
+      "subtitle": "Agregá los productos que comprás habitualmente para tenerlos siempre a mano.",
+      "voiceButton": "Agregar producto con voz",
+      "manualButton": "Agregar producto manualmente",
+      "orAlso": "O también podés"
+    },
+    "voiceReview": {
+      "headerStack": "Productos detectados",
+      "subtitle": "Editá o eliminá lo que no corresponda.",
+      "empty": "No se detectaron productos.",
+      "namePlaceholder": "Nombre del producto",
+      "done": "Listo",
+      "deleteA11y": "Eliminar producto",
+      "nothingSavedTitle": "Sin cambios",
+      "nothingSavedMessage": "Ningún producto nuevo: ya estaban en tu catálogo o repetidos en la lista.",
+      "partialSavedTitle": "Guardado parcial",
+      "partialSavedMessage": "Se agregaron {{added}} producto(s). Se omitieron {{skipped}} (ya existían o estaban duplicados).",
+      "saveErrorTitle": "Error al guardar",
+      "saveErrorMessage": "No se pudieron guardar los productos. Intentá de nuevo."
+    }
   },
   "userSettings": {
     "header": "Configuración",
@@ -91,14 +171,58 @@
   },
   "filterProducts": {
     "title": "Filtros",
+    "drawerTitle": "Filtros y orden",
+    "drawerSubtitle": "Personalizá la vista de tu lista",
     "inputPlaceholder": "Buscar producto",
     "addButton": "Aplicar filtros",
-    "groupByCategory": "Agrupar por categoria",
-    "categories": "Categorias",
+    "clearButton": "Limpiar",
+    "sectionShow": "Mostrar",
+    "sectionView": "Vista",
+    "sectionSort": "Ordenar por",
+    "showAll": "Todos",
+    "showPending": "Pendientes",
+    "showPurchased": "Comprados",
+    "sortAz": "A-Z",
+    "sortZa": "Z-A",
+    "sortRecent": "Recientes",
+    "groupByCategory": "Agrupar por categoría",
+    "categories": "Categorías",
     "sort": "Ordenamiento"
   },
   "modal": {
     "acceptButton": "Aceptar",
     "cancelButton": "Cancelar"
+  },
+  "onboarding": {
+    "goToStepA11y": "Ir al paso {{step}}",
+    "back": "Atrás",
+    "next": "Siguiente",
+    "start": "Empezar",
+    "tabs": {
+      "tab1": {
+        "title": "Creá listas en segundos",
+        "description": "Escribiendo o simplemente hablándo."
+      },
+      "tab2": {
+        "title": "Decilo como quieras",
+        "description": "Nuestra IA entiende lo que decís y lo convierte en una lista."
+      },
+      "tab3": {
+        "title": "Usalo en cualquier momento",
+        "description": "Podés crear listas completas o agregar productos fácilmente."
+      },
+      "tab4": {
+        "title": "Probalo ahora",
+        "description": "Danos permisos para usar tu micrófono y empezá a hablar.",
+        "privacyNote": "Tu voz se usa solo para crear tus listas y mejorar tu experiencia."
+      }
+    }
+  },
+  "voice": {
+    "errors": {
+      "permissionDenied": "Permisos de micrófono o reconocimiento de voz denegados.",
+      "recognitionUnavailable": "Reconocimiento de voz no disponible en el dispositivo (servicios de Google / Siri).",
+      "startFailed": "No se pudo iniciar el dictado."
+    }
   }
 }

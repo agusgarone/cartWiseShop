@@ -1,7 +1,8 @@
 import {Plus} from 'lucide-react-native';
-import {memo} from 'react';
+import {memo, useContext} from 'react';
 import {StyleSheet, TouchableOpacity} from 'react-native';
 import theme from '../common/theme';
+import {ThemeContext} from '../services/ThemeProvider';
 
 interface IFloatButton {
   navigate: (values: any) => void;
@@ -12,17 +13,18 @@ const FloatButton = memo(function FloatButton({
   navigate,
   isHome = false,
 }: IFloatButton) {
+  const {theme} = useContext(ThemeContext);
   return (
     <TouchableOpacity
       style={[
         Style.action,
-        {backgroundColor: '#39bd5c'},
+        {backgroundColor: theme.floatFab.background},
         isHome
           ? {position: 'absolute', bottom: 32, right: 16}
           : {position: 'absolute', bottom: 94},
       ]}
       onPress={navigate}>
-      <Plus size={25} color="white" />
+      <Plus size={25} color={theme.floatFab.icon} />
     </TouchableOpacity>
   );
 });

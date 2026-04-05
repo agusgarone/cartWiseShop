@@ -22,7 +22,8 @@ export const FilterButton = ({onPress}: {onPress: () => void}) => {
 const Style = StyleSheet.create({
   action: {
     padding: 10,
-    width: 50,
+    width: 54,
+    height: 54,
     borderRadius: 16,
     display: 'flex',
     alignItems: 'center',
