@@ -1,12 +1,14 @@
-import {useCallback, useState} from 'react';
+import {useCallback, useEffect, useRef, useState} from 'react';
 import {useSpeechRecognitionEvent} from 'expo-speech-recognition';
 import {speechRecognitionNative} from '../speechRecognitionNative';
+import {parseShoppingListFromText} from '../../../services/parseShoppingListFromText';
 
 export function useVoiceTranscription() {
   const [listening, setListening] = useState(false);
   const [transcript, setTranscript] = useState('');
   const [interim, setInterim] = useState('');
   const [error, setError] = useState<string | null>(null);
+  const lastProcessedTranscriptRef = useRef('');
 
   useSpeechRecognitionEvent('start', () => setListening(true));
   useSpeechRecognitionEvent('end', () => {
@@ -26,6 +28,31 @@ export function useVoiceTranscription() {
     setError(ev.message || ev.error);
     setListening(false);
   });
+
+  useEffect(() => {
+    const normalizedTranscript = transcript.trim();
+    if (
+      !normalizedTranscript ||
+      normalizedTranscript === lastProcessedTranscriptRef.current
+    ) {
+      return;
+    }
+
+    lastProcessedTranscriptRef.current = normalizedTranscript;
+
+    const parseTranscript = async () => {
+      try {
+        const parsedTicket =
+          await parseShoppingListFromText(normalizedTranscript);
+        console.log('[Voice][Transcript]', normalizedTranscript);
+        console.log('[Voice][ShoppingList][ParsedTicket]', parsedTicket);
+      } catch (parseError) {
+        console.log('[Voice][ShoppingList][Error]', parseError);
+      }
+    };
+
+    parseTranscript();
+  }, [transcript]);
 
   const start = useCallback(async () => {
     setError(null);
@@ -66,6 +93,7 @@ export function useVoiceTranscription() {
     setTranscript('');
     setInterim('');
     setError(null);
+    lastProcessedTranscriptRef.current = '';
   }, []);
 
   return {listening, transcript, interim, error, start, stop, reset};
