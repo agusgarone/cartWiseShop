@@ -80,7 +80,33 @@
     "atention": "¡Atención!",
     "youGoingToDeleteTheProductWithName": "Va a eliminar el producto con nombre:",
     "accept": "Aceptar",
-    "cancel": "Cancelar"
+    "cancel": "Cancelar",
+    "aiVoice": {
+      "title": "Agregar con voz",
+      "subtitle": "Dictá los productos que querés sumar. Cuando termines, tocá Continuar para que la IA los interprete.",
+      "start": "Iniciar dictado",
+      "stop": "Detener",
+      "continue": "Continuar",
+      "close": "Cerrar",
+      "listening": "Escuchando…",
+      "readyToContinue": "Revisá el texto y tocá Continuar",
+      "preview": "Texto reconocido",
+      "openAssistant": "Asistente de voz para agregar productos"
+    },
+    "voiceReview": {
+      "headerStack": "Productos detectados",
+      "subtitle": "Editá o eliminá lo que no corresponda.",
+      "empty": "No se detectaron productos.",
+      "namePlaceholder": "Nombre del producto",
+      "done": "Listo",
+      "deleteA11y": "Eliminar producto",
+      "nothingSavedTitle": "Sin cambios",
+      "nothingSavedMessage": "Ningún producto nuevo: ya estaban en tu catálogo o repetidos en la lista.",
+      "partialSavedTitle": "Guardado parcial",
+      "partialSavedMessage": "Se agregaron {{added}} producto(s). Se omitieron {{skipped}} (ya existían o estaban duplicados).",
+      "saveErrorTitle": "Error al guardar",
+      "saveErrorMessage": "No se pudieron guardar los productos. Intentá de nuevo."
+    }
   },
   "userSettings": {
     "header": "Configuración",

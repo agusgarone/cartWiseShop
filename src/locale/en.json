@@ -80,7 +80,33 @@
     "atention": "Attention!",
     "youGoingToDeleteTheProductWithName": "You are going to delete the product named:",
     "accept": "Accept",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "aiVoice": {
+      "title": "Add by voice",
+      "subtitle": "Say the products you want to add. When you are done, tap Continue so the AI can interpret them.",
+      "start": "Start dictation",
+      "stop": "Stop",
+      "continue": "Continue",
+      "close": "Close",
+      "listening": "Listening…",
+      "readyToContinue": "Review the text and tap Continue",
+      "preview": "Recognized text",
+      "openAssistant": "Voice assistant to add products"
+    },
+    "voiceReview": {
+      "headerStack": "Detected products",
+      "subtitle": "Edit or remove anything that is not correct.",
+      "empty": "No products were detected.",
+      "namePlaceholder": "Product name",
+      "done": "Done",
+      "deleteA11y": "Remove product",
+      "nothingSavedTitle": "No changes",
+      "nothingSavedMessage": "No new products: they were already in your catalog or duplicated in the list.",
+      "partialSavedTitle": "Partially saved",
+      "partialSavedMessage": "Added {{added}} product(s). Skipped {{skipped}} (already existed or duplicated).",
+      "saveErrorTitle": "Could not save",
+      "saveErrorMessage": "Products could not be saved. Please try again."
+    }
   },
   "userSettings": {
     "header": "Settings",

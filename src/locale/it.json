@@ -63,7 +63,33 @@
     "atention": "Attenzione!",
     "youGoingToDeleteTheProductWithName": "Stai per eliminare il prodotto chiamato:",
     "accept": "Accetta",
-    "cancel": "Annulla"
+    "cancel": "Annulla",
+    "aiVoice": {
+      "title": "Aggiungi a voce",
+      "subtitle": "Detta i prodotti che vuoi aggiungere. Al termine, tocca Continua perché l'IA li interpreti.",
+      "start": "Avvia dettatura",
+      "stop": "Interrompi",
+      "continue": "Continua",
+      "close": "Chiudi",
+      "listening": "In ascolto…",
+      "readyToContinue": "Controlla il testo e tocca Continua",
+      "preview": "Testo riconosciuto",
+      "openAssistant": "Assistente vocale per aggiungere prodotti"
+    },
+    "voiceReview": {
+      "headerStack": "Prodotti rilevati",
+      "subtitle": "Modifica o elimina ciò che non è corretto.",
+      "empty": "Nessun prodotto rilevato.",
+      "namePlaceholder": "Nome prodotto",
+      "done": "Fatto",
+      "deleteA11y": "Elimina prodotto",
+      "nothingSavedTitle": "Nessuna modifica",
+      "nothingSavedMessage": "Nessun prodotto nuovo: erano già nel catalogo o duplicati nell'elenco.",
+      "partialSavedTitle": "Salvato in parte",
+      "partialSavedMessage": "Aggiunti {{added}} prodotto/i. Saltati {{skipped}} (già presenti o duplicati).",
+      "saveErrorTitle": "Errore di salvataggio",
+      "saveErrorMessage": "Impossibile salvare i prodotti. Riprova."
+    }
   },
   "userSettings": {
     "header": "Impostazioni",

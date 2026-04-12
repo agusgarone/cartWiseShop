@@ -114,6 +114,32 @@ export const ListsStorage = {
   },
 };
 
+function productNameCollidesInCatalog(
+  normalizedName: string,
+  catalog: IProductSupabase[],
+): boolean {
+  return catalog.some(
+    p =>
+      p.name.toLowerCase() === normalizedName ||
+      p.name.toLowerCase().includes(normalizedName) ||
+      normalizedName.includes(p.name.toLowerCase()),
+  );
+}
+
+function pickUniqueProductId(catalog: IProductSupabase[]): number {
+  for (let attempt = 0; attempt < 80; attempt++) {
+    const id = Math.floor(Math.random() * 900000) + 100000;
+    if (!catalog.some(p => p.id === id)) {
+      return id;
+    }
+  }
+  let fallback = (Date.now() % 800000) + 100000;
+  while (catalog.some(p => p.id === fallback)) {
+    fallback = (fallback % 800000) + 100000;
+  }
+  return fallback;
+}
+
 // ========== HELPERS PARA PRODUCTOS ==========
 
 export const ProductsStorage = {
@@ -146,6 +172,46 @@ export const ProductsStorage = {
       STORAGE_KEYS.PRODUCTS,
       product,
     );
+  },
+
+  /**
+   * Agrega varios productos nuevos en una sola lectura y una sola escritura.
+   * Omite nombres vacíos, duplicados respecto al catálogo (misma heurística que al crear uno)
+   * y duplicados repetidos dentro del mismo lote.
+   */
+  async appendNewProducts(
+    candidates: Array<{name: string; id_category: number}>,
+  ): Promise<{added: number; skippedDuplicates: string[]}> {
+    const all = await this.getAllProducts();
+    const skippedDuplicates: string[] = [];
+    const namesInBatch = new Set<string>();
+    let added = 0;
+
+    for (const row of candidates) {
+      const productName = row.name.trim().toLowerCase();
+      if (!productName) {
+        continue;
+      }
+      if (namesInBatch.has(productName)) {
+        skippedDuplicates.push(productName);
+        continue;
+      }
+      if (productNameCollidesInCatalog(productName, all)) {
+        skippedDuplicates.push(productName);
+        continue;
+      }
+      const id = pickUniqueProductId(all);
+      all.push({
+        id,
+        name: productName,
+        id_category: row.id_category,
+      });
+      namesInBatch.add(productName);
+      added++;
+    }
+
+    await StorageService.setItem(STORAGE_KEYS.PRODUCTS, all);
+    return {added, skippedDuplicates};
   },
 
   /**

@@ -1,13 +1,16 @@
-import {FlatList, StyleSheet, Text, View} from 'react-native';
+import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {FilterButton} from '../../../components/FilterButton';
 import Loader from '../../../components/Loader';
 import {IProductDTO} from '../../../models/types/product';
 import SwipeToDeleteItem from './AnimatedRenderItem';
 import {useTranslation} from 'react-i18next';
-import {useContext, useEffect} from 'react';
+import {useContext, useState} from 'react';
 import {ThemeContext} from '../../../services/ThemeProvider';
 import FloatButton from '../../../components/FloatButton';
 import BottomSheetForm from '../../AddProducts/Components/Form';
+import {Sparkles} from 'lucide-react-native';
+import {ProductsAiVoiceModal} from './ProductsAiVoiceModal';
+import type {ParsedProduct} from '../../../types/ticket';
 
 interface IFormProps {
   setOpen: (open: boolean) => void;
@@ -15,6 +18,7 @@ interface IFormProps {
   allProducts: IProductDTO[];
   handleDeleteProduct: (product: IProductDTO, onConfirm: () => void) => void;
   goToCreateProduct: () => void | undefined;
+  onVoiceAiContinue: (products: ParsedProduct[]) => void;
   handleFormikSubmit: (values: {textSearched: string}) => Promise<void>;
 }
 
@@ -24,10 +28,12 @@ export const Form = ({
   allProducts,
   handleDeleteProduct,
   goToCreateProduct,
+  onVoiceAiContinue,
   handleFormikSubmit,
 }: IFormProps) => {
   const {t} = useTranslation();
   const {theme} = useContext(ThemeContext);
+  const [aiVoiceOpen, setAiVoiceOpen] = useState(false);
 
   return (
     <View style={Style.selectList}>
@@ -82,7 +88,28 @@ export const Form = ({
             />
           )}
         </View>
+        <TouchableOpacity
+          accessibilityRole="button"
+          accessibilityLabel={t('products.aiVoice.openAssistant')}
+          style={[
+            Style.aiFab,
+            {
+              backgroundColor: '#6366f1',
+            },
+          ]}
+          onPress={() => setAiVoiceOpen(true)}
+          activeOpacity={0.85}>
+          <Sparkles size={22} color="#FFFFFF" />
+        </TouchableOpacity>
         <FloatButton navigate={goToCreateProduct} isHome key={'FloatButton'} />
+        <ProductsAiVoiceModal
+          visible={aiVoiceOpen}
+          onClose={() => setAiVoiceOpen(false)}
+          onContinueWithParsed={parsed => {
+            setAiVoiceOpen(false);
+            onVoiceAiContinue(parsed.products);
+          }}
+        />
       </View>
     </View>
   );
@@ -125,5 +152,20 @@ const Style = StyleSheet.create({
   },
   marginListFooter: {
     marginVertical: 20,
+  },
+  aiFab: {
+    position: 'absolute',
+    bottom: 99,
+    right: 16,
+    width: 44,
+    height: 44,
+    borderRadius: 14,
+    alignItems: 'center',
+    justifyContent: 'center',
+    elevation: 4,
+    shadowColor: '#000',
+    shadowOffset: {width: 0, height: 2},
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
   },
 });

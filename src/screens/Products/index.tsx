@@ -17,6 +17,7 @@ const Products = () => {
   const {
     allProducts,
     goToCreateProduct,
+    goToVoiceProductsReview,
     handleButtonDeleteProduct,
     handleAcceptDeleteProduct,
     handleFormikSubmit,
@@ -53,6 +54,7 @@ const Products = () => {
           allProducts={allProducts}
           handleDeleteProduct={handleButtonDeleteProduct}
           goToCreateProduct={goToCreateProduct}
+          onVoiceAiContinue={goToVoiceProductsReview}
           handleFormikSubmit={handleFormikSubmit}
         />
       </Drawer>

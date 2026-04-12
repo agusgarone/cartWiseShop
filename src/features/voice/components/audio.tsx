@@ -4,7 +4,7 @@ import {useVoiceTranscription} from '../hooks/useVoiceTranscription';
 
 export default function AudioTestScreen() {
   const {listening, transcript, interim, error, start, stop, reset} =
-    useVoiceTranscription();
+    useVoiceTranscription({clearTranscriptOnStart: true});
 
   return (
     <View style={styles.wrap}>

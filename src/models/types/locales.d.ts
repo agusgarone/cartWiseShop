@@ -66,6 +66,32 @@ declare module 'react-i18next' {
         youGoingToDeleteTheProductWithName: string;
         accept: string;
         cancel: string;
+        aiVoice: {
+          title: string;
+          subtitle: string;
+          start: string;
+          stop: string;
+          continue: string;
+          close: string;
+          listening: string;
+          readyToContinue: string;
+          preview: string;
+          openAssistant: string;
+        };
+        voiceReview: {
+          headerStack: string;
+          subtitle: string;
+          empty: string;
+          namePlaceholder: string;
+          done: string;
+          deleteA11y: string;
+          nothingSavedTitle: string;
+          nothingSavedMessage: string;
+          partialSavedTitle: string;
+          partialSavedMessage: string;
+          saveErrorTitle: string;
+          saveErrorMessage: string;
+        };
       };
       userSettings: {
         header: string;

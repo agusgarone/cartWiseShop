@@ -12,6 +12,8 @@ import {ThemeContext} from './ThemeProvider';
 import {useTranslation} from 'react-i18next';
 import CreateList from '../screens/CreateList';
 import EditList from '../screens/EditList';
+import VoiceProductsReview from '../screens/VoiceProductsReview';
+import type {ParsedProduct} from '../types/ticket';
 
 export type StackParamList = {
   Login: undefined;
@@ -23,6 +25,7 @@ export type StackParamList = {
   CreateProduct: undefined;
   UserSettings: undefined;
   Loader: undefined;
+  VoiceProductsReview: {products: ParsedProduct[]};
 };
 
 const Stack = createStackNavigator<StackParamList>();
@@ -136,6 +139,21 @@ function StackNavigator() {
         component={EditList}
         options={{
           title: t('editList.stack'),
+          headerStyle: {
+            backgroundColor: theme.stack.background,
+          },
+          headerTintColor: theme.stack.titleScreen,
+          headerTitleStyle: {
+            fontWeight: '600',
+            color: theme.stack.icon,
+          },
+        }}
+      />
+      <Stack.Screen
+        name="VoiceProductsReview"
+        component={VoiceProductsReview}
+        options={{
+          title: t('products.voiceReview.headerStack'),
           headerStyle: {
             backgroundColor: theme.stack.background,
           },

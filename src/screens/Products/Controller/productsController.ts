@@ -12,6 +12,7 @@ import {
   ProductsStorage,
   CategoriesStorage,
 } from '../../../storage/storageHelpers';
+import type {ParsedProduct} from '../../../types/ticket';
 
 export const productsController = () => {
   const {t} = useTranslation();
@@ -116,6 +117,10 @@ export const productsController = () => {
     navigation?.navigate('CreateProduct', {cameFrom: 'products'});
   };
 
+  const goToVoiceProductsReview = (products: ParsedProduct[]) => {
+    navigation?.navigate('VoiceProductsReview', {products});
+  };
+
   const handleButtonDeleteProduct = (product: IProductDTO) => {
     setProductSelected(product);
     toggleModalDeleteProduct();
@@ -142,6 +147,7 @@ export const productsController = () => {
     handleButtonDeleteProduct,
     handleAcceptDeleteProduct,
     goToCreateProduct,
+    goToVoiceProductsReview,
     handleFormikSubmit,
     isModalVisibleDeleteProduct,
     toggleModalDeleteProduct,
