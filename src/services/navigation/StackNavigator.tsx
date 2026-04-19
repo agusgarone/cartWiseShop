@@ -106,7 +106,7 @@ function StackNavigator() {
       />
       <Stack.Screen
         name="UserSettings"
-        getComponent={() => require('../screens/UserSettings').default}
+        getComponent={() => require('../../screens/UserSettings').default}
         options={{
           title: t('userSettings.header'),
           headerStyle: {
