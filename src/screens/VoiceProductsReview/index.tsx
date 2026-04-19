@@ -13,7 +13,7 @@ import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
 import {Trash2} from 'lucide-react-native';
 import {useTranslation} from 'react-i18next';
 import {ThemeContext} from '../../services/ThemeProvider';
-import type {StackParamList} from '../../services/StackNavigator';
+import type {StackParamList} from '../../services/navigation/StackNavigator';
 import type {ParsedProduct} from '../../types/ticket';
 import Button from '../../components/Button';
 import {ProductsStorage} from '../../storage/storageHelpers';
@@ -35,14 +35,14 @@ const VoiceProductsReview = () => {
   const [items, setItems] = useState<ReviewRow[]>(() =>
     initial.map((p, i) => ({
       ...p,
-      rowKey: `${i}-${p.name}-${p.id_category}-${Math.random().toString(36).slice(2, 9)}`,
+      rowKey: `${i}-${p.name}-${p.id_category}-${Math.random()
+        .toString(36)
+        .slice(2, 9)}`,
     })),
   );
 
   const updateName = useCallback((rowKey: string, name: string) => {
-    setItems(prev =>
-      prev.map(p => (p.rowKey === rowKey ? {...p, name} : p)),
-    );
+    setItems(prev => prev.map(p => (p.rowKey === rowKey ? {...p, name} : p)));
   }, []);
 
   const removeRow = useCallback((rowKey: string) => {

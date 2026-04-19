@@ -16,7 +16,20 @@
     "addNameToTheList": "Please add a name to the list!",
     "noProductsFound": "No products found for '{{query}}'",
     "createProductButton": "Create '{{productName}}'",
-    "searchOtherProducts": "Search other products"
+    "searchOtherProducts": "Search other products",
+    "newProductChip": "New: not in your catalog yet; it will be added to products when you save the list",
+    "aiVoice": {
+      "title": "Create list with voice",
+      "subtitle": "Say the items for your new list. When you are done, tap Continue so the AI can parse them for review here.",
+      "start": "Start dictation",
+      "stop": "Stop",
+      "continue": "Continue",
+      "close": "Close",
+      "listening": "Listening…",
+      "readyToContinue": "Review the text and tap Continue",
+      "preview": "Recognized text",
+      "openAssistant": "Voice assistant to create a list"
+    }
   },
   "editList": {
     "stack": "Edit list",

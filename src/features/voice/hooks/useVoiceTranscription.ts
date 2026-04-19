@@ -1,7 +1,7 @@
 import {useCallback, useEffect, useRef, useState} from 'react';
 import {useSpeechRecognitionEvent} from 'expo-speech-recognition';
 import {speechRecognitionNative} from '../speechRecognitionNative';
-import {parseShoppingListFromText} from '../../../services/parseShoppingListFromText';
+import {parseShoppingListFromText} from '../../../services/IA/parseShoppingListFromText';
 import {
   claimVoiceSession,
   isVoiceSessionOwner,
@@ -18,9 +18,7 @@ export type UseVoiceTranscriptionOptions = {
   clearTranscriptOnStart?: boolean;
 };
 
-export function useVoiceTranscription(
-  options?: UseVoiceTranscriptionOptions,
-) {
+export function useVoiceTranscription(options?: UseVoiceTranscriptionOptions) {
   const autoParse = options?.autoParse ?? true;
   const clearTranscriptOnStart = options?.clearTranscriptOnStart ?? false;
   const sessionIdRef = useRef(
@@ -89,12 +87,9 @@ export function useVoiceTranscription(
 
     const parseTranscript = async () => {
       try {
-        const parsedTicket =
-          await parseShoppingListFromText(normalizedTranscript);
-        console.log('[Voice][Transcript]', normalizedTranscript);
-        console.log('[Voice][ShoppingList][ParsedTicket]', parsedTicket);
+        await parseShoppingListFromText(normalizedTranscript);
       } catch (parseError) {
-        console.log('[Voice][ShoppingList][Error]', parseError);
+        console.log('parseTranscript error');
       }
     };
 

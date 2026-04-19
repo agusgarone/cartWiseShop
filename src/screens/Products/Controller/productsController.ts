@@ -6,7 +6,7 @@ import {IProductDTO} from '../../../models/types/product';
 import {useTranslation} from 'react-i18next';
 import {IFilterProducts} from '../../../models/types/filter';
 import {ICategoryFilter} from '../../../models/types/category';
-import {fetchCategories} from '../../../services/Category';
+import {fetchCategories} from '../../../entities/Category';
 import {mapperCategorySupabaseToFilter} from '../../../models/mappers/mapperCategorySupabaseToFilter';
 import {
   ProductsStorage,

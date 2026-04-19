@@ -1,7 +1,7 @@
 import React from 'react';
 // import AuthProvider from './src/services/AuthProvider';
 import ThemeProvider from './src/services/ThemeProvider';
-import StackNavigator from './src/services/StackNavigator';
+import StackNavigator from './src/services/navigation/StackNavigator';
 import {NavigationContainer} from '@react-navigation/native';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import './src/services/i18n';

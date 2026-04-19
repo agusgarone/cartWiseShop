@@ -12,12 +12,13 @@ import {IProductSupabase} from '../../../models/types/product';
 import {useTranslation} from 'react-i18next';
 import {mapperCategorySupabaseToFilter} from '../../../models/mappers/mapperCategorySupabaseToFilter';
 import {ICategoryFilter} from '../../../models/types/category';
-import {fetchCategories} from '../../../services/Category';
+import {fetchCategories} from '../../../entities/Category';
 import {StorageService} from '../../../storage/asyncStorage';
 import {globalSessionState} from '../../../services/globalStates';
 import {IProductDTO} from '../../../models/types/product';
 import {capitalizeFirstLetter} from '../../../common/utils/functions/capitalizeFirstLetter';
 import {ProductsStorage} from '../../../storage/storageHelpers';
+import {areGroceryProductNamesDuplicate} from '../../../common/utils/groceryProductNameMatch';
 
 export const createProductController = () => {
   const {t} = useTranslation();
@@ -97,11 +98,8 @@ export const createProductController = () => {
       const productName = values.name.trim().toLowerCase();
 
       const allProducts = await ProductsStorage.getAllProducts();
-      const productExists = allProducts.some(
-        p =>
-          p.name.toLowerCase() === productName ||
-          p.name.toLowerCase().includes(productName) ||
-          productName.includes(p.name.toLowerCase()),
+      const productExists = allProducts.some(p =>
+        areGroceryProductNamesDuplicate(p.name, productName),
       );
 
       if (productExists) {

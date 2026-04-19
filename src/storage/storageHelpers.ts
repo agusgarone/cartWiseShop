@@ -2,6 +2,7 @@ import {StorageService} from './asyncStorage';
 import {IListSupabase, IListDTO} from '../models/types/list';
 import {IProductSupabase, IProductDTO} from '../models/types/product';
 import {ICategory} from '../models/types/category';
+import {areGroceryProductNamesDuplicate} from '../common/utils/groceryProductNameMatch';
 
 // ========== CONSTANTES PARA LAS CLAVES DE STORAGE ==========
 const STORAGE_KEYS = {
@@ -118,11 +119,9 @@ function productNameCollidesInCatalog(
   normalizedName: string,
   catalog: IProductSupabase[],
 ): boolean {
-  return catalog.some(
-    p =>
-      p.name.toLowerCase() === normalizedName ||
-      p.name.toLowerCase().includes(normalizedName) ||
-      normalizedName.includes(p.name.toLowerCase()),
+  const n = normalizedName.trim().toLowerCase();
+  return catalog.some(p =>
+    areGroceryProductNamesDuplicate(p.name, n),
   );
 }
 

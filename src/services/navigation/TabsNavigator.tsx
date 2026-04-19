@@ -1,10 +1,10 @@
 import React, {useContext} from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import Home from '../screens/Home';
-import Products from '../screens/Products';
+import Home from '../../screens/Home';
+import Products from '../../screens/Products';
 import {DrawerScreenProps} from '@react-navigation/drawer';
 import {House, ShoppingBasket} from 'lucide-react-native';
-import {ThemeContext} from '../services/ThemeProvider';
+import {ThemeContext} from '../ThemeProvider';
 import {useTranslation} from 'react-i18next';
 
 export type TabsParamList = {

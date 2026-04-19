@@ -16,6 +16,19 @@ declare module 'react-i18next' {
         emptyButton: string;
         buttonAddProduct: string;
         addNameToTheList: string;
+        newProductChip: string;
+        aiVoice: {
+          title: string;
+          subtitle: string;
+          start: string;
+          stop: string;
+          continue: string;
+          close: string;
+          listening: string;
+          readyToContinue: string;
+          preview: string;
+          openAssistant: string;
+        };
       };
       createProduct: {
         header: string;

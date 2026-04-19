@@ -4,6 +4,6 @@ export interface ParsedProduct {
   category: string;
 }
 
-export interface ParsedTicket {
+export interface ParsedProducts {
   products: ParsedProduct[];
 }

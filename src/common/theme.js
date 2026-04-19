@@ -69,6 +69,10 @@ const light = {
       color: ColorsLight.greySecondary,
       icon: ColorsLight.greySecondary,
     },
+    newProductChip: {
+      background: '#e0e7ff',
+      color: '#3730a3',
+    },
   },
   home: {
     color: ColorsLight.greySecondary,
@@ -205,6 +209,10 @@ const dark = {
       background: ColorsDark.white,
       color: ColorsDark.greySecondary,
       icon: ColorsDark.greySecondary,
+    },
+    newProductChip: {
+      background: '#312e81',
+      color: '#e0e7ff',
     },
   },
   home: {

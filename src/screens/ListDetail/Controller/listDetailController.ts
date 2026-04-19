@@ -11,7 +11,7 @@ import {ICategory, ICategoryFilter} from '../../../models/types/category';
 import {getCategoriesByProducts} from '../../../common/utils/functions/getCategoriesByProducts';
 import {parseData} from '../../../common/utils/functions/parseData';
 import {ListsStorage, CombinedStorage} from '../../../storage/storageHelpers';
-import {fetchCategories} from '../../../services/Category';
+import {fetchCategories} from '../../../entities/Category';
 
 export const listDetailController = (id: string) => {
   const {t} = useTranslation();

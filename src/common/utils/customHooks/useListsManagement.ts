@@ -20,6 +20,9 @@ import {useCategoriesManagement} from './useCategoriesManagement';
 import {IFilterListDetail} from '../../../models/types/filter';
 import {getCategoriesByProducts} from '../functions/getCategoriesByProducts';
 import {parseDataForEdit} from '../functions/parseData';
+import {mapParsedProductsToListProductDTOs} from '../../../features/voice/mapParsedToListProducts';
+import {resolveNewCatalogProductsForList} from '../../../features/voice/resolveNewCatalogProductsForList';
+import type {ParsedProduct} from '../../../types/ticket';
 
 interface UseListsManagementProps {
   mode: 'create' | 'edit';
@@ -31,6 +34,8 @@ interface UseListsManagementProps {
   onListLoaded?: (list: IListDTO<IProductDTO>) => void;
   onMount?: () => void;
   toggleModal: () => void;
+  /** Al guardar lista en modo crear: crea en catálogo los productos marcados como nuevos (voz). */
+  persistNewCatalogProductsOnListSubmit?: boolean;
 }
 
 export const useListsManagement = ({
@@ -40,6 +45,7 @@ export const useListsManagement = ({
   onListLoaded,
   onMount,
   toggleModal,
+  persistNewCatalogProductsOnListSubmit = false,
 }: UseListsManagementProps) => {
   const {t} = useTranslation();
   const navigation = useContext(NavigationContext);
@@ -203,6 +209,14 @@ export const useListsManagement = ({
     setNameListSelected(value);
   };
 
+  const applyVoiceParsedSeed = useCallback(
+    async (seed: ParsedProduct[]) => {
+      const mapped = await mapParsedProductsToListProductDTOs(seed);
+      setProductsAndProductsSelected(mapped);
+    },
+    [setProductsAndProductsSelected],
+  );
+
   const resetVariablesAndStates = async () => {
     if (mode === 'create') {
       await StorageService.removeItem('nameList');
@@ -225,11 +239,20 @@ export const useListsManagement = ({
   ) => {
     actions.setStatus(FORM_STATUS.idle);
     if (values.name) {
+      let effectiveProducts = products;
+      if (
+        mode === 'create' &&
+        persistNewCatalogProductsOnListSubmit &&
+        products?.some(p => p.isNewToCatalog)
+      ) {
+        effectiveProducts = await resolveNewCatalogProductsForList(products);
+        setProductsAndProductsSelected(effectiveProducts);
+      }
       if (mode === 'create') {
         const newList: IListDTO<IProductDTO> = {
           created_at: new Date().toISOString(),
           name: values.name,
-          products: products ?? [],
+          products: effectiveProducts ?? [],
           id: Math.floor(Math.random() * 900000) + 100000,
           color: values.color,
         };
@@ -245,7 +268,9 @@ export const useListsManagement = ({
             newColor: string;
           } = {
             newName: values.name,
-            newProducts: products.length ? products.map(x => x.id) : [],
+            newProducts: effectiveProducts.length
+              ? effectiveProducts.map(x => x.id)
+              : [],
             newColor: values.color,
           };
           onListUpdated?.(currentList, newValues);
@@ -286,6 +311,7 @@ export const useListsManagement = ({
     removeProductSelected,
     handleNameListSelected,
     resetVariablesAndStates,
+    applyVoiceParsedSeed,
 
     // Valores calculados
     showWithCategories: filters.splitByCategories,

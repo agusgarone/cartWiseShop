@@ -1,25 +1,25 @@
 import {createStackNavigator} from '@react-navigation/stack';
-import ListDetail from '../screens/ListDetail';
-import AddProducts from '../screens/AddProducts';
-import CreateProduct from '../screens/CreateProduct';
-import {DrawerNavigator} from '../components/DrawerNavigator';
+import ListDetail from '../../screens/ListDetail';
+import AddProducts from '../../screens/AddProducts';
+import CreateProduct from '../../screens/CreateProduct';
+import {DrawerNavigator} from './DrawerNavigator';
 // import Login from '../screens/Login';
 import {useContext} from 'react';
 // import {AuthContext} from './AuthProvider';
 // UserSettings no se importa aquí: arrastra loginService → facade → supabase y dispara red al inicio
 // import Loader from '../components/Loader';
-import {ThemeContext} from './ThemeProvider';
+import {ThemeContext} from '../ThemeProvider';
 import {useTranslation} from 'react-i18next';
-import CreateList from '../screens/CreateList';
-import EditList from '../screens/EditList';
-import VoiceProductsReview from '../screens/VoiceProductsReview';
-import type {ParsedProduct} from '../types/ticket';
+import CreateList from '../../screens/CreateList';
+import EditList from '../../screens/EditList';
+import VoiceProductsReview from '../../screens/VoiceProductsReview';
+import type {ParsedProduct} from '../../types/ticket';
 
 export type StackParamList = {
   Login: undefined;
   MainDrawer: undefined;
   ListDetail: {itemId: string};
-  CreateList: undefined;
+  CreateList: {voiceParsedProducts?: ParsedProduct[]};
   EditList: undefined;
   AddProducts: undefined;
   CreateProduct: undefined;

@@ -28,7 +28,20 @@
     "addNameToTheList": "¡Agregá un nombre a la lista, por favor!",
     "noProductsFound": "No se encontraron productos para '{{query}}'",
     "createProductButton": "Crear '{{productName}}'",
-    "searchOtherProducts": "Buscar otros productos"
+    "searchOtherProducts": "Buscar otros productos",
+    "newProductChip": "Nuevo: no está en tu catálogo; se agregará a productos al guardar la lista",
+    "aiVoice": {
+      "title": "Crear lista con voz",
+      "subtitle": "Dictá los productos de la nueva lista. Cuando termines, tocá Continuar para que la IA los interprete y podrás revisarlos aquí.",
+      "start": "Iniciar dictado",
+      "stop": "Detener",
+      "continue": "Continuar",
+      "close": "Cerrar",
+      "listening": "Escuchando…",
+      "readyToContinue": "Revisá el texto y tocá Continuar",
+      "preview": "Texto reconocido",
+      "openAssistant": "Asistente de voz para crear una lista"
+    }
   },
   "createProduct": {
     "header": "Crear producto",

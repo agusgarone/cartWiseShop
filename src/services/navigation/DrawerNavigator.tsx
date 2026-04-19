@@ -1,6 +1,6 @@
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import BottomTabs from './TabsNavigator';
-import Products from '../screens/Products';
+import Products from '../../screens/Products';
 
 export type DrawerParamList = {
   MainTabs: undefined;

@@ -4,6 +4,7 @@ import {IListDTO} from '../../../models/types/list';
 import {StorageService} from '../../../storage/asyncStorage';
 import {IProductDTO} from '../../../models/types/product';
 import {ListsStorage, CombinedStorage, CategoriesStorage} from '../../../storage/storageHelpers';
+import type {ParsedProduct} from '../../../types/ticket';
 
 export const homeController = () => {
   const [list, setList] = useState<IListDTO<IProductDTO>[]>([]);
@@ -15,7 +16,11 @@ export const homeController = () => {
   };
 
   const navigateToCreateList = () => {
-    navigation?.navigate('CreateList');
+    navigation?.navigate('CreateList', {voiceParsedProducts: []});
+  };
+
+  const navigateToCreateListWithVoice = (voiceParsedProducts: ParsedProduct[]) => {
+    navigation?.navigate('CreateList', {voiceParsedProducts});
   };
 
   const navigateToEditList = async (id: string) => {
@@ -73,5 +78,6 @@ export const homeController = () => {
     navigateToListDetail,
     navigateToEditList,
     navigateToCreateList,
+    navigateToCreateListWithVoice,
   };
 };

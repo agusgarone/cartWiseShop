@@ -11,7 +11,20 @@
     "emptyText": "Nessun prodotto!",
     "emptyButton": "Aggiungi",
     "buttonAddProduct": "Aggiungi prodotto",
-    "addNameToTheList": "Per favore aggiungi un nome alla lista!"
+    "addNameToTheList": "Per favore aggiungi un nome alla lista!",
+    "newProductChip": "Nuovo: non è nel catalogo; verrà aggiunto ai prodotti salvando la lista",
+    "aiVoice": {
+      "title": "Crea lista a voce",
+      "subtitle": "Detta i prodotti della nuova lista. Poi tocca Continua per interpretarli e rivederli qui.",
+      "start": "Avvia dettatura",
+      "stop": "Interrompi",
+      "continue": "Continua",
+      "close": "Chiudi",
+      "listening": "In ascolto…",
+      "readyToContinue": "Controlla il testo e tocca Continua",
+      "preview": "Testo riconosciuto",
+      "openAssistant": "Assistente vocale per creare una lista"
+    }
   },
   "createProduct": {
     "header": "Crea prodotto",
